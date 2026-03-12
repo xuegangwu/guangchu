@@ -1,0 +1,13 @@
+# 光储龙虾 - 定时任务
+# 每天上午 8 点抓取新闻（覆盖前一天欧美时段）
+0 8 * * * cd /home/admin/openclaw/workspace/projects/光储龙虾 && python3 scripts/fetch-news.py >> /tmp/光储龙虾.log 2>&1
+# 每天上午 8:30 生成日报
+30 8 * * * cd /home/admin/openclaw/workspace/projects/光储龙虾 && python3 scripts/generate-daily.py >> /tmp/光储龙虾.log 2>&1
+# 每天上午 8:35 生成头条格式
+35 8 * * * cd /home/admin/openclaw/workspace/projects/光储龙虾 && python3 scripts/format-toutiao.py >> /tmp/光储龙虾.log 2>&1
+# 每天上午 9 点统计 token 消耗
+0 9 * * * cd /home/admin/openclaw/workspace/projects/光储龙虾 && python3 scripts/count-tokens.py >> /tmp/光储龙虾.log 2>&1
+# 每周一上午 9:30 生成周报
+0 9:30 * * 1 cd /home/admin/openclaw/workspace/projects/光储龙虾 && python3 scripts/generate-weekly.py >> /tmp/光储龙虾.log 2>&1
+# 每月 1 号上午 9:30 生成月报
+0 9:30 1 * * cd /home/admin/openclaw/workspace/projects/光储龙虾 && python3 scripts/generate-monthly.py >> /tmp/光储龙虾.log 2>&1

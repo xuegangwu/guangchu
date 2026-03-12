@@ -1,0 +1,48 @@
+# 光储龙虾 - 定时任务配置（更新版）
+# 安装方法：crontab /home/admin/openclaw/workspace/projects/光储龙虾/crontab-new.txt
+
+# 环境变量
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+LANG=zh_CN.UTF-8
+
+# 工作目录
+WORKDIR=/home/admin/openclaw/workspace/projects/光储龙虾
+
+# ============ 核心任务（推荐） ============
+
+# 每天 8:00 自动更新（英文 + 中文 + 索引）
+0 8 * * * cd $WORKDIR && python3 scripts/auto-update.py >> /tmp/guangchu-update.log 2>&1
+
+# ============ 备用任务（单独执行） ============
+
+# 每天 8:00 抓取英文新闻
+0 8 * * * cd $WORKDIR && python3 scripts/fetch-news.py >> /tmp/guangchu-fetch.log 2>&1
+
+# 每天 8:15 抓取中文新闻
+15 8 * * * cd $WORKDIR && python3 scripts/fetch-chinese-news.py >> /tmp/guangchu-cn.log 2>&1
+
+# 每天 8:30 构建搜索索引
+30 8 * * * cd $WORKDIR && python3 scripts/build-index.py >> /tmp/guangchu-index.log 2>&1
+
+# 每天 8:30 生成日报
+30 8 * * * cd $WORKDIR && python3 scripts/generate-daily.py >> /tmp/guangchu-daily.log 2>&1
+
+# 每天 8:35 生成头条格式
+35 8 * * * cd $WORKDIR && python3 scripts/format-toutiao.py >> /tmp/guangchu-toutiao.log 2>&1
+
+# 每周一 9:00 生成周报
+0 9 * * 1 cd $WORKDIR && python3 scripts/generate-weekly.py >> /tmp/guangchu-weekly.log 2>&1
+
+# 每月 1 号 9:00 生成月报
+0 9 1 * * cd $WORKDIR && python3 scripts/generate-monthly.py >> /tmp/guangchu-monthly.log 2>&1
+
+# ============ 可选任务 ============
+
+# 每天 9:00 统计 token 消耗
+0 9 * * * cd $WORKDIR && python3 scripts/count-tokens.py >> /tmp/guangchu-tokens.log 2>&1
+
+# ============ 日志清理 ============
+
+# 每周日 23:00 清理旧日志（保留最近 7 天）
+0 23 * * 0 find /tmp -name "guangchu-*.log" -mtime +7 -delete
