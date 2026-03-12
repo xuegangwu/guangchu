@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-光储龙虾 - 添加中文信息源
+Guangchu - 添加中文信息源
 支持北极星储能网、索比光伏网等中文媒体
 """
 
@@ -11,7 +11,7 @@ from pathlib import Path
 import requests
 from bs4 import BeautifulSoup
 
-RAW_DIR = Path("/home/admin/openclaw/workspace/projects/光储龙虾/raw")
+RAW_DIR = Path("/home/admin/openclaw/workspace/projects/guangchu/raw")
 
 # 中文信息源配置
 CHINESE_SOURCES = {
@@ -202,7 +202,7 @@ def merge_with_existing(chinese_items):
 
 def main():
     print("=" * 60)
-    print("光储龙虾 - 抓取中文信息源")
+    print("Guangchu - 抓取中文信息源")
     print("=" * 60)
     
     # 抓取中文新闻

@@ -1,0 +1,18 @@
+{
+  "linkedin": {
+    "enabled": true,
+    "name": "LinkedIn",
+    "companies": ["tesla", "longi", "jinkosolar"],
+    "hashtags": ["#SolarEnergy", "#EnergyStorage"]
+  },
+  "facebook": {
+    "enabled": false,
+    "name": "Facebook",
+    "access_token": "YOUR_TOKEN"
+  },
+  "twitter": {
+    "enabled": false,
+    "name": "Twitter/X",
+    "bearer_token": "YOUR_TOKEN"
+  }
+}

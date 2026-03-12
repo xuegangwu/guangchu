@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-光储龙虾 - 搜索工具
+Guangchu - 搜索工具
 支持关键词、区域、类型、时间范围等筛选
 """
 
@@ -10,7 +10,7 @@ import sqlite3
 from datetime import datetime
 from pathlib import Path
 
-DB_PATH = Path("/home/admin/openclaw/workspace/projects/光储龙虾/search.db")
+DB_PATH = Path("/home/admin/openclaw/workspace/projects/guangchu/search.db")
 
 def search(
     keyword=None,
@@ -119,7 +119,7 @@ def format_result_compact(row):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="🔍 光储龙虾搜索工具",
+        description="🔍 Guangchu搜索工具",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 示例:
@@ -195,7 +195,7 @@ def show_stats():
     cursor = conn.cursor()
     
     print("\n" + "=" * 60)
-    print("📊 光储龙虾搜索索引统计")
+    print("📊 Guangchu搜索索引统计")
     print("=" * 60)
     
     cursor.execute("SELECT COUNT(*) FROM news")

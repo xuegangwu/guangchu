@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-光储龙虾 - 多语言翻译服务
+Guangchu - 多语言翻译服务
 支持 Google Translate、DeepL、百度翻译等 API
 """
 

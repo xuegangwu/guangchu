@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-光储龙虾 - 自动更新索引（增强版）
+Guangchu - 自动更新索引（增强版）
 整合新闻抓取、多语言翻译和索引构建
 """
 
@@ -35,7 +35,7 @@ def run_script(script_name, description):
 
 def main():
     print("=" * 60)
-    print("🔄 光储龙虾 - 自动更新索引")
+    print("🔄 Guangchu - 自动更新索引")
     print("=" * 60)
     
     success = True

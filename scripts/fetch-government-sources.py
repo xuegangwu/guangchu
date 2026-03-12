@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-光储龙虾 - 政府/能源局/电力/政策信息源抓取
+Guangchu - 政府/能源局/电力/政策信息源抓取
 支持多语言翻译（英文、中文、日文）
 """
 
@@ -186,7 +186,7 @@ POLICY_SOURCES = {
     }
 }
 
-RAW_DIR = Path("/home/admin/openclaw/workspace/projects/光储龙虾/raw")
+RAW_DIR = Path("/home/admin/openclaw/workspace/projects/guangchu/raw")
 
 class Translator:
     """简单翻译类（实际使用需要接入翻译 API）"""
@@ -332,7 +332,7 @@ class NewsScraper:
 def fetch_all_sources():
     """抓取所有信息源"""
     print("=" * 60)
-    print("光储龙虾 - 扩展信息源抓取")
+    print("Guangchu - 扩展信息源抓取")
     print("=" * 60)
     
     scraper = NewsScraper()

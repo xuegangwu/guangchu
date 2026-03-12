@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-光储龙虾 - 头条号格式化工具
+Guangchu - 头条号格式化工具
 去掉AI痕迹，优化为人工写作风格
 """
 
@@ -61,7 +61,7 @@ def format_for_toutiao(report_type, date_str=None):
         date_str = datetime.now().strftime("%Y-%m-%d")
     
     if report_type == "daily":
-        raw_file = Path(f"/home/admin/openclaw/workspace/projects/光储龙虾/raw/{date_str}.json")
+        raw_file = Path(f"/home/admin/openclaw/workspace/projects/guangchu/raw/{date_str}.json")
         if not raw_file.exists():
             print(f"未找到 {date_str} 的数据")
             return None
@@ -74,7 +74,7 @@ def format_for_toutiao(report_type, date_str=None):
         
         # 标题（吸引眼球但不过分）
         region_count = len(set(item["region"] for item in news))
-        content.append(f"【光储龙虾日报】{date_str} | 全球{region_count}大区域光储动态速览\n")
+        content.append(f"【Guangchu日报】{date_str} | 全球{region_count}大区域光储动态速览\n")
         
         # 开头（随机选一个）
         content.append(random.choice(OPENERS) + "\n")
@@ -131,7 +131,7 @@ def main():
     toutiao_content = format_for_toutiao("daily", date_str)
     
     if toutiao_content:
-        output_dir = Path("/home/admin/openclaw/workspace/projects/光储龙虾/reports/toutiao")
+        output_dir = Path("/home/admin/openclaw/workspace/projects/guangchu/reports/toutiao")
         output_dir.mkdir(exist_ok=True)
         
         output_file = output_dir / f"{date_str}_头条.md"

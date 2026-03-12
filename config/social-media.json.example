@@ -1,0 +1,34 @@
+{
+  "linkedin": {
+    "enabled": true,
+    "name": "LinkedIn",
+    "companies": [
+      "tesla", "longi", "jinkosolar", "trinasolar", "first-solar"
+    ],
+    "hashtags": [
+      "#SolarEnergy", "#EnergyStorage", "#RenewableEnergy"
+    ]
+  },
+  "facebook": {
+    "enabled": false,
+    "name": "Facebook",
+    "access_token": "YOUR_FACEBOOK_ACCESS_TOKEN",
+    "pages": [
+      "TeslaEnergy", "LONGiSolar", "JinkoSolar"
+    ],
+    "groups": [
+      "Solar Energy Professionals"
+    ]
+  },
+  "twitter": {
+    "enabled": false,
+    "name": "Twitter/X",
+    "bearer_token": "YOUR_TWITTER_BEARER_TOKEN",
+    "accounts": [
+      "@elonmusk", "@Tesla", "@FirstSolar"
+    ],
+    "hashtags": [
+      "#Solar", "#EnergyStorage", "#Renewables"
+    ]
+  }
+}

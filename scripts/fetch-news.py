@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-光储龙虾 - 新闻抓取脚本
+Guangchu - 新闻抓取脚本
 抓取全球光储政策、产品、项目信息
 """
 
@@ -80,7 +80,7 @@ def classify_type(title, summary):
     return "其他"
 
 def main():
-    output_dir = Path("/home/admin/openclaw/workspace/projects/光储龙虾/raw")
+    output_dir = Path("/home/admin/openclaw/workspace/projects/guangchu/raw")
     output_dir.mkdir(exist_ok=True)
     
     today = datetime.now().strftime("%Y-%m-%d")

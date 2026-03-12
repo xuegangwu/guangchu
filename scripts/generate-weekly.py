@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-光储龙虾 - 生成每周报告
+Guangchu - 生成每周报告
 """
 
 import json
@@ -21,7 +21,7 @@ def get_week_dates(date=None):
 def load_week_news(start_date, end_date):
     """加载一周内的所有新闻"""
     all_news = []
-    raw_dir = Path("/home/admin/openclaw/workspace/projects/光储龙虾/raw")
+    raw_dir = Path("/home/admin/openclaw/workspace/projects/guangchu/raw")
     
     start = datetime.strptime(start_date, "%Y-%m-%d")
     end = datetime.strptime(end_date, "%Y-%m-%d")
@@ -59,7 +59,7 @@ def generate_weekly_report():
     # 生成报告
     report = []
     week_num = week_start.isocalendar()[1]
-    report.append(f"# 光储龙虾周报 | 2026 年第 {week_num} 周\n")
+    report.append(f"# Guangchu周报 | 2026 年第 {week_num} 周\n")
     report.append(f"**统计周期：** {start_date} - {end_date}\n")
     report.append(f"**新闻总数：** {len(news)} 条\n")
     
@@ -128,7 +128,7 @@ def generate_weekly_report():
             report.append(f"- **{item['region']}**: {item['title']}")
     
     report.append("\n---\n")
-    report.append(f"\n*光储龙虾 · 每周深度分析*\n")
+    report.append(f"\n*Guangchu · 每周深度分析*\n")
     
     return "\n".join(report)
 
@@ -136,7 +136,7 @@ def main():
     report = generate_weekly_report()
     
     if report:
-        output_dir = Path("/home/admin/openclaw/workspace/projects/光储龙虾/reports/weekly")
+        output_dir = Path("/home/admin/openclaw/workspace/projects/guangchu/reports/weekly")
         output_dir.mkdir(exist_ok=True)
         
         week_num = datetime.now().isocalendar()[1]

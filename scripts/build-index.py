@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-光储龙虾 - 构建搜索索引
+Guangchu - 构建搜索索引
 使用 SQLite FTS5 全文搜索引擎
 """
 
@@ -9,8 +9,8 @@ import sqlite3
 from datetime import datetime
 from pathlib import Path
 
-DB_PATH = Path("/home/admin/openclaw/workspace/projects/光储龙虾/search.db")
-RAW_DIR = Path("/home/admin/openclaw/workspace/projects/光储龙虾/raw")
+DB_PATH = Path("/home/admin/openclaw/workspace/projects/guangchu/search.db")
+RAW_DIR = Path("/home/admin/openclaw/workspace/projects/guangchu/raw")
 
 def init_db(conn):
     """初始化数据库和 FTS5 索引表"""
@@ -98,7 +98,7 @@ def load_json_files():
 def build_index():
     """构建搜索索引"""
     print("=" * 60)
-    print("光储龙虾 - 构建搜索索引")
+    print("Guangchu - 构建搜索索引")
     print("=" * 60)
     
     # 连接数据库

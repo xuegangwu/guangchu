@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-光储龙虾 - Web 搜索界面
+Guangchu - Web 搜索界面
 使用 Flask 提供 Web 搜索界面
 """
 
@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 
 app = Flask(__name__)
-DB_PATH = Path("/home/admin/openclaw/workspace/projects/光储龙虾/search.db")
+DB_PATH = Path("/home/admin/openclaw/workspace/projects/guangchu/search.db")
 
 # HTML 模板
 HTML_TEMPLATE = """
@@ -19,7 +19,7 @@ HTML_TEMPLATE = """
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔍 光储龙虾搜索</title>
+    <title>🔍 Guangchu搜索</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -197,7 +197,7 @@ HTML_TEMPLATE = """
     <div class="container">
         <div class="header">
             <div class="header-logo">🦞</div>
-            <h1>光储龙虾</h1>
+            <h1>Guangchu</h1>
             <p>全球光伏 + 储能信息检索</p>
             <p class="header-tagline">Solar-Storage News Collection & Analysis</p>
         </div>
@@ -458,7 +458,7 @@ def api_stats():
 
 if __name__ == '__main__':
     print("=" * 60)
-    print("🔍 光储龙虾 Web 搜索")
+    print("🔍 Guangchu Web 搜索")
     print("=" * 60)
     print("\n启动服务器...")
     print("访问地址：http://localhost:5000")

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-光储龙虾 - 生成每日短报
+Guangchu - 生成每日短报
 """
 
 import json
@@ -11,7 +11,7 @@ def generate_daily_report(date_str=None):
     if date_str is None:
         date_str = datetime.now().strftime("%Y-%m-%d")
     
-    raw_file = Path(f"/home/admin/openclaw/workspace/projects/光储龙虾/raw/{date_str}.json")
+    raw_file = Path(f"/home/admin/openclaw/workspace/projects/guangchu/raw/{date_str}.json")
     if not raw_file.exists():
         print(f"未找到 {date_str} 的原始数据，请先运行 fetch-news.py")
         return None
@@ -29,7 +29,7 @@ def generate_daily_report(date_str=None):
     
     # 生成报告
     report = []
-    report.append(f"# 光储龙虾日报 | {date_str}\n")
+    report.append(f"# Guangchu日报 | {date_str}\n")
     report.append("## 📌 今日要点\n")
     
     # 选最重要的 3 条作为要点
@@ -56,7 +56,7 @@ def generate_daily_report(date_str=None):
     report.append("| 储能系统 | 待更新 | - |\n")
     
     report.append("\n---\n")
-    report.append(f"\n*光储龙虾 · 每日追踪全球光储动态*\n")
+    report.append(f"\n*Guangchu · 每日追踪全球光储动态*\n")
     
     return "\n".join(report)
 
@@ -65,7 +65,7 @@ def main():
     report = generate_daily_report(date_str)
     
     if report:
-        output_dir = Path("/home/admin/openclaw/workspace/projects/光储龙虾/reports/daily")
+        output_dir = Path("/home/admin/openclaw/workspace/projects/guangchu/reports/daily")
         output_dir.mkdir(exist_ok=True)
         
         output_file = output_dir / f"{date_str}.md"

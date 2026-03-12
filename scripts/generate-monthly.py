@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-光储龙虾 - 生成每月报告
+Guangchu - 生成每月报告
 """
 
 import json
@@ -22,7 +22,7 @@ def get_month_dates(date=None):
 def load_month_news(start_date, end_date):
     """加载一月内的所有新闻"""
     all_news = []
-    raw_dir = Path("/home/admin/openclaw/workspace/projects/光储龙虾/raw")
+    raw_dir = Path("/home/admin/openclaw/workspace/projects/guangchu/raw")
     
     start = datetime.strptime(start_date, "%Y-%m-%d")
     end = datetime.strptime(end_date, "%Y-%m-%d")
@@ -63,7 +63,7 @@ def generate_monthly_report():
     
     # 生成报告
     report = []
-    report.append(f"# 光储龙虾月报 | {year}年{month}月\n")
+    report.append(f"# Guangchu月报 | {year}年{month}月\n")
     report.append(f"**统计周期：** {start_date} - {end_date}\n")
     report.append(f"**新闻总数：** {len(news)} 条\n")
     report.append(f"**覆盖天数：** {len(by_date)} 天\n")
@@ -179,7 +179,7 @@ def generate_monthly_report():
     report.append("3. 关注新技术发布\n")
     
     report.append("\n---\n")
-    report.append(f"\n*光储龙虾 · 月度综合报告*\n")
+    report.append(f"\n*Guangchu · 月度综合报告*\n")
     report.append(f"\n*报告生成时间：{datetime.now().strftime('%Y-%m-%d %H:%M')}*\n")
     
     return "\n".join(report)
@@ -188,7 +188,7 @@ def main():
     report = generate_monthly_report()
     
     if report:
-        output_dir = Path("/home/admin/openclaw/workspace/projects/光储龙虾/reports/monthly")
+        output_dir = Path("/home/admin/openclaw/workspace/projects/guangchu/reports/monthly")
         output_dir.mkdir(exist_ok=True)
         
         year, month = datetime.now().year, datetime.now().month

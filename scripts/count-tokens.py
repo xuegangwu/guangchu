@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-光储龙虾 - 统计每日 token 消耗
+Guangchu - 统计每日 token 消耗
 """
 
 import json
@@ -30,7 +30,7 @@ def count_daily_tokens(date_str=None):
     }
     
     # 统计原始新闻
-    raw_file = Path(f"/home/admin/openclaw/workspace/projects/光储龙虾/raw/{date_str}.json")
+    raw_file = Path(f"/home/admin/openclaw/workspace/projects/guangchu/raw/{date_str}.json")
     if raw_file.exists():
         with open(raw_file, "r", encoding="utf-8") as f:
             news = json.load(f)
@@ -39,14 +39,14 @@ def count_daily_tokens(date_str=None):
             stats["news_tokens"] += estimate_tokens(item.get("title", "") + item.get("summary", ""))
     
     # 统计日报
-    daily_file = Path(f"/home/admin/openclaw/workspace/projects/光储龙虾/reports/daily/{date_str}.md")
+    daily_file = Path(f"/home/admin/openclaw/workspace/projects/guangchu/reports/daily/{date_str}.md")
     if daily_file.exists():
         with open(daily_file, "r", encoding="utf-8") as f:
             content = f.read()
         stats["daily_report_tokens"] = estimate_tokens(content)
     
     # 统计头条格式
-    toutiao_file = Path(f"/home/admin/openclaw/workspace/projects/光储龙虾/reports/toutiao/{date_str}_头条.md")
+    toutiao_file = Path(f"/home/admin/openclaw/workspace/projects/guangchu/reports/toutiao/{date_str}_头条.md")
     if toutiao_file.exists():
         with open(toutiao_file, "r", encoding="utf-8") as f:
             content = f.read()
@@ -61,7 +61,7 @@ def main():
     stats = count_daily_tokens(date_str)
     
     # 保存到 stats 目录
-    stats_dir = Path("/home/admin/openclaw/workspace/projects/光储龙虾/stats")
+    stats_dir = Path("/home/admin/openclaw/workspace/projects/guangchu/stats")
     stats_dir.mkdir(exist_ok=True)
     
     # 追加到月度统计文件
@@ -72,7 +72,7 @@ def main():
         f.write(json.dumps(stats, ensure_ascii=False) + "\n")
     
     # 打印结果
-    print(f"📊 光储龙虾 Token 统计 | {date_str}")
+    print(f"📊 Guangchu Token 统计 | {date_str}")
     print("=" * 40)
     print(f"📰 抓取新闻：{stats['news_count']} 条")
     print(f"📝 新闻处理：~{stats['news_tokens']:,} tokens")
