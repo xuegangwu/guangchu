@@ -196,14 +196,19 @@ HTML_TEMPLATE = """
 <body>
     <div class="container">
         <div class="header">
-            <h1>🔍 光储龙虾搜索</h1>
+            <div class="header-logo">🦞</div>
+            <h1>光储龙虾</h1>
             <p>全球光伏 + 储能信息检索</p>
+            <p class="header-tagline">Solar-Storage News Collection & Analysis</p>
         </div>
         
         <div class="search-box">
-            <input type="text" id="keyword" class="search-input" 
-                   placeholder="搜索关键词（英文，如：battery, solar, energy storage）..."
-                   onkeypress="if(event.key==='Enter') search()">
+            <div class="search-input-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="keyword" class="search-input" 
+                       placeholder="搜索关键词（英文，如：battery, solar, energy storage）..."
+                       onkeypress="if(event.key==='Enter') search()">
+            </div>
         </div>
         
         <div class="filters">

@@ -1,5 +1,68 @@
 [
   {
+    "title": "India launches tender for 1 GW round-the-clock renewable power",
+    "link": "https://www.pv-magazine.com/2026/03/12/india-launches-tender-for-1-gw-round-the-clock-renewable-power/",
+    "published": "Thu, 12 Mar 2026 10:00:53 +0000",
+    "summary": "Solar Energy Corp. of India (SECI) has started accepting bids to develop 1 GW of round-the-clock renewable power projects, with energy storage systems required to ensure continuous supply.",
+    "source": "PV Magazine",
+    "region": "US",
+    "type": "项目"
+  },
+  {
+    "title": "New simulation platform lets energy operators train against realistic cyberattacks",
+    "link": "https://www.pv-magazine.com/2026/03/12/new-simulation-platform-lets-energy-operators-train-against-realistic-cyberattacks/",
+    "published": "Thu, 12 Mar 2026 09:59:54 +0000",
+    "summary": "Researchers at Germany’s Fraunhofer FKIE institute developed PowerRange, a virtual simulation platform that helps power grid operators safely test cybersecurity measures and respond to realistic cyber",
+    "source": "PV Magazine",
+    "region": "Europe",
+    "type": "其他"
+  },
+  {
+    "title": "Debt-laden South African municipalities may turn to solar-plus-battery backup solutions",
+    "link": "https://www.pv-magazine.com/2026/03/12/debt-laden-south-african-municipalities-may-turn-to-solar-plus-battery-backup-solutions/",
+    "published": "Thu, 12 Mar 2026 09:19:59 +0000",
+    "summary": "Eskom says it is issuing notices against around 14 municipalities in South Africa over outstanding municipal debts. The company warns that if the municipalities do not take corrective action, it will ",
+    "source": "PV Magazine",
+    "region": "US",
+    "type": "产品"
+  },
+  {
+    "title": "Graphene could improve durability of perovskite solar cells",
+    "link": "https://www.pv-magazine.com/2026/03/12/graphene-could-improve-durability-of-perovskite-solar-cells/",
+    "published": "Thu, 12 Mar 2026 09:15:39 +0000",
+    "summary": "Nearly 20 years after the first perovskite solar cell was developed, its efficiency and durability are drawing interest from industries worldwide. The defense sector is among the most active, as risin",
+    "source": "PV Magazine",
+    "region": "US",
+    "type": "其他"
+  },
+  {
+    "title": "Eastman launches 800 MW solar module plant in India",
+    "link": "https://www.pv-magazine.com/2026/03/12/eastman-launches-800-mw-solar-module-plant-in-india/",
+    "published": "Thu, 12 Mar 2026 08:30:11 +0000",
+    "summary": "Eastman Auto &#38; Power has started production at an 800 MW solar panel factory in the Indian state of Haryana.",
+    "source": "PV Magazine",
+    "region": "Global",
+    "type": "项目"
+  },
+  {
+    "title": "US solar installations reach 43 GW in 2025 despite slowdown",
+    "link": "https://www.pv-magazine.com/2026/03/12/us-solar-installations-reach-43-gw-in-2025-despite-slowdown/",
+    "published": "Thu, 12 Mar 2026 07:45:22 +0000",
+    "summary": "Solar accounted for 54% of new US generation capacity in 2025, retaining its position as the top technology for the fifth straight year, while PV and storage together made up 79% of new electrical cap",
+    "source": "PV Magazine",
+    "region": "US",
+    "type": "项目"
+  },
+  {
+    "title": "Antimony emerges as strong candidate dopant for Czochralski PV wafers",
+    "link": "https://www.pv-magazine.com/2026/03/12/antimony-emerges-as-strong-candidate-dopant-for-czochralski-pv-wafers/",
+    "published": "Thu, 12 Mar 2026 07:34:14 +0000",
+    "summary": "Researchers from Australian National University and Longi used photoluminescence imaging to analyze dopant distributions in RCz-grown silicon wafers doped with antimony, phosphorus, and gallium, findi",
+    "source": "PV Magazine",
+    "region": "US",
+    "type": "其他"
+  },
+  {
     "title": "EU auditors warn energy community targets outpace reality",
     "link": "https://www.pv-magazine.com/2026/03/11/eu-auditors-warn-energy-community-targets-outpace-reality/",
     "published": "Wed, 11 Mar 2026 15:30:37 +0000",
@@ -27,67 +90,13 @@
     "type": "产品"
   },
   {
-    "title": "EU solar auctions, corporate PPAs delivered 92 GW in 2022-25 period",
-    "link": "https://www.pv-magazine.com/2026/03/11/eu-solar-auctions-corporate-ppas-delivered-92-gw-in-2022-25-period/",
-    "published": "Wed, 11 Mar 2026 14:00:30 +0000",
-    "summary": "Public solar auctions and corporate power purchase agreements (PPAs) supported 92 GW of EU solar capacity from 2022 to 2025, supplying enough electricity for 28 million households. SolarPower Europe s",
-    "source": "PV Magazine",
-    "region": "Europe",
-    "type": "项目"
-  },
-  {
-    "title": "Setting the stage for US energy storage",
-    "link": "https://www.pv-magazine.com/2026/03/11/setting-the-stage-for-us-energy-storage/",
-    "published": "Wed, 11 Mar 2026 13:00:39 +0000",
-    "summary": "Sweeping import tariffs and the One Big Beautiful Bill Act (OBBBA) made waves for the US clean energy industry in 2025. While solar developers chase safe-harbor deadlines, US energy storage manufactur",
-    "source": "PV Magazine",
+    "title": "AGL’s Torrens Island BESS in South Australia hit by a second AEMO direction",
+    "link": "https://www.energy-storage.news/agls-torrens-island-bess-in-south-australia-hit-by-a-second-aemo-direction/",
+    "published": "Thu, 12 Mar 2026 08:40:59 +0000",
+    "summary": "Australia's battery energy storage sector faces mounting operational pressures, following the Australian Energy Market Operator (AEMO) issuing its latest direction to AGL's Torrens Island battery ener",
+    "source": "Energy Storage News",
     "region": "US",
-    "type": "政策"
-  },
-  {
-    "title": "China commissions first urban underground vanadium flow battery system",
-    "link": "https://www.pv-magazine.com/2026/03/11/china-commissions-first-urban-underground-vanadium-flow-battery-system/",
-    "published": "Wed, 11 Mar 2026 12:00:04 +0000",
-    "summary": "China has deployed its first 1.25 MW urban vanadium flow battery (VFB), supporting peak AC loads and offering a safer alternative amid tighter lithium-ion storage regulations in dense urban environmen",
-    "source": "PV Magazine",
-    "region": "Global",
-    "type": "政策"
-  },
-  {
-    "title": "InfinityPV releases new compact solar simulator",
-    "link": "https://www.pv-magazine.com/2026/03/11/infinitypv-releases-new-compact-solar-simulator/",
-    "published": "Wed, 11 Mar 2026 10:46:52 +0000",
-    "summary": "The Danish company says its new product is ideal for small to medium-sized solar cell testing. It can simulate light conditions in the 390–700 nm range.",
-    "source": "PV Magazine",
-    "region": "Global",
     "type": "产品"
-  },
-  {
-    "title": "Cubenergy launches FlexCombo 2.0 flexible energy storage block",
-    "link": "https://www.pv-magazine.com/2026/03/11/cubenergy-launches-flexcombo-2-0-flexible-energy-storage-block/",
-    "published": "Wed, 11 Mar 2026 10:00:30 +0000",
-    "summary": "The FlexCombo 2.0 is an AC Block designed to support the evolving requirements of power systems, including grid stability, regulatory compliance, and scalable project development.",
-    "source": "PV Magazine",
-    "region": "Global",
-    "type": "项目"
-  },
-  {
-    "title": "Morocco begins construction on 305 MW Noor Atlas solar program",
-    "link": "https://www.pv-magazine.com/2026/03/11/morocco-begins-construction-on-305-mw-noor-atlas-solar-program/",
-    "published": "Wed, 11 Mar 2026 10:00:09 +0000",
-    "summary": "Morocco’s state energy agency and national utility have signed power purchase agreements (PPAs) and begun construction on six Noor Atlas solar plants totaling 305 MW. The project – financed by KfW, th",
-    "source": "PV Magazine",
-    "region": "Global",
-    "type": "项目"
-  },
-  {
-    "title": "Africa’s next growth frontier: Why agrivoltaics are worth the long-term bet",
-    "link": "https://www.pv-magazine.com/2026/03/11/africas-next-growth-frontier-why-agrivoltaics-are-worth-the-long-term-bet/",
-    "published": "Wed, 11 Mar 2026 09:59:46 +0000",
-    "summary": "Africa has abundant sunlight, arable land, and innovative farmers, and agrivoltaics offers a long-term strategy to boost food security, climate resilience, and energy access simultaneously. Success de",
-    "source": "PV Magazine",
-    "region": "US",
-    "type": "其他"
   },
   {
     "title": "BESS asset operation in CAISO is complex, but lean teams can leverage advanced analytics",
@@ -169,14 +178,5 @@
     "source": "Energy Storage News",
     "region": "Europe",
     "type": "其他"
-  },
-  {
-    "title": "Base Power launches 100MW VPP programme in Texas",
-    "link": "https://www.energy-storage.news/base-power-launches-100mw-vpp-programme-in-texas/",
-    "published": "Tue, 10 Mar 2026 13:26:16 +0000",
-    "summary": "Residential energy storage startup Base Power is collaborating with utility Denton County Electric Cooperative (CoServ) to deploy 100MW of residential energy storage across North Texas, US.",
-    "source": "Energy Storage News",
-    "region": "US",
-    "type": "项目"
   }
 ]

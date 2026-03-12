@@ -1,0 +1,23 @@
+{
+  "google": {
+    "enabled": true,
+    "note": "无需 API Key，免费使用"
+  },
+  "deepl": {
+    "enabled": false,
+    "api_key": "YOUR_DEEPL_API_KEY",
+    "note": "获取 API Key: https://www.deepl.com/pro-api"
+  },
+  "baidu": {
+    "enabled": false,
+    "appid": "YOUR_BAIDU_APPID",
+    "secret": "YOUR_BAIDU_SECRET",
+    "note": "申请 API: https://fanyi-api.baidu.com/"
+  },
+  "youdao": {
+    "enabled": false,
+    "app_key": "YOUR_YOUDAO_APP_KEY",
+    "secret": "YOUR_YOUDAO_SECRET",
+    "note": "申请 API: https://ai.youdao.com/"
+  }
+}
