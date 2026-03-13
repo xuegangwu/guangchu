@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数字孪生 - 光储龙虾</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+            overflow: hidden;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+        }
+        
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+        
+        .overlay {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            z-index: 100;
+            pointer-events: none;
+        }
+        
+        .overlay h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+        
+        .overlay p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 100;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            background: rgba(0, 113, 227, 0.8);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn:hover {
+            background: rgba(0, 113, 227, 1);
+            transform: translateY(-2px);
+        }
+        
+        .info-panel {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 20px;
+            border-radius: 12px;
+            color: white;
+            z-index: 100;
+            min-width: 200px;
+        }
+        
+        .info-panel h3 {
+            font-size: 16px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 8px;
+        }
+        
+        .info-item {
+            margin: 8px 0;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 18px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container">
+        <div class="loading">正在加载 3D 场景...</div>
+    </div>
+    
+    <div class="overlay">
+        <h1>🦞 数字孪生系统</h1>
+        <p>光伏储能电站实时监控</p>
+    </div>
+    
+    <div class="info-panel">
+        <h3>实时数据</h3>
+        <div class="info-item">
+            <span>发电量</span>
+            <span id="power-output">1,234 kWh</span>
+        </div>
+        <div class="info-item">
+            <span>电池电量</span>
+            <span id="battery-level">85%</span>
+        </div>
+        <div class="info-item">
+            <span>转换效率</span>
+            <span id="efficiency">96.5%</span>
+        </div>
+        <div class="info-item">
+            <span>温度</span>
+            <span id="temperature">28°C</span>
+        </div>
+    </div>
+    
+    <div class="controls">
+        <button class="btn" onclick="rotateScene()">旋转视角</button>
+        <button class="btn" onclick="resetCamera()">重置视角</button>
+        <button class="btn" onclick="toggleAnimation()">暂停/播放</button>
+    </div>
+    
+    <script>
+        let scene, camera, renderer, solarPanel, battery, inverter;
+        let isAnimating = true;
+        let rotationEnabled = false;
+        
+        // 初始化场景
+        function init() {
+            const container = document.getElementById('canvas-container');
+            const loading = document.querySelector('.loading');
+            
+            // 创建场景
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x1a1a2e);
+            scene.fog = new THREE.Fog(0x1a1a2e, 100, 500);
+            
+            // 创建相机
+            camera = new THREE.PerspectiveCamera(
+                75,
+                window.innerWidth / window.innerHeight,
+                0.1,
+                1000
+            );
+            camera.position.set(5, 5, 5);
+            camera.lookAt(0, 0, 0);
+            
+            // 创建渲染器
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.shadowMap.enabled = true;
+            container.appendChild(renderer.domElement);
+            
+            // 添加光源
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(10, 10, 5);
+            directionalLight.castShadow = true;
+            scene.add(directionalLight);
+            
+            // 创建地面
+            const groundGeometry = new THREE.PlaneGeometry(20, 20);
+            const groundMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0x2d5a27,
+                roughness: 0.8
+            });
+            const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+            ground.rotation.x = -Math.PI / 2;
+            ground.position.y = -1;
+            ground.receiveShadow = true;
+            scene.add(ground);
+            
+            // 创建太阳能板
+            createSolarPanel();
+            
+            // 创建电池储能系统
+            createBatterySystem();
+            
+            // 创建逆变器
+            createInverter();
+            
+            // 创建粒子效果
+            createParticles();
+            
+            // 隐藏加载提示
+            loading.style.display = 'none';
+            
+            // 窗口大小调整
+            window.addEventListener('resize', onWindowResize);
+            
+            // 开始动画循环
+            animate();
+        }
+        
+        // 创建太阳能板
+        function createSolarPanel() {
+            const panelGroup = new THREE.Group();
+            
+            // 面板主体
+            const geometry = new THREE.BoxGeometry(3, 0.1, 2);
+            const material = new THREE.MeshStandardMaterial({ 
+                color: 0x1e3a8a,
+                metalness: 0.7,
+                roughness: 0.2
+            });
+            solarPanel = new THREE.Mesh(geometry, material);
+            solarPanel.rotation.x = -0.4;
+            solarPanel.castShadow = true;
+            panelGroup.add(solarPanel);
+            
+            // 支架
+            const legGeometry = new THREE.CylinderGeometry(0.1, 0.1, 2);
+            const legMaterial = new THREE.MeshStandardMaterial({ color: 0x888888 });
+            
+            const leg1 = new THREE.Mesh(legGeometry, legMaterial);
+            leg1.position.set(-1.3, -1, 0);
+            panelGroup.add(leg1);
+            
+            const leg2 = new THREE.Mesh(legGeometry, legMaterial);
+            leg2.position.set(1.3, -1, 0);
+            panelGroup.add(leg2);
+            
+            panelGroup.position.set(-3, 0, 0);
+            scene.add(panelGroup);
+        }
+        
+        // 创建电池系统
+        function createBatterySystem() {
+            const batteryGroup = new THREE.Group();
+            
+            // 电池柜
+            const geometry = new THREE.BoxGeometry(2, 2.5, 1.5);
+            const material = new THREE.MeshStandardMaterial({ 
+                color: 0x10b981,
+                metalness: 0.5,
+                roughness: 0.4
+            });
+            battery = new THREE.Mesh(geometry, material);
+            battery.castShadow = true;
+            batteryGroup.add(battery);
+            
+            // 显示屏
+            const screenGeometry = new THREE.PlaneGeometry(1, 0.6);
+            const screenMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+            const screen = new THREE.Mesh(screenGeometry, screenMaterial);
+            screen.position.set(0, 0.5, 0.76);
+            batteryGroup.add(screen);
+            
+            batteryGroup.position.set(3, 0.25, 0);
+            scene.add(batteryGroup);
+        }
+        
+        // 创建逆变器
+        function createInverter() {
+            const inverterGroup = new THREE.Group();
+            
+            const geometry = new THREE.BoxGeometry(1.5, 1.5, 1);
+            const material = new THREE.MeshStandardMaterial({ 
+                color: 0xf59e0b,
+                metalness: 0.6,
+                roughness: 0.3
+            });
+            inverter = new THREE.Mesh(geometry, material);
+            inverter.castShadow = true;
+            inverterGroup.add(inverter);
+            
+            inverterGroup.position.set(0, -0.25, -3);
+            scene.add(inverterGroup);
+        }
+        
+        // 创建粒子效果
+        function createParticles() {
+            const particleGeometry = new THREE.BufferGeometry();
+            const particleCount = 500;
+            const positions = new Float32Array(particleCount * 3);
+            
+            for (let i = 0; i < particleCount * 3; i += 3) {
+                positions[i] = (Math.random() - 0.5) * 30;
+                positions[i + 1] = Math.random() * 15;
+                positions[i + 2] = (Math.random() - 0.5) * 30;
+            }
+            
+            particleGeometry.setAttribute('position', positions);
+            
+            const particleMaterial = new THREE.PointsMaterial({
+                color: 0x4fc3f7,
+                size: 0.1,
+                transparent: true,
+                opacity: 0.6
+            });
+            
+            const particles = new THREE.Points(particleGeometry, particleMaterial);
+            scene.add(particles);
+        }
+        
+        // 窗口大小调整
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        
+        // 动画循环
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            if (isAnimating) {
+                // 太阳能板追踪太阳
+                const time = Date.now() * 0.0005;
+                solarPanel.rotation.x = -0.4 + Math.sin(time) * 0.1;
+                solarPanel.rotation.y = Math.sin(time * 0.5) * 0.2;
+                
+                // 电池指示灯闪烁
+                battery.material.emissiveIntensity = Math.sin(time * 2) * 0.3;
+                
+                // 逆变器旋转
+                inverter.rotation.y += 0.01;
+            }
+            
+            // 场景旋转
+            if (rotationEnabled) {
+                scene.rotation.y += 0.005;
+            }
+            
+            renderer.render(scene, camera);
+        }
+        
+        // 控制函数
+        function rotateScene() {
+            rotationEnabled = !rotationEnabled;
+        }
+        
+        function resetCamera() {
+            camera.position.set(5, 5, 5);
+            camera.lookAt(0, 0, 0);
+            scene.rotation.y = 0;
+            rotationEnabled = false;
+        }
+        
+        function toggleAnimation() {
+            isAnimating = !isAnimating;
+        }
+        
+        // 更新实时数据
+        function updateData() {
+            const powerOutput = document.getElementById('power-output');
+            const batteryLevel = document.getElementById('battery-level');
+            const efficiency = document.getElementById('efficiency');
+            const temperature = document.getElementById('temperature');
+            
+            setInterval(() => {
+                powerOutput.textContent = (1200 + Math.random() * 100).toFixed(0) + ' kWh';
+                batteryLevel.textContent = (80 + Math.random() * 15).toFixed(1) + '%';
+                efficiency.textContent = (95 + Math.random() * 2).toFixed(1) + '%';
+                temperature.textContent = (25 + Math.random() * 5).toFixed(0) + '°C';
+            }, 2000);
+        }
+        
+        // 启动
+        window.onload = function() {
+            init();
+            updateData();
+        };
+    </script>
+</body>
+</html>

@@ -8,7 +8,7 @@ set -e
 echo "🦞 开始构建日记页面..."
 
 # 项目目录
-PROJECT_DIR="/home/admin/openclaw/workspace/projects/光储龙虾"
+PROJECT_DIR="/home/admin/openclaw/workspace/projects/guangchu"
 WEB_DIR="$PROJECT_DIR/web"
 DIARY_DIR="$PROJECT_DIR/diary"
 BUILD_DIR="$PROJECT_DIR/build"
