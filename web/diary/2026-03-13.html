@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第 3 天 · 挫折中成长 - Guangchu 开发日记</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+            background: linear-gradient(180deg, #ffffff 0%, #fbfbfd 100%);
+            min-height: 100vh;
+            padding: 60px 20px;
+            line-height: 1.8;
+            color: #1a1a1a;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #667eea;
+            text-decoration: none;
+            margin-bottom: 30px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .back-link:hover {
+            opacity: 0.8;
+            transform: translateX(-4px);
+        }
+        
+        .header {
+            margin-bottom: 40px;
+        }
+        
+        .date {
+            font-size: 14px;
+            color: #86868b;
+            margin-bottom: 12px;
+        }
+        
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        .content {
+            background: white;
+            border-radius: 18px;
+            padding: 40px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+        
+        .content h2 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin: 30px 0 16px;
+            letter-spacing: -0.3px;
+        }
+        
+        .content h2:first-child {
+            margin-top: 0;
+        }
+        
+        .content p {
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin: 30px 0;
+        }
+        
+        .highlight p {
+            margin-bottom: 12px;
+        }
+        
+        .highlight p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .quote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin: 30px 0;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: #f5f5f7;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            font-size: 13px;
+            color: #86868b;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #86868b;
+            font-size: 14px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 40px 16px;
+            }
+            
+            h1 {
+                font-size: 26px;
+            }
+            
+            .content {
+                padding: 24px;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="diary-list.html" class="back-link">← 返回日记列表</a>
+        
+        <div class="header">
+            <div class="date">2026 年 03 月 13 日 · 第 3 天</div>
+            <h1>挫折中成长</h1>
+            <p class="subtitle">GitHub Pages 部署踩坑记 · 语言切换修复 · 移动端适配优化</p>
+        </div>
+        
+        <div class="content">
+            <h2>📝 今日概述</h2>
+            <p>今天是开发光储龙虾项目的第 3 天，也是最具挑战性的一天。从早上开始准备部署 GitHub Pages，到晚上终于完成语言切换和移动端适配的修复，整个过程充满了挫折，但也收获满满。</p>
+            
+            <div class="highlight">
+                <p><strong>今日关键词：</strong>GitHub Pages · 语言切换 · 移动端适配 · 坚持不懈</p>
+                <p><strong>心情曲线：</strong> 期待 → 困惑 → 挫折 → 坚持 → 成就感</p>
+            </div>
+            
+            <h2>🔧 主要工作内容</h2>
+            
+            <h3>1. GitHub Pages 部署问题</h3>
+            <p>早上开始准备将个人主页部署到 GitHub Pages，但遇到了很多问题：</p>
+            <ul>
+                <li>index.html 文件推送后显示为空白</li>
+                <li>GitHub 仓库中的文件与本地不一致</li>
+                <li>多次推送都无法正确更新</li>
+                <li>网络连接问题导致推送失败</li>
+            </ul>
+            <p>尝试了各种方法：强制推送、重新创建文件、检查 Git 状态，但问题依然存在。这个过程非常煎熬，一度想要放弃。</p>
+            
+            <h3>2. 语言切换功能修复</h3>
+            <p>发现语言切换功能存在问题：</p>
+            <ul>
+                <li>点击语言按钮后页面内容没有正确切换</li>
+                <li>active 状态没有正确更新</li>
+                <li>localStorage 保存的语言偏好没有生效</li>
+            </ul>
+            <p><strong>修复方案：</strong></p>
+            <ul>
+                <li>为每个语言按钮添加 data-lang 属性</li>
+                <li>使用属性选择器准确识别活动按钮</li>
+                <li>优化 switchLang 函数逻辑</li>
+                <li>添加页面加载时恢复语言偏好的功能</li>
+            </ul>
+            
+            <h3>3. 移动端适配优化</h3>
+            <p>针对手机端进行了全面的响应式优化：</p>
+            <ul>
+                <li><strong>Hero 区域：</strong>头像缩小（140px → 100px）、标题字体调整（48px → 32px）</li>
+                <li><strong>语言切换器：</strong>自动换行、按钮缩小、支持触摸操作</li>
+                <li><strong>开发日记卡片：</strong>统计数据从 3 列改为 1 列、按钮全宽显示</li>
+                <li><strong>项目卡片：</strong>优化内边距、字体大小调整</li>
+                <li><strong>时间线：</strong>调整左侧线条位置、圆点缩小</li>
+                <li><strong>触摸优化：</strong>最小点击区域 44px、禁用 hover 效果、添加点击反馈</li>
+            </ul>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">次完整重写</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">20+</div>
+                    <div class="stat-label">次推送尝试</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">6</div>
+                    <div class="stat-label">小时工作时间</div>
+                </div>
+            </div>
+            
+            <h2>💡 遇到的问题与解决</h2>
+            
+            <h3>问题 1：GitHub 推送失败</h3>
+            <p><strong>现象：</strong>git push 命令执行后显示成功，但 GitHub 上的文件没有更新。</p>
+            <p><strong>原因：</strong>网络连接不稳定，GnuTLS 报错。</p>
+            <p><strong>解决：</strong>多次重试、使用强制推送、等待网络恢复。</p>
+            
+            <h3>问题 2：语言切换不生效</h3>
+            <p><strong>现象：</strong>点击语言按钮后，页面内容没有切换。</p>
+            <p><strong>原因：</strong>event.target 可能指向按钮内的子元素，导致无法正确识别。</p>
+            <p><strong>解决：</strong>使用 data-lang 属性，通过属性选择器准确识别按钮。</p>
+            
+            <h3>问题 3：移动端显示错乱</h3>
+            <p><strong>现象：</strong>手机上布局混乱、字体过大、按钮难以点击。</p>
+            <p><strong>原因：</strong>缺少响应式设计和移动端优化。</p>
+            <p><strong>解决：</strong>添加多个媒体查询断点、优化字体大小、增加触摸区域。</p>
+            
+            <div class="quote">
+                <p>"挫折是成长的阶梯。每一次解决问题的过程，都是技术能力的提升。"</p>
+            </div>
+            
+            <h2>📚 技术收获</h2>
+            <ul>
+                <li><strong>GitHub Pages：</strong>深入了解了 GitHub Pages 的部署机制和缓存问题</li>
+                <li><strong>响应式设计：</strong>掌握了移动端优先的设计理念和媒体查询技巧</li>
+                <li><strong>JavaScript 调试：</strong>学会了使用 data 属性解决事件委托问题</li>
+                <li><strong>用户体验：</strong>理解了触摸设备与桌面设备的交互差异</li>
+                <li><strong>坚持精神：</strong>面对困难不放弃，持续尝试直到问题解决</li>
+            </ul>
+            
+            <h2>🎯 明日计划</h2>
+            <ul>
+                <li>继续优化 GitHub Pages 部署流程</li>
+                <li>添加更多响应式断点适配不同设备</li>
+                <li>优化页面加载性能</li>
+                <li>完善开发日记功能</li>
+                <li>准备光储投资地图的阿里云部署</li>
+            </ul>
+            
+            <h2>💭 今日感悟</h2>
+            <p>今天是非常挫折的一天，但也是收获最大的一天。从早上开始遇到问题，到晚上终于解决，整个过程让我深刻体会到：</p>
+            <ol>
+                <li><strong>问题总会解决：</strong>无论多复杂的问题，只要坚持寻找方法，总能找到解决方案。</li>
+                <li><strong>细节决定成败：</strong>一个小小的 data 属性，解决了语言切换的大问题。</li>
+                <li><strong>用户体验至上：</strong>移动端适配不仅仅是缩小字体，更要考虑触摸交互、加载速度等多方面因素。</li>
+                <li><strong>记录很重要：</strong>通过写日记，可以梳理思路、总结经验、记录成长。</li>
+            </ol>
+            
+            <div class="highlight">
+                <p><strong>今日成就：</strong></p>
+                <p>✅ 修复语言切换功能（支持 5 种语言）</p>
+                <p>✅ 完成移动端全面适配</p>
+                <p>✅ GitHub Pages 成功部署</p>
+                <p>✅ 坚持完成所有工作</p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2026 Guangchu Development Diary</p>
+            <p>记录每一天的工作进展，见证项目的成长历程</p>
+        </div>
+    </div>
+</body>
+</html>
