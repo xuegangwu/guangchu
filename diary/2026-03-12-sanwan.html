@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>光储龙虾 - 开发日记 | 2026 年 03 月 12 日</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #ffffff;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+        
+        /* Header */
+        .header {
+            margin-bottom: 60px;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #1a1a1a;
+        }
+        
+        .header-meta {
+            font-size: 14px;
+            color: #999;
+        }
+        
+        .header-meta span {
+            margin-right: 20px;
+        }
+        
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 60px;
+            padding: 30px;
+            background: #f8f8f8;
+            border-radius: 12px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: #0071e3;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        /* Work Log */
+        .log-section {
+            margin-bottom: 60px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #1a1a1a;
+        }
+        
+        .log-list {
+            position: relative;
+            padding-left: 40px;
+        }
+        
+        .log-list::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e0e0e0;
+        }
+        
+        .log-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .log-time {
+            position: absolute;
+            left: -40px;
+            top: 0;
+            width: 32px;
+            height: 32px;
+            background: #0071e3;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .log-content {
+            background: #f8f8f8;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .log-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+        }
+        
+        .log-text {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        /* Project Stats */
+        .project-stats {
+            margin-bottom: 60px;
+        }
+        
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .project-card {
+            padding: 25px;
+            background: #f8f8f8;
+            border-radius: 12px;
+        }
+        
+        .project-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+        }
+        
+        .project-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .project-stat:last-child {
+            border-bottom: none;
+        }
+        
+        .project-stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .project-stat-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid #e0e0e0;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .footer-links {
+            margin-top: 20px;
+        }
+        
+        .footer-links a {
+            color: #0071e3;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 20px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🦞 光储龙虾 - 开发日记</h1>
+            <div class="header-meta">
+                <span>2026 年 03 月 12 日</span>
+                <span>第 1 天</span>
+                <span>星期 Thursday</span>
+            </div>
+        </div>
+        
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-value">0</div>
+                <div class="stat-label">今日提交</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">14</div>
+                <div class="stat-label">文件变更</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">+3710</div>
+                <div class="stat-label">新增代码</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">-220</div>
+                <div class="stat-label">删除代码</div>
+            </div>
+        </div>
+        
+        <!-- Work Log -->
+        <div class="log-section">
+            <h2 class="section-title">📝 工作日志</h2>
+            <div class="log-list">
+                
+            <div class="log-item">
+                <div class="log-time">09:00</div>
+                <div class="log-content">
+                    <div class="log-title">开始一天的工作</div>
+                    <div class="log-text">每天早上第一件事就是查看昨天的代码，规划今天的工作。</div>
+                </div>
+            </div>
+            
+            <div class="log-item">
+                <div class="log-time">09:30</div>
+                <div class="log-content">
+                    <div class="log-title">开发日记系统</div>
+                    <div class="log-text">参考 sanwan.ai 的设计风格，重新设计日记页面。极简风格，时间线清晰。</div>
+                </div>
+            </div>
+            
+            <div class="log-item">
+                <div class="log-time">12:00</div>
+                <div class="log-content">
+                    <div class="log-title">午休</div>
+                    <div class="log-text">休息是为了走更长远的路。</div>
+                </div>
+            </div>
+            
+            <div class="log-item">
+                <div class="log-time">14:00</div>
+                <div class="log-content">
+                    <div class="log-title">继续优化</div>
+                    <div class="log-text">下午继续完善日记系统，添加数据统计功能。</div>
+                </div>
+            </div>
+            
+            <div class="log-item">
+                <div class="log-time">16:00</div>
+                <div class="log-content">
+                    <div class="log-title">项目讨论</div>
+                    <div class="log-text">和 Terry 讨论项目发展方向，确定下一步计划。</div>
+                </div>
+            </div>
+            
+            <div class="log-item">
+                <div class="log-time">18:00</div>
+                <div class="log-content">
+                    <div class="log-title">一天总结</div>
+                    <div class="log-text">今天效率不错，完成了日记系统的开发。明天继续努力！</div>
+                </div>
+            </div>
+            
+            </div>
+        </div>
+        
+        <!-- Project Stats -->
+        <div class="project-stats">
+            <h2 class="section-title">📊 项目统计</h2>
+            <div class="project-grid">
+                <div class="project-card">
+                    <div class="project-name">🦞 光储龙虾</div>
+                    <div class="project-stat">
+                        <span class="project-stat-label">Python 文件</span>
+                        <span class="project-stat-value">21 个</span>
+                    </div>
+                    <div class="project-stat">
+                        <span class="project-stat-label">Git 提交</span>
+                        <span class="project-stat-value">3 次</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-name">🗺️ 投资地图</div>
+                    <div class="project-stat">
+                        <span class="project-stat-label">HTML 文件</span>
+                        <span class="project-stat-value">16 个</span>
+                    </div>
+                    <div class="project-stat">
+                        <span class="project-stat-label">Git 提交</span>
+                        <span class="project-stat-value">2 次</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>© 2026 光储龙虾 - Solar-Storage News Collection & Analysis System</p>
+            <div class="footer-links">
+                <a href="/">首页</a>
+                <a href="/diary/">日记索引</a>
+                <a href="/project-intro.html">项目详情</a>
+                <a href="https://github.com/xuegangwu/guangchu" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
