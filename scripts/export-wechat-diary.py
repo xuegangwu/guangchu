@@ -13,15 +13,16 @@ from typing import List, Dict
 DIARY_DIR = Path("/home/admin/openclaw/workspace/projects/guangchu/diary")
 EXPORT_DIR = Path("/home/admin/openclaw/workspace/projects/guangchu/export/wechat")
 
+
 class WeChatDiaryExporter:
     """公众号日记导出器"""
-    
+
     def __init__(self):
         self.today = datetime.now()
         self.date_str = self.today.strftime('%Y-%m-%d')
         self.chinese_date = self.today.strftime('%Y 年 %m 月 %d 日')
         self.weekday = self.today.strftime('%A')
-    
+
     def get_diary_entries(self) -> List[Dict]:
         """获取今日日记条目"""
         # 这里可以从日记 HTML 或 JSON 中提取
@@ -31,38 +32,38 @@ class WeChatDiaryExporter:
                 'emoji': '✨',
                 'title': '社交媒体集成完成',
                 'content': '成功实现 LinkedIn、Facebook、Twitter 三大社交媒体平台的数据抓取功能，支持多语言自动翻译和关键信息提取。',
-                'category': '功能开发'
+                'category': '功能开发',
             },
             {
                 'emoji': '⚙️',
                 'title': '7 步数据处理管道上线',
                 'content': '从原始数据到结构化数据，经过内容提取、质量过滤、多语言翻译、关键信息提取、智能摘要、情感分析、主题分类等 7 步处理流程。',
-                'category': '技术架构'
+                'category': '技术架构',
             },
             {
                 'emoji': '📄',
                 'title': '项目详情页面发布',
                 'content': '全新的项目介绍页面，包含数据源展示、技术架构图、技术特点、迭代路线图等丰富内容，全面展示项目实力。',
-                'category': '页面优化'
+                'category': '页面优化',
             },
             {
                 'emoji': '📊',
                 'title': '信息源覆盖达 22 个',
                 'content': '新增政府/能源局网站 7 个、电力相关 3 个、制造商 5 个、政策机构 3 个，信息覆盖更全面。',
-                'category': '数据扩展'
+                'category': '数据扩展',
             },
             {
                 'emoji': '📔',
                 'title': '项目日记系统上线',
                 'content': '每天自动生成 5 条以内的精彩更新，图文并茂记录项目发展历程，作为永久历史档案保存。',
-                'category': '系统建设'
-            }
+                'category': '系统建设',
+            },
         ]
         return entries
-    
+
     def generate_wechat_content(self, entries: List[Dict]) -> str:
         """生成公众号内容"""
-        
+
         content = f"""
 # 🦞 Guangchu研发日记 | {self.chinese_date}
 
@@ -78,7 +79,7 @@ class WeChatDiaryExporter:
 ---
 
 """
-        
+
         # 添加条目
         for i, entry in enumerate(entries, 1):
             content += f"""
@@ -91,7 +92,7 @@ class WeChatDiaryExporter:
 ---
 
 """
-        
+
         # 添加项目统计
         content += """
 ## 📊 项目数据
@@ -145,12 +146,12 @@ class WeChatDiaryExporter:
 
 *本文档由 OpenClaw 智能助手自动生成*
 """
-        
+
         return content
-    
+
     def generate_html_version(self, entries: List[Dict]) -> str:
         """生成 HTML 版本（适合 Cloud Hub）"""
-        
+
         entries_html = ""
         for i, entry in enumerate(entries, 1):
             entries_html += f"""
@@ -164,7 +165,7 @@ class WeChatDiaryExporter:
                 <p class="item-content">{entry['content']}</p>
             </div>
             """
-        
+
         html = f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -393,12 +394,12 @@ class WeChatDiaryExporter:
 </body>
 </html>
 """
-        
+
         return html
-    
+
     def generate_github_readme(self, entries: List[Dict]) -> str:
         """生成 GitHub README 更新内容"""
-        
+
         content = f"""# 🦞 Guangchu研发日记
 
 > 记录项目发展的每一步，见证技术创新的力量
@@ -410,11 +411,11 @@ class WeChatDiaryExporter:
 **{self.chinese_date}** | 第 1 期
 
 """
-        
+
         # 添加条目
         for i, entry in enumerate(entries, 1):
             content += f"### {i}. {entry['emoji']} {entry['title']}\n\n{entry['content']}\n\n"
-        
+
         content += f"""
 ---
 
@@ -446,43 +447,43 @@ class WeChatDiaryExporter:
 
 *本日记由 OpenClaw 智能助手自动生成*
 """
-        
+
         return content
-    
+
     def export_all(self):
         """导出所有格式"""
         print("=" * 60)
         print("📦 Guangchu - 公众号日记导出")
         print("=" * 60)
-        
+
         # 获取日记条目
         entries = self.get_diary_entries()
         print(f"\n获取 {len(entries)} 条日记条目")
-        
+
         # 创建导出目录
         EXPORT_DIR.mkdir(exist_ok=True)
-        
+
         # 1. 导出公众号文本
         wechat_content = self.generate_wechat_content(entries)
         wechat_file = EXPORT_DIR / f"{self.date_str}-wechat.md"
         with open(wechat_file, 'w', encoding='utf-8') as f:
             f.write(wechat_content)
         print(f"✅ 公众号版本：{wechat_file}")
-        
+
         # 2. 导出 HTML 版本（Cloud Hub）
         html_content = self.generate_html_version(entries)
         html_file = EXPORT_DIR / f"{self.date_str}-cloudhub.html"
         with open(html_file, 'w', encoding='utf-8') as f:
             f.write(html_content)
         print(f"✅ Cloud Hub 版本：{html_file}")
-        
+
         # 3. 导出 GitHub README 更新
         readme_content = self.generate_github_readme(entries)
         readme_file = EXPORT_DIR / f"{self.date_str}-github-readme.md"
         with open(readme_file, 'w', encoding='utf-8') as f:
             f.write(readme_content)
         print(f"✅ GitHub README 版本：{readme_file}")
-        
+
         print("\n" + "=" * 60)
         print("✅ 导出完成！")
         print("=" * 60)
@@ -491,7 +492,7 @@ class WeChatDiaryExporter:
         print("1. 公众号版本：复制到公众号编辑器")
         print("2. Cloud Hub 版本：上传到 Cloud Hub 主页")
         print("3. GitHub README：更新到 GitHub 仓库")
-        
+
         return EXPORT_DIR
 
 

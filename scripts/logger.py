@@ -25,39 +25,42 @@ if not logger.handlers:
     # 文件 handler
     file_handler = logging.FileHandler(log_file, encoding='utf-8')
     file_handler.setLevel(logging.DEBUG)
-    
+
     # 控制台 handler
     console_handler = logging.StreamHandler()
     console_handler.setLevel(logging.INFO)
-    
+
     # 格式化器
-    formatter = logging.Formatter(
-        '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        datefmt='%Y-%m-%d %H:%M:%S'
-    )
-    
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+
     file_handler.setFormatter(formatter)
     console_handler.setFormatter(formatter)
-    
+
     # 添加 handler
     logger.addHandler(file_handler)
     logger.addHandler(console_handler)
+
 
 # 快捷函数
 def info(msg):
     logger.info(msg)
 
+
 def debug(msg):
     logger.debug(msg)
+
 
 def warning(msg):
     logger.warning(msg)
 
+
 def error(msg):
     logger.error(msg)
 
+
 def critical(msg):
     logger.critical(msg)
+
 
 if __name__ == '__main__':
     # 测试日志系统

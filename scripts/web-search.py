@@ -355,39 +355,40 @@ HTML_TEMPLATE = """
 </html>
 """
 
+
 def search_db(keyword=None, region=None, type_=None, source=None, limit=20):
     """搜索数据库"""
     if not DB_PATH.exists():
         return []
-    
+
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
-    
+
     conditions = []
     params = []
-    
+
     if keyword:
         fts_condition = "id IN (SELECT rowid FROM news_fts WHERE news_fts MATCH ?)"
         like_condition = "(title LIKE ? OR summary LIKE ?)"
         like_keyword = f"%{keyword}%"
         conditions.append(f"({fts_condition} OR {like_condition})")
         params.extend([keyword, like_keyword, like_keyword])
-    
+
     if region:
         conditions.append("region = ?")
         params.append(region)
-    
+
     if type_:
         conditions.append("type = ?")
         params.append(type_)
-    
+
     if source:
         conditions.append("source = ?")
         params.append(source)
-    
+
     where_clause = " AND ".join(conditions) if conditions else "1=1"
-    
+
     query = f"""
         SELECT id, title, link, published, summary, source, region, type, collected_at
         FROM news
@@ -396,42 +397,41 @@ def search_db(keyword=None, region=None, type_=None, source=None, limit=20):
         LIMIT ?
     """
     params.append(limit)
-    
+
     cursor.execute(query, params)
     results = [dict(row) for row in cursor.fetchall()]
-    
+
     conn.close()
     return results
+
 
 def get_stats():
     """获取统计信息"""
     if not DB_PATH.exists():
         return {"total": 0}
-    
+
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    
+
     cursor.execute("SELECT COUNT(*) FROM news")
     total = cursor.fetchone()[0]
-    
+
     cursor.execute("SELECT MIN(collected_at), MAX(collected_at) FROM news")
     date_range = cursor.fetchone()
-    
+
     cursor.execute("SELECT DISTINCT source FROM news")
     sources = [row[0] for row in cursor.fetchall()]
-    
+
     conn.close()
-    
-    return {
-        "total": total,
-        "date_range": date_range,
-        "sources": sources
-    }
+
+    return {"total": total, "date_range": date_range, "sources": sources}
+
 
 @app.route('/')
 def index():
     """主页"""
     return render_template_string(HTML_TEMPLATE)
+
 
 @app.route('/api/search')
 def api_search():
@@ -441,20 +441,18 @@ def api_search():
     type_ = request.args.get('type')
     source = request.args.get('source')
     limit = request.args.get('limit', 20, type=int)
-    
+
     results = search_db(keyword, region, type_, source, limit)
-    
-    return jsonify({
-        "success": True,
-        "results": results,
-        "count": len(results)
-    })
+
+    return jsonify({"success": True, "results": results, "count": len(results)})
+
 
 @app.route('/api/stats')
 def api_stats():
     """统计 API"""
     stats = get_stats()
     return jsonify(stats)
+
 
 if __name__ == '__main__':
     print("=" * 60)
@@ -464,5 +462,5 @@ if __name__ == '__main__':
     print("访问地址：http://localhost:5000")
     print("\n按 Ctrl+C 停止服务器")
     print("=" * 60)
-    
+
     app.run(host='0.0.0.0', port=5000, debug=False)

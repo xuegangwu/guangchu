@@ -15,11 +15,12 @@ RAW_DIR = os.path.join(WORKDIR, 'raw')
 STATS_DIR = os.path.join(WORKDIR, 'stats')
 BUILD_DIR = os.path.join(WORKDIR, 'build')
 
+
 def load_all_news():
     """加载所有原始数据"""
     all_news = []
     date_news = {}
-    
+
     for filename in sorted(os.listdir(RAW_DIR)):
         if filename.endswith('.json'):
             filepath = os.path.join(RAW_DIR, filename)
@@ -28,14 +29,15 @@ def load_all_news():
                 data = json.load(f)
                 all_news.extend(data)
                 date_news[date] = len(data)
-    
+
     return all_news, date_news
+
 
 def generate_trend_chart(date_news, all_news, region_stats, type_stats, source_stats):
     """生成新闻趋势图表 HTML"""
     dates = list(date_news.keys())
     counts = list(date_news.values())
-    
+
     html = f"""
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -249,49 +251,51 @@ def generate_trend_chart(date_news, all_news, region_stats, type_stats, source_s
 """
     return html
 
+
 def generate_visualization():
     """生成可视化页面"""
     os.makedirs(STATS_DIR, exist_ok=True)
     os.makedirs(BUILD_DIR, exist_ok=True)
-    
+
     print("=" * 60)
     print("📊 Guangchu - 数据可视化生成")
     print("=" * 60)
     print("\n正在加载数据...\n")
-    
+
     all_news, date_news = load_all_news()
     print(f"✅ 加载 {len(all_news)} 条新闻")
     print(f"✅ 数据天数：{len(date_news)}")
-    
+
     # 统计区域分布
     regions = [item.get('region', 'Unknown') for item in all_news]
     region_stats = dict(Counter(regions))
-    
+
     # 统计类型分布
     types = [item.get('type', 'Other') for item in all_news]
     type_stats = dict(Counter(types))
-    
+
     # 统计来源分布
     sources = [item.get('source', 'Unknown') for item in all_news]
     source_stats = dict(Counter(sources))
-    
+
     print(f"✅ 区域：{len(region_stats)} 个")
     print(f"✅ 类型：{len(type_stats)} 个")
     print(f"✅ 来源：{len(source_stats)} 个")
-    
+
     # 生成可视化 HTML
     html = generate_trend_chart(date_news, all_news, region_stats, type_stats, source_stats)
-    
+
     # 保存到 build 目录
     output_path = os.path.join(BUILD_DIR, 'analytics.html')
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(html)
-    
+
     print(f"\n✅ 可视化页面已生成：{output_path}")
     print("\n访问地址：http://localhost/analytics.html")
     print("=" * 60)
-    
+
     return output_path
+
 
 if __name__ == '__main__':
     generate_visualization()

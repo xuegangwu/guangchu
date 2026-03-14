@@ -19,60 +19,60 @@ from pathlib import Path
 @dataclass
 class Config:
     """配置类"""
-    
+
     # 项目根目录
     WORKDIR: str = field(default_factory=lambda: str(Path(__file__).parent.parent))
-    
+
     # 数据目录
     RAW_DIR: str = field(default_factory=lambda: os.path.join(Config.WORKDIR, 'raw'))
     PROCESSED_DIR: str = field(default_factory=lambda: os.path.join(Config.WORKDIR, 'processed'))
     LOGS_DIR: str = field(default_factory=lambda: os.path.join(Config.WORKDIR, 'logs'))
     STATS_DIR: str = field(default_factory=lambda: os.path.join(Config.WORKDIR, 'stats'))
-    
+
     # 数据库配置
     DATABASE_URL: str = field(default_factory=lambda: os.path.join(Config.WORKDIR, 'search.db'))
-    
+
     # 网络配置
     REQUEST_TIMEOUT: int = 30
     MAX_RETRIES: int = 3
     RETRY_DELAY: int = 2
-    
+
     # 信息源配置
     SOURCES: Dict[str, Dict] = field(default_factory=dict)
-    
+
     # 区域配置
     REGIONS: Dict[str, List[str]] = field(default_factory=dict)
-    
+
     def __post_init__(self):
         """初始化后处理"""
         # 创建必要的目录
         for directory in [self.RAW_DIR, self.PROCESSED_DIR, self.LOGS_DIR, self.STATS_DIR]:
             Path(directory).mkdir(parents=True, exist_ok=True)
-        
+
         # 从环境变量加载配置（如果存在）
         self.load_from_env()
-    
+
     def load_from_env(self):
         """从环境变量加载配置"""
         if os.getenv('GUANGCHU_TIMEOUT'):
             self.REQUEST_TIMEOUT = int(os.getenv('GUANGCHU_TIMEOUT'))
         if os.getenv('GUANGCHU_MAX_RETRIES'):
             self.MAX_RETRIES = int(os.getenv('GUANGCHU_MAX_RETRIES'))
-    
+
     def validate(self) -> bool:
         """验证配置有效性"""
         # 检查必要目录
         if not Path(self.WORKDIR).exists():
             raise ValueError(f"工作目录不存在：{self.WORKDIR}")
-        
+
         # 检查配置值
         if self.REQUEST_TIMEOUT < 1:
             raise ValueError("请求超时时间必须大于 0")
         if self.MAX_RETRIES < 0:
             raise ValueError("重试次数不能为负数")
-        
+
         return True
-    
+
     def to_dict(self) -> Dict:
         """转换为字典"""
         return {

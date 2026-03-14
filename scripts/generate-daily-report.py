@@ -15,35 +15,36 @@ REPORTS_DIR = Path("/home/admin/openclaw/workspace/projects/guangchu/reports/dai
 WORKSPACE_DIR = Path("/home/admin/openclaw/workspace/projects")
 MEMORY_DIR = Path("/home/admin/openclaw/workspace/memory")
 
+
 class DailyReportGenerator:
     """日报生成器"""
-    
+
     def __init__(self):
         self.today = datetime.now()
         self.date_str = self.today.strftime('%Y-%m-%d')
         self.chinese_date = self.today.strftime('%Y 年 %m 月 %d 日')
         self.weekday = self.today.strftime('%A')
-        
+
     def get_git_commits(self, repo_path: Path) -> list:
         """获取 Git 提交记录"""
         try:
             result = subprocess.run(
-                ['git', '-C', str(repo_path), 'log', 
-                 '--since=today', '--oneline'],
-                capture_output=True, text=True, timeout=10
+                ['git', '-C', str(repo_path), 'log', '--since=today', '--oneline'],
+                capture_output=True,
+                text=True,
+                timeout=10,
             )
             if result.returncode == 0:
                 return [line for line in result.stdout.strip().split('\n') if line]
             return []
         except Exception as e:
             return []
-    
+
     def get_file_changes(self, repo_path: Path) -> dict:
         """获取文件变更统计"""
         try:
             result = subprocess.run(
-                ['git', '-C', str(repo_path), 'diff', '--stat', 'HEAD~1'],
-                capture_output=True, text=True, timeout=10
+                ['git', '-C', str(repo_path), 'diff', '--stat', 'HEAD~1'], capture_output=True, text=True, timeout=10
             )
             if result.returncode == 0:
                 lines = result.stdout.strip().split('\n')
@@ -53,12 +54,12 @@ class DailyReportGenerator:
             return {}
         except Exception as e:
             return {}
-    
+
     def get_memory_entries(self) -> list:
         """获取记忆文件内容"""
         entries = []
         today_file = MEMORY_DIR / f"{self.date_str}.md"
-        
+
         if today_file.exists():
             with open(today_file, 'r', encoding='utf-8') as f:
                 content = f.read()
@@ -66,9 +67,9 @@ class DailyReportGenerator:
                 for line in content.split('\n'):
                     if line.strip().startswith('- [x]') or line.strip().startswith('###'):
                         entries.append(line.strip())
-        
+
         return entries[:10]  # 限制 10 条
-    
+
     def get_project_status(self) -> dict:
         """获取项目状态"""
         status = {
@@ -76,36 +77,28 @@ class DailyReportGenerator:
                 '信息源': '22 个',
                 '支持语言': '3 种 (英/中/日)',
                 '日均新闻': '60+ 条',
-                '功能状态': '✅ 正常运行'
+                '功能状态': '✅ 正常运行',
             },
-            '投资地图系统': {
-                '覆盖国家': '3 个 (中国/越南/日本)',
-                '省份数据': '92 个',
-                '功能状态': '✅ 正常运行'
-            },
-            'GitHub Pages': {
-                '个人主页': '✅ 已部署',
-                '项目详情': '✅ 已部署',
-                '访问地址': 'xuegangwu.github.io'
-            }
+            '投资地图系统': {'覆盖国家': '3 个 (中国/越南/日本)', '省份数据': '92 个', '功能状态': '✅ 正常运行'},
+            'GitHub Pages': {'个人主页': '✅ 已部署', '项目详情': '✅ 已部署', '访问地址': 'xuegangwu.github.io'},
         }
         return status
-    
+
     def generate_report(self) -> str:
         """生成日报内容"""
         # 获取Guangchu Git 提交
         guangchu_commits = self.get_git_commits(WORKSPACE_DIR / 'Guangchu')
         guangchu_changes = self.get_file_changes(WORKSPACE_DIR / 'Guangchu')
-        
+
         # 获取投资地图 Git 提交
         investment_commits = self.get_git_commits(WORKSPACE_DIR / 'china-solar-storage')
-        
+
         # 获取记忆条目
         memory_entries = self.get_memory_entries()
-        
+
         # 获取项目状态
         project_status = self.get_project_status()
-        
+
         # 生成报告
         report = f"""# 📊 Guangchu工作日报
 
@@ -136,14 +129,14 @@ class DailyReportGenerator:
 ### 代码提交 ({len(guangchu_commits)} 次)
 
 """
-        
+
         # 添加 Git 提交
         if guangchu_commits:
             for commit in guangchu_commits[:10]:
                 report += f"- {commit}\n"
         else:
             report += "- 无提交\n"
-        
+
         report += f"""
 ### 文件变更
 {guangchu_changes.get('summary', '统计中...')}
@@ -191,13 +184,13 @@ class DailyReportGenerator:
 ### 代码提交 ({len(investment_commits)} 次)
 
 """
-        
+
         if investment_commits:
             for commit in investment_commits[:5]:
                 report += f"- {commit}\n"
         else:
             report += "- 无提交\n"
-        
+
         report += f"""
 ### 项目状态
 
@@ -213,27 +206,27 @@ class DailyReportGenerator:
 ## 📊 项目整体状态
 
 """
-        
+
         # 添加项目状态表格
         for project, metrics in project_status.items():
             report += f"### {project}\n"
             for key, value in metrics.items():
                 report += f"- **{key}**: {value}\n"
             report += "\n"
-        
+
         report += f"""
 ---
 
 ## 📝 记忆条目
 
 """
-        
+
         if memory_entries:
             for entry in memory_entries:
                 report += f"- {entry}\n"
         else:
             report += "- 无记忆条目\n"
-        
+
         report += f"""
 ---
 
@@ -331,26 +324,26 @@ class DailyReportGenerator:
 *本报告由 OpenClaw 智能助手自动生成*  
 *Guangchu - Solar-Storage News Collection & Analysis System*
 """
-        
+
         return report
-    
+
     def save_report(self, report: str):
         """保存报告"""
         REPORTS_DIR.mkdir(exist_ok=True)
         report_file = REPORTS_DIR / f"{self.date_str}-work-report.md"
-        
+
         with open(report_file, 'w', encoding='utf-8') as f:
             f.write(report)
-        
+
         print(f"✅ 日报已保存：{report_file}")
         return report_file
-    
+
     def send_to_feishu(self, report: str):
         """发送到飞书（可选）"""
         # TODO: 实现飞书推送
         print("📤 飞书推送功能待实现")
         pass
-    
+
     def run(self):
         """运行日报生成"""
         print("=" * 60)
@@ -359,16 +352,16 @@ class DailyReportGenerator:
         print(f"\n日期：{self.chinese_date}")
         print(f"时间：{datetime.now().strftime('%H:%M:%S')}")
         print("\n正在生成日报...")
-        
+
         # 生成报告
         report = self.generate_report()
-        
+
         # 保存报告
         report_file = self.save_report(report)
-        
+
         # 发送到飞书（可选）
         # self.send_to_feishu(report)
-        
+
         print("\n" + "=" * 60)
         print("✅ 日报生成完成！")
         print("=" * 60)
@@ -378,7 +371,7 @@ class DailyReportGenerator:
         print(report[:500])
         print("...")
         print("-" * 60)
-        
+
         return report_file
 
 

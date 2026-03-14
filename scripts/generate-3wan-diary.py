@@ -14,32 +14,35 @@ from typing import List, Dict
 DIARY_DIR = Path("/home/admin/openclaw/workspace/projects/guangchu/diary")
 WORKSPACE_DIR = Path("/home/admin/openclaw/workspace/projects")
 
+
 class SanWanStyleGenerator:
     """完全参考 sanwan.ai 风格"""
-    
+
     def __init__(self):
         self.today = datetime.now()
         self.date_str = self.today.strftime('%Y-%m-%d')
         self.chinese_date = self.today.strftime('%Y 年 %m 月 %d 日')
         self.day_count = 1
-        
+
     def get_git_stats(self) -> Dict:
         """获取 Git 统计"""
         stats = {'commits': 0, 'files': 0, 'additions': 0, 'deletions': 0}
-        
+
         try:
             result = subprocess.run(
-                ['git', '-C', str(WORKSPACE_DIR / 'Guangchu'), 'rev-list',
-                 '--count', '--since=today', 'HEAD'],
-                capture_output=True, text=True, timeout=10
+                ['git', '-C', str(WORKSPACE_DIR / 'Guangchu'), 'rev-list', '--count', '--since=today', 'HEAD'],
+                capture_output=True,
+                text=True,
+                timeout=10,
             )
             if result.returncode == 0:
                 stats['commits'] = int(result.stdout.strip())
-            
+
             result = subprocess.run(
-                ['git', '-C', str(WORKSPACE_DIR / 'Guangchu'), 'diff',
-                 '--shortstat', 'HEAD~1'],
-                capture_output=True, text=True, timeout=10
+                ['git', '-C', str(WORKSPACE_DIR / 'Guangchu'), 'diff', '--shortstat', 'HEAD~1'],
+                capture_output=True,
+                text=True,
+                timeout=10,
             )
             if result.returncode == 0:
                 output = result.stdout
@@ -54,26 +57,31 @@ class SanWanStyleGenerator:
                             stats['deletions'] = int(''.join(filter(str.isdigit, part)))
         except:
             pass
-        
+
         return stats
-    
+
     def get_work_log(self) -> List[Dict]:
         """获取工作日志"""
         return [
             {'time': '09:00', 'title': '开始一天的工作', 'content': '查看代码，规划今天的工作', 'type': 'start'},
-            {'time': '09:30', 'title': '开发日记系统', 'content': '参考 sanwan.ai 的设计风格，重新设计日记页面', 'type': 'code'},
+            {
+                'time': '09:30',
+                'title': '开发日记系统',
+                'content': '参考 sanwan.ai 的设计风格，重新设计日记页面',
+                'type': 'code',
+            },
             {'time': '12:00', 'title': '午休', 'content': '休息是为了走更长远的路', 'type': 'break'},
             {'time': '14:00', 'title': '继续优化', 'content': '下午继续完善日记系统，添加数据统计功能', 'type': 'code'},
             {'time': '16:00', 'title': '项目讨论', 'content': '和 Terry 讨论项目发展方向', 'type': 'meeting'},
             {'time': '18:00', 'title': '一天总结', 'content': '今天效率不错，完成了日记系统的开发', 'type': 'summary'},
         ]
-    
+
     def generate_html(self) -> str:
         """生成完全参考 sanwan.ai 风格的 HTML"""
-        
+
         git_stats = self.get_git_stats()
         work_log = self.get_work_log()
-        
+
         log_html = ""
         for log in work_log:
             log_html += f"""
@@ -84,7 +92,7 @@ class SanWanStyleGenerator:
                     <div class="log-text">{log['content']}</div>
                 </div>
             </div>"""
-        
+
         html = f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -292,9 +300,9 @@ class SanWanStyleGenerator:
     </div>
 </body>
 </html>"""
-        
+
         return html
-    
+
     def save(self, html: str):
         DIARY_DIR.mkdir(exist_ok=True)
         file = DIARY_DIR / f"{self.date_str}.html"
@@ -302,13 +310,14 @@ class SanWanStyleGenerator:
             f.write(html)
         print(f"✅ 日记已保存：{file}")
         return file
-    
+
     def run(self):
         print("📔 生成 sanwan.ai 风格日记...")
         html = self.generate_html()
         file = self.save(html)
         print(f"访问：http://localhost:5000/diary/{self.date_str}.html")
         return file
+
 
 if __name__ == "__main__":
     SanWanStyleGenerator().run()

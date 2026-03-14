@@ -18,24 +18,25 @@ from typing import List, Dict
 DIARY_DIR = Path("/home/admin/openclaw/workspace/projects/guangchu/diary")
 WORKSPACE_DIR = Path("/home/admin/openclaw/workspace/projects")
 
+
 class FuShengDiaryGenerator:
     """傅盛风格日记生成器"""
-    
+
     def __init__(self):
         self.today = datetime.now()
         self.date_str = self.today.strftime('%Y-%m-%d')
         self.chinese_date = self.today.strftime('%Y 年 %m 月 %d 日')
         self.weekday = self.today.strftime('%A')
-        
+
         # 傅盛风格：真实、接地气
         self.mood_text = {
             'excited': '今天很兴奋，因为...',
             'tired': '虽然很累，但是...',
             'normal': '平凡的一天，但...',
             'productive': '高效的一天！',
-            'challenging': '充满挑战的一天'
+            'challenging': '充满挑战的一天',
         }
-    
+
     def get_today_summary(self) -> Dict:
         """获取今日总结（傅盛风格）"""
         summary = {
@@ -47,21 +48,22 @@ class FuShengDiaryGenerator:
             'mood': 'productive',
             'highlight': '',
             'challenge': '',
-            'learning': ''
+            'learning': '',
         }
-        
+
         # 获取 Git 统计
         try:
             result = subprocess.run(
-                ['git', '-C', str(WORKSPACE_DIR / 'Guangchu'), 'rev-list',
-                 '--count', '--since=today', 'HEAD'],
-                capture_output=True, text=True, timeout=10
+                ['git', '-C', str(WORKSPACE_DIR / 'Guangchu'), 'rev-list', '--count', '--since=today', 'HEAD'],
+                capture_output=True,
+                text=True,
+                timeout=10,
             )
             if result.returncode == 0:
                 summary['commits'] = int(result.stdout.strip())
         except:
             pass
-        
+
         # 根据提交数判断心情
         if summary['commits'] >= 10:
             summary['mood'] = 'excited'
@@ -75,15 +77,15 @@ class FuShengDiaryGenerator:
         else:
             summary['mood'] = 'challenging'
             summary['challenge'] = '今天遇到了一些技术难题，需要好好思考。'
-        
+
         summary['tasks_completed'] = max(3, summary['commits'])
-        
+
         return summary
-    
+
     def get_work_timeline(self) -> List[Dict]:
         """获取工作时间线（像讲故事一样）"""
         timeline = []
-        
+
         # 示例：傅盛风格的时间线
         work_items = [
             {
@@ -91,54 +93,54 @@ class FuShengDiaryGenerator:
                 'title': '到公司，开始一天的工作',
                 'content': '每天早上第一件事就是看看昨天的代码有没有问题，然后规划今天的工作。今天的主要任务是优化日记系统。',
                 'emoji': '☕',
-                'type': 'daily'
+                'type': 'daily',
             },
             {
                 'time': '09:30',
                 'title': 'Git 提交：feat: 添加可视化日记生成器',
                 'content': '参考傅盛养龙虾的日记风格，做了一个全新的可视化日记系统。不再是枯燥的文字，而是有图有真相，有数据有统计。',
                 'emoji': '✨',
-                'type': 'commit'
+                'type': 'commit',
             },
             {
                 'time': '11:00',
                 'title': '完成日记生成器核心功能',
                 'content': '花了 1 个半小时，终于把核心逻辑写完了。包括 Git 提交自动收集、统计数据处理、HTML 生成等。看着代码一行行增加，很有成就感。',
                 'emoji': '💪',
-                'type': 'work'
+                'type': 'work',
             },
             {
                 'time': '14:00',
                 'title': '午休后继续优化',
                 'content': '下午继续优化日记系统。主要改进了样式，参考了傅盛日记的粉嫩渐变背景，还有表情符号系统。',
                 'emoji': '🎨',
-                'type': 'work'
+                'type': 'work',
             },
             {
                 'time': '16:00',
                 'title': 'GitHub README 更新',
                 'content': '把日记入口放到了 README 最顶部，打开主页第一眼就能看到。这样既能展示项目活跃度，也能吸引更多人关注。',
                 'emoji': '📍',
-                'type': 'work'
+                'type': 'work',
             },
             {
                 'time': '17:30',
                 'title': '多平台导出工具',
                 'content': '开发了一个导出工具，可以一键生成公众号版本、Cloud Hub 版本、GitHub 版本。这样日记就能同步到多个平台了。',
                 'emoji': '🚀',
-                'type': 'work'
+                'type': 'work',
             },
             {
                 'time': '18:00',
                 'title': '一天工作总结',
                 'content': '今天效率不错，完成了日记系统的开发和部署。虽然有点累，但看到成果还是很开心的。明天继续优化！',
                 'emoji': '✅',
-                'type': 'summary'
-            }
+                'type': 'summary',
+            },
         ]
-        
+
         return work_items
-    
+
     def get_thoughts(self) -> str:
         """获取今日思考（傅盛风格的核心）"""
         thoughts = """
@@ -159,14 +161,14 @@ class FuShengDiaryGenerator:
 明天继续优化，争取做到更好。
 """
         return thoughts
-    
+
     def generate_diary_html(self) -> str:
         """生成傅盛风格日记 HTML"""
-        
+
         summary = self.get_today_summary()
         timeline = self.get_work_timeline()
         thoughts = self.get_thoughts()
-        
+
         # 生成时间线 HTML
         timeline_html = ""
         for item in timeline:
@@ -179,7 +181,7 @@ class FuShengDiaryGenerator:
                 </div>
             </div>
             """
-        
+
         html = f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -476,20 +478,20 @@ class FuShengDiaryGenerator:
 </body>
 </html>
 """
-        
+
         return html
-    
+
     def save_diary(self, html: str):
         """保存日记"""
         DIARY_DIR.mkdir(exist_ok=True)
-        
+
         today_file = DIARY_DIR / f"{self.date_str}-fusheng.html"
         with open(today_file, 'w', encoding='utf-8') as f:
             f.write(html)
-        
+
         print(f"✅ 傅盛风格日记已保存：{today_file}")
         return today_file
-    
+
     def run(self):
         """运行日记生成"""
         print("=" * 60)
@@ -498,16 +500,16 @@ class FuShengDiaryGenerator:
         print(f"\n日期：{self.chinese_date}")
         print(f"参考风格：傅盛'养 3 万龙虾'创业日记")
         print("\n正在生成日记...")
-        
+
         html = self.generate_diary_html()
         diary_file = self.save_diary(html)
-        
+
         print("\n" + "=" * 60)
         print("✅ 日记生成完成！")
         print("=" * 60)
         print(f"\n日记位置：{diary_file}")
         print(f"访问地址：http://localhost:5000/diary/{self.date_str}-fusheng.html")
-        
+
         return diary_file
 
 

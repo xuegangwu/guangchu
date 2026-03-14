@@ -18,39 +18,37 @@ from typing import List, Dict
 DIARY_DIR = Path("/home/admin/openclaw/workspace/projects/guangchu/diary")
 WORKSPACE_DIR = Path("/home/admin/openclaw/workspace/projects")
 
+
 class SanWanDiaryGenerator:
     """参考 sanwan.ai 风格的日记生成器"""
-    
+
     def __init__(self):
         self.today = datetime.now()
         self.date_str = self.today.strftime('%Y-%m-%d')
         self.chinese_date = self.today.strftime('%Y 年 %m 月 %d 日')
         self.day_count = 1  # 第几天
-        
+
     def get_git_stats(self) -> Dict:
         """获取 Git 统计"""
-        stats = {
-            'commits': 0,
-            'files': 0,
-            'additions': 0,
-            'deletions': 0
-        }
-        
+        stats = {'commits': 0, 'files': 0, 'additions': 0, 'deletions': 0}
+
         try:
             # 提交数
             result = subprocess.run(
-                ['git', '-C', str(WORKSPACE_DIR / 'Guangchu'), 'rev-list',
-                 '--count', '--since=today', 'HEAD'],
-                capture_output=True, text=True, timeout=10
+                ['git', '-C', str(WORKSPACE_DIR / 'Guangchu'), 'rev-list', '--count', '--since=today', 'HEAD'],
+                capture_output=True,
+                text=True,
+                timeout=10,
             )
             if result.returncode == 0:
                 stats['commits'] = int(result.stdout.strip())
-            
+
             # 文件变更
             result = subprocess.run(
-                ['git', '-C', str(WORKSPACE_DIR / 'Guangchu'), 'diff',
-                 '--shortstat', 'HEAD~1'],
-                capture_output=True, text=True, timeout=10
+                ['git', '-C', str(WORKSPACE_DIR / 'Guangchu'), 'diff', '--shortstat', 'HEAD~1'],
+                capture_output=True,
+                text=True,
+                timeout=10,
             )
             if result.returncode == 0:
                 output = result.stdout
@@ -66,9 +64,9 @@ class SanWanDiaryGenerator:
                             stats['deletions'] = int(''.join(filter(str.isdigit, part)))
         except Exception as e:
             print(f"❌ Git 错误：{e}")
-        
+
         return stats
-    
+
     def get_work_log(self) -> List[Dict]:
         """获取工作日志"""
         # 示例日志（实际应该从任务系统或 Git 提取）
@@ -77,75 +75,72 @@ class SanWanDiaryGenerator:
                 'time': '09:00',
                 'type': 'start',
                 'title': '开始一天的工作',
-                'content': '每天早上第一件事就是查看昨天的代码，规划今天的工作。'
+                'content': '每天早上第一件事就是查看昨天的代码，规划今天的工作。',
             },
             {
                 'time': '09:30',
                 'type': 'code',
                 'title': '开发日记系统',
-                'content': '参考 sanwan.ai 的设计风格，重新设计日记页面。极简风格，时间线清晰。'
+                'content': '参考 sanwan.ai 的设计风格，重新设计日记页面。极简风格，时间线清晰。',
             },
-            {
-                'time': '12:00',
-                'type': 'lunch',
-                'title': '午休',
-                'content': '休息是为了走更长远的路。'
-            },
+            {'time': '12:00', 'type': 'lunch', 'title': '午休', 'content': '休息是为了走更长远的路。'},
             {
                 'time': '14:00',
                 'type': 'code',
                 'title': '继续优化',
-                'content': '下午继续完善日记系统，添加数据统计功能。'
+                'content': '下午继续完善日记系统，添加数据统计功能。',
             },
             {
                 'time': '16:00',
                 'type': 'meeting',
                 'title': '项目讨论',
-                'content': '和 Terry 讨论项目发展方向，确定下一步计划。'
+                'content': '和 Terry 讨论项目发展方向，确定下一步计划。',
             },
             {
                 'time': '18:00',
                 'type': 'summary',
                 'title': '一天总结',
-                'content': '今天效率不错，完成了日记系统的开发。明天继续努力！'
-            }
+                'content': '今天效率不错，完成了日记系统的开发。明天继续努力！',
+            },
         ]
-        
+
         return logs
-    
+
     def get_project_stats(self) -> Dict:
         """获取项目统计"""
         return {
             'guangchu': {
                 'files': len(list((WORKSPACE_DIR / 'Guangchu').rglob('*.py'))),
-                'commits': self._get_commit_count('Guangchu')
+                'commits': self._get_commit_count('Guangchu'),
             },
             'investment': {
                 'files': len(list((WORKSPACE_DIR / 'china-solar-storage').rglob('*.html'))),
-                'commits': self._get_commit_count('china-solar-storage')
-            }
+                'commits': self._get_commit_count('china-solar-storage'),
+            },
         }
-    
+
     def _get_commit_count(self, repo: str) -> int:
         """获取提交数"""
         try:
             result = subprocess.run(
                 ['git', '-C', str(WORKSPACE_DIR / repo), 'rev-list', '--count', 'HEAD'],
-                capture_output=True, text=True, timeout=10
+                capture_output=True,
+                text=True,
+                timeout=10,
             )
             if result.returncode == 0:
                 return int(result.stdout.strip())
         except:
             pass
         return 0
-    
+
     def generate_diary_html(self) -> str:
         """生成 sanwan.ai 风格日记 HTML"""
-        
+
         git_stats = self.get_git_stats()
         work_log = self.get_work_log()
         project_stats = self.get_project_stats()
-        
+
         # 生成日志 HTML
         log_html = ""
         for log in work_log:
@@ -158,7 +153,7 @@ class SanWanDiaryGenerator:
                 </div>
             </div>
             """
-        
+
         html = f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -468,20 +463,20 @@ class SanWanDiaryGenerator:
 </body>
 </html>
 """
-        
+
         return html
-    
+
     def save_diary(self, html: str):
         """保存日记"""
         DIARY_DIR.mkdir(exist_ok=True)
-        
+
         today_file = DIARY_DIR / f"{self.date_str}-sanwan.html"
         with open(today_file, 'w', encoding='utf-8') as f:
             f.write(html)
-        
+
         print(f"✅ sanwan.ai 风格日记已保存：{today_file}")
         return today_file
-    
+
     def run(self):
         """运行日记生成"""
         print("=" * 60)
@@ -490,16 +485,16 @@ class SanWanDiaryGenerator:
         print(f"\n日期：{self.chinese_date}")
         print(f"参考风格：sanwan.ai (傅盛 3 万龙虾养成记)")
         print("\n正在生成日记...")
-        
+
         html = self.generate_diary_html()
         diary_file = self.save_diary(html)
-        
+
         print("\n" + "=" * 60)
         print("✅ 日记生成完成！")
         print("=" * 60)
         print(f"\n日记位置：{diary_file}")
         print(f"访问地址：http://localhost:5000/diary/{self.date_str}-sanwan.html")
-        
+
         return diary_file
 
 
