@@ -72,7 +72,7 @@ def fetch_beixingchu(limit=10):
         response = requests.get(
             "https://storage.bjx.com.cn/list/",
             headers=headers,
-            timeout=10
+            timeout=30
         )
         response.encoding = 'utf-8'
         
@@ -119,7 +119,7 @@ def fetch_suobi(limit=10):
         response = requests.get(
             "https://solar.ofweek.com/news/list",
             headers=headers,
-            timeout=10
+            timeout=30
         )
         response.encoding = 'utf-8'
         
