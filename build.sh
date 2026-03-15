@@ -10,9 +10,9 @@ echo "🔨 Starting build process..."
 mkdir -p build/web
 mkdir -p build/diary
 
-# Copy main files
+# Copy main files from web directory
 echo "📄 Copying project-intro.html..."
-cp project-intro.html build/
+cp web/project-intro.html build/
 
 # Copy web directory
 echo "🌐 Copying web assets..."
