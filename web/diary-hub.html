@@ -390,6 +390,10 @@
                 font-size: 36px;
             }
             
+            .hero-header {
+                padding: 40px 24px;
+            }
+            
             .timeline {
                 padding-left: 40px;
             }
@@ -403,6 +407,65 @@
                 width: 28px;
                 height: 28px;
                 font-size: 14px;
+            }
+            
+            .timeline-content {
+                padding: 20px;
+            }
+            
+            .timeline-title {
+                font-size: 18px;
+            }
+        }
+        
+        /* Extra Small Devices */
+        @media (max-width: 375px) {
+            .hero-header h1 {
+                font-size: 28px;
+            }
+            
+            .hero-header p {
+                font-size: 14px;
+            }
+            
+            .project-name-multilang {
+                font-size: 12px;
+            }
+            
+            .stat-value {
+                font-size: 36px;
+            }
+            
+            .stat-label {
+                font-size: 13px;
+            }
+            
+            .section-title {
+                font-size: 24px;
+            }
+            
+            .timeline {
+                padding-left: 35px;
+            }
+            
+            .timeline::before {
+                left: 7px;
+            }
+            
+            .timeline-marker {
+                left: -35px;
+                width: 24px;
+                height: 24px;
+                font-size: 12px;
+            }
+            
+            .stats-overview {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .stat-card {
+                padding: 20px 16px;
             }
         }
     </style>

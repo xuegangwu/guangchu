@@ -542,24 +542,94 @@
         
         /* Responsive */
         @media (max-width: 768px) {
+            .hero {
+                padding: 100px 20px 60px;
+            }
+            
+            .hero-logo {
+                font-size: 60px;
+            }
+            
             .hero h1 {
-                font-size: 36px;
+                font-size: 32px;
             }
             
             .hero-subtitle {
-                font-size: 18px;
+                font-size: 16px;
+            }
+            
+            .hero-description {
+                font-size: 15px;
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+                padding: 12px 24px;
+                font-size: 15px;
+            }
+            
+            .section {
+                padding: 50px 20px;
             }
             
             .section-title {
-                font-size: 28px;
+                font-size: 26px;
+            }
+            
+            .section-subtitle {
+                font-size: 15px;
             }
             
             .cards-grid {
                 grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            
+            .card {
+                padding: 24px;
             }
             
             .sources-list {
                 grid-template-columns: 1fr;
+            }
+            
+            .source-item {
+                padding: 12px;
+            }
+            
+            .sources-group {
+                padding: 24px 20px;
+            }
+            
+            .sources-group-title {
+                font-size: 20px;
+            }
+            
+            .architecture-diagram {
+                padding: 24px 20px;
+            }
+            
+            .arch-components {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .arch-component {
+                padding: 12px;
+            }
+            
+            .arch-component-icon {
+                font-size: 24px;
+            }
+            
+            .arch-component-name {
+                font-size: 13px;
             }
             
             .roadmap {
@@ -575,6 +645,91 @@
                 width: 28px;
                 height: 28px;
                 font-size: 14px;
+            }
+            
+            .roadmap-content {
+                padding: 20px;
+            }
+            
+            .roadmap-title {
+                font-size: 18px;
+            }
+            
+            .roadmap-features {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+            
+            .stat-card {
+                padding: 24px 16px;
+            }
+            
+            .stat-value {
+                font-size: 36px;
+            }
+            
+            .stat-label {
+                font-size: 14px;
+            }
+            
+            .nav-content {
+                padding: 0 16px;
+            }
+            
+            .nav-links {
+                gap: 16px;
+            }
+            
+            .nav-links a {
+                font-size: 14px;
+            }
+            
+            .footer {
+                padding: 40px 20px;
+            }
+            
+            .footer-logo {
+                font-size: 32px;
+            }
+            
+            .footer-links {
+                gap: 20px;
+                flex-direction: column;
+            }
+        }
+        
+        /* Extra Small Devices */
+        @media (max-width: 375px) {
+            .hero h1 {
+                font-size: 28px;
+            }
+            
+            .hero-subtitle {
+                font-size: 14px;
+            }
+            
+            .hero-description {
+                font-size: 14px;
+            }
+            
+            .section-title {
+                font-size: 22px;
+            }
+            
+            .arch-components {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-value {
+                font-size: 32px;
             }
         }
     </style>
