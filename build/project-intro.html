@@ -1,358 +1,1251 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>光储龙虾 - 项目介绍</title>
+    <meta name="description" content="Guangchu - 全球光伏 + 储能行业信息收集与分析系统">
+    <title>Guangchu - 项目详情</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --apple-blue: #0071e3;
-            --apple-blue-dark: #005bb5;
-            --apple-gray: #86868b;
-            --apple-gray-light: #f5f5f7;
-            --apple-gray-dark: #1d1d1f;
-            --apple-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-            --apple-radius: 18px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary-red: #da251d;
+            --primary-yellow: #ffcd3c;
+            --text-primary: #1d1d1f;
+            --text-secondary: #6e6e73;
+            --text-light: #86868b;
+            --bg-primary: #f5f5f7;
+            --bg-white: #ffffff;
+            --border-light: #e0e0e0;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 18px;
+            --radius-xl: 24px;
+        }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.6;
-            color: var(--apple-gray-dark);
-            background: #ffffff;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            overflow-x: hidden;
         }
         
-        .container { max-width: 980px; margin: 0 auto; padding: 0 24px; }
-        
-        .hero {
-            padding: 120px 0 80px;
-            text-align: center;
-            background: linear-gradient(135deg, #0071e3 0%, #0077ed 100%);
-            color: white;
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            z-index: 1000;
         }
         
-        .hero-icon { font-size: 80px; margin-bottom: 24px; }
-        .hero h1 { font-size: 48px; font-weight: 700; margin-bottom: 16px; }
-        .hero-subtitle { font-size: 20px; opacity: 0.9; max-width: 600px; margin: 0 auto; }
-        
-        .section { padding: 80px 0; }
-        .section-title { font-size: 32px; font-weight: 700; margin-bottom: 40px; text-align: center; }
-        
-        .intro-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
-            margin-bottom: 60px;
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 56px;
         }
         
-        .intro-card {
-            padding: 40px;
-            background: var(--apple-gray-light);
-            border-radius: var(--apple-radius);
-            border: 1px solid rgba(0, 0, 0, 0.05);
+        .nav-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-red);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
-        .intro-icon { font-size: 48px; margin-bottom: 20px; }
-        .intro-title { font-size: 22px; font-weight: 600; margin-bottom: 12px; color: var(--apple-blue); }
-        .intro-text { font-size: 15px; color: var(--apple-gray); line-height: 1.8; }
-        
-        .stats-section {
-            background: linear-gradient(135deg, #f5f5f7 0%, #ffffff 100%);
-            padding: 80px 0;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 32px;
-        }
-        
-        .stat-item { text-align: center; padding: 32px; }
-        .stat-value { font-size: 48px; font-weight: 700; color: var(--apple-blue); margin-bottom: 8px; }
-        .stat-label { font-size: 14px; color: var(--apple-gray); }
-        
-        .features-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        .nav-links {
+            display: flex;
             gap: 24px;
-            margin-top: 40px;
         }
         
-        .feature-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-            padding: 24px;
-            background: white;
-            border-radius: 12px;
-            border: 1px solid rgba(0, 0, 0, 0.05);
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
         }
         
-        .feature-icon { font-size: 32px; }
-        .feature-content h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
-        .feature-content p { font-size: 14px; color: var(--apple-gray); }
-        
-        .tech-stack {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 40px;
+        .nav-links a:hover {
+            color: var(--primary-red);
         }
         
-        .tech-item {
-            padding: 20px;
-            background: var(--apple-gray-light);
-            border-radius: 12px;
+        /* Hero */
+        .hero {
+            padding: 140px 24px 80px;
             text-align: center;
-        }
-        
-        .tech-icon { font-size: 36px; margin-bottom: 12px; }
-        .tech-name { font-size: 16px; font-weight: 600; }
-        
-        .cta-section {
-            padding: 80px 0;
-            text-align: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary-red), var(--primary-yellow));
             color: white;
         }
         
-        .cta-buttons {
+        .hero-logo {
+            font-size: 80px;
+            margin-bottom: 24px;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+        
+        .hero-subtitle {
+            font-size: 24px;
+            font-weight: 400;
+            opacity: 0.95;
+            margin-bottom: 32px;
+        }
+        
+        .hero-description {
+            font-size: 18px;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+        
+        .hero-actions {
             display: flex;
+            gap: 16px;
             justify-content: center;
-            gap: 20px;
             margin-top: 40px;
             flex-wrap: wrap;
         }
         
-        .cta-btn {
+        .btn {
+            padding: 14px 32px;
+            border-radius: 980px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            padding: 16px 32px;
+            gap: 8px;
+        }
+        
+        .btn-primary {
             background: white;
-            color: var(--apple-blue);
-            text-decoration: none;
-            border-radius: 980px;
-            font-weight: 600;
-            transition: all 0.3s;
+            color: var(--primary-red);
         }
         
-        .cta-btn:hover {
+        .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
         }
         
-        .cta-btn.secondary {
-            background: transparent;
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
             color: white;
             border: 2px solid white;
         }
         
-        .footer {
-            padding: 40px 0;
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        /* Section */
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+        
+        .section-header {
             text-align: center;
-            border-top: 1px solid rgba(0, 0, 0, 0.05);
-            color: var(--apple-gray);
+            margin-bottom: 60px;
+        }
+        
+        .section-label {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(218,37,29,0.1);
+            color: var(--primary-red);
+            border-radius: 980px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .section-title {
+            font-size: 40px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+        }
+        
+        .section-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+        
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+        }
+        
+        .card {
+            background: var(--bg-white);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .card-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 21px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+        
+        .card-description {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        /* Data Sources */
+        .sources-group {
+            background: var(--bg-white);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .sources-group-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .sources-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        
+        .source-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+            transition: all 0.2s;
+        }
+        
+        .source-item:hover {
+            background: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .source-icon {
+            font-size: 24px;
+        }
+        
+        .source-info {
+            flex: 1;
+        }
+        
+        .source-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .source-type {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+        
+        .source-count {
+            font-size: 13px;
+            color: var(--primary-red);
+            font-weight: 600;
+        }
+        
+        /* Architecture */
+        .architecture-diagram {
+            background: var(--bg-white);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 40px;
+        }
+        
+        .arch-layer {
+            margin-bottom: 32px;
+        }
+        
+        .arch-layer-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--primary-red);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .arch-components {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        
+        .arch-component {
+            padding: 16px;
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+            text-align: center;
+        }
+        
+        .arch-component-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+        
+        .arch-component-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        /* Roadmap */
+        .roadmap {
+            position: relative;
+            padding-left: 40px;
+        }
+        
+        .roadmap::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary-red), var(--primary-yellow));
+            border-radius: 3px;
+        }
+        
+        .roadmap-item {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        
+        .roadmap-marker {
+            position: absolute;
+            left: -32px;
+            top: 0;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--bg-white);
+            border: 3px solid var(--primary-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        
+        .roadmap-item.completed .roadmap-marker {
+            background: var(--primary-red);
+            color: white;
+        }
+        
+        .roadmap-item.current .roadmap-marker {
+            background: var(--primary-yellow);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255,205,60,0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(255,205,60,0); }
+        }
+        
+        .roadmap-content {
+            background: var(--bg-white);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .roadmap-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+        
+        .roadmap-time {
+            font-size: 14px;
+            color: var(--primary-red);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        .roadmap-description {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        
+        .roadmap-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 8px;
+        }
+        
+        .roadmap-feature {
+            font-size: 14px;
+            color: var(--text-secondary);
+            padding: 8px 12px;
+            background: var(--bg-primary);
+            border-radius: var(--radius-sm);
+        }
+        
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 32px;
+            background: var(--bg-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .stat-value {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--primary-red);
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--text-primary);
+            color: white;
+            padding: 60px 24px;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-size: 40px;
+            margin-bottom: 20px;
         }
         
         .footer-links {
             display: flex;
             justify-content: center;
-            gap: 24px;
-            margin-top: 20px;
+            gap: 32px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
         }
         
         .footer-links a {
-            color: var(--apple-blue);
+            color: white;
             text-decoration: none;
-            font-weight: 600;
+            opacity: 0.8;
+            transition: opacity 0.2s;
         }
         
+        .footer-links a:hover {
+            opacity: 1;
+        }
+        
+        .footer-text {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        
+        /* Responsive */
         @media (max-width: 768px) {
-            .hero { padding: 80px 0 60px; }
-            .hero h1 { font-size: 36px; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .section { padding: 60px 0; }
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero-subtitle {
+                font-size: 18px;
+            }
+            
+            .section-title {
+                font-size: 28px;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sources-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .roadmap {
+                padding-left: 30px;
+            }
+            
+            .roadmap::before {
+                left: 7px;
+            }
+            
+            .roadmap-marker {
+                left: -30px;
+                width: 28px;
+                height: 28px;
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="hero">
-        <div class="container">
-            <div class="hero-icon">🦞</div>
-            <h1>光储龙虾</h1>
-            <p class="hero-subtitle">全球光伏 + 储能行业信息收集与分析系统 · 您的 AI 数字员工</p>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-content">
+            <a href="https://xuegangwu.github.io/" class="nav-logo">
+                🦞 Guangchu
+            </a>
+            <div class="nav-links">
+                <a href="https://xuegangwu.github.io/">首页</a>
+                <a href="./project-intro.html">项目详情</a>
+                <a href="https://github.com/xuegangwu/guangchu" target="_blank">GitHub</a>
+            </div>
         </div>
-    </div>
-    
-    <div class="section">
-        <div class="container">
-            <h2 class="section-title">📖 项目简介</h2>
-            <div class="intro-grid">
-                <div class="intro-card">
-                    <div class="intro-icon">🎯</div>
-                    <h3 class="intro-title">项目愿景</h3>
-                    <p class="intro-text">打造全球领先的光伏储能行业信息聚合平台，通过 AI 技术实现新闻自动抓取、智能分析和多平台分发，帮助用户高效获取行业最新动态。</p>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-logo">🦞</div>
+        <h1>Guangchu</h1>
+        <p class="hero-subtitle">Solar-Storage News Collection & Analysis System</p>
+        <p class="hero-description">
+            全球光伏 + 储能行业信息收集与分析系统<br>
+            支持 22 个信息源，多语言自动翻译，智能数据处理
+        </p>
+        <div class="hero-actions">
+            <a href="http://localhost:5000" class="btn btn-primary">
+                🔍 立即体验
+            </a>
+            <a href="https://github.com/xuegangwu/guangchu" target="_blank" class="btn btn-secondary">
+                🔗 GitHub 仓库
+            </a>
+            <a href="web/architecture.html" target="_blank" class="btn btn-secondary">
+                🏗️ 系统架构
+            </a>
+        </div>
+    </section>
+
+    <!-- Statistics -->
+    <section class="section">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">22</div>
+                <div class="stat-label">信息源</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">3</div>
+                <div class="stat-label">支持语言</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">60+</div>
+                <div class="stat-label">日均新闻</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">100%</div>
+                <div class="stat-label">自动处理</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Sources -->
+    <section class="section">
+        <div class="section-header">
+            <span class="section-label">DATA SOURCES</span>
+            <h2 class="section-title">数据源覆盖</h2>
+            <p class="section-subtitle">全面覆盖全球光伏 + 储能行业信息</p>
+        </div>
+        
+        <!-- 新闻媒体 -->
+        <div class="sources-group">
+            <h3 class="sources-group-title">
+                📰 新闻媒体 (4 个)
+            </h3>
+            <div class="sources-list">
+                <div class="source-item">
+                    <span class="source-icon">🇬🇧</span>
+                    <div class="source-info">
+                        <div class="source-name">PV Magazine</div>
+                        <div class="source-type">英文媒体</div>
+                    </div>
+                    <div class="source-count">日均 10 条</div>
                 </div>
-                
-                <div class="intro-card">
-                    <div class="intro-icon">🤖</div>
-                    <h3 class="intro-title">AI 驱动</h3>
-                    <p class="intro-text">基于先进的自然语言处理技术，实现新闻自动分类、关键词提取、情感分析和智能推荐，让信息获取更加精准高效。</p>
+                <div class="source-item">
+                    <span class="source-icon">🇬🇧</span>
+                    <div class="source-info">
+                        <div class="source-name">Energy Storage News</div>
+                        <div class="source-type">英文媒体</div>
+                    </div>
+                    <div class="source-count">日均 10 条</div>
                 </div>
-                
-                <div class="intro-card">
-                    <div class="intro-icon">📊</div>
-                    <h3 class="intro-title">数据分析</h3>
-                    <p class="intro-text">提供多维度的数据可视化分析，包括区域分布、类型统计、趋势预测等，为行业决策提供数据支持。</p>
+                <div class="source-item">
+                    <span class="source-icon">🇨🇳</span>
+                    <div class="source-info">
+                        <div class="source-name">北极星储能网</div>
+                        <div class="source-type">中文媒体</div>
+                    </div>
+                    <div class="source-count">日均 10 条</div>
+                </div>
+                <div class="source-item">
+                    <span class="source-icon">🇨🇳</span>
+                    <div class="source-info">
+                        <div class="source-name">索比光伏网</div>
+                        <div class="source-type">中文媒体</div>
+                    </div>
+                    <div class="source-count">日均 10 条</div>
                 </div>
             </div>
         </div>
-    </div>
-    
-    <div class="stats-section">
-        <div class="container">
-            <h2 class="section-title">📈 项目数据</h2>
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-value">22</div>
-                    <div class="stat-label">信息源</div>
+
+        <!-- 政府/能源局 -->
+        <div class="sources-group">
+            <h3 class="sources-group-title">
+                🏛️ 政府/能源局 (7 个)
+            </h3>
+            <div class="sources-list">
+                <div class="source-item">
+                    <span class="source-icon">🇨🇳</span>
+                    <div class="source-info">
+                        <div class="source-name">中国国家能源局</div>
+                        <div class="source-type">政府机构</div>
+                    </div>
+                    <div class="source-count">政策发布</div>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-value">3500+</div>
-                    <div class="stat-label">代码行数</div>
+                <div class="source-item">
+                    <span class="source-icon">🇺🇸</span>
+                    <div class="source-info">
+                        <div class="source-name">美国能源部</div>
+                        <div class="source-type">政府机构</div>
+                    </div>
+                    <div class="source-count">政策发布</div>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-value">14</div>
-                    <div class="stat-label">页面数量</div>
+                <div class="source-item">
+                    <span class="source-icon">🇪🇺</span>
+                    <div class="source-info">
+                        <div class="source-name">欧盟能源委员会</div>
+                        <div class="source-type">政府机构</div>
+                    </div>
+                    <div class="source-count">政策发布</div>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-value">10</div>
-                    <div class="stat-label">API 端点</div>
+                <div class="source-item">
+                    <span class="source-icon">🇯🇵</span>
+                    <div class="source-info">
+                        <div class="source-name">日本经济产业省</div>
+                        <div class="source-type">政府机构</div>
+                    </div>
+                    <div class="source-count">政策发布</div>
+                </div>
+                <div class="source-item">
+                    <span class="source-icon">🇻🇳</span>
+                    <div class="source-info">
+                        <div class="source-name">越南工贸部</div>
+                        <div class="source-type">政府机构</div>
+                    </div>
+                    <div class="source-count">政策发布</div>
+                </div>
+                <div class="source-item">
+                    <span class="source-icon">🌍</span>
+                    <div class="source-info">
+                        <div class="source-name">国际能源署 (IEA)</div>
+                        <div class="source-type">国际组织</div>
+                    </div>
+                    <div class="source-count">报告发布</div>
+                </div>
+                <div class="source-item">
+                    <span class="source-icon">🌍</span>
+                    <div class="source-info">
+                        <div class="source-name">国际可再生能源署 (IRENA)</div>
+                        <div class="source-type">国际组织</div>
+                    </div>
+                    <div class="source-count">报告发布</div>
                 </div>
             </div>
         </div>
-    </div>
-    
-    <div class="section">
-        <div class="container">
-            <h2 class="section-title">✨ 核心功能</h2>
-            <div class="features-list">
-                <div class="feature-item">
-                    <div class="feature-icon">🔍</div>
-                    <div class="feature-content">
-                        <h3>高级搜索</h3>
-                        <p>支持关键词高亮、多条件过滤、结果排序，搜索响应时间 < 100ms</p>
+
+        <!-- 电力/制造商/政策 -->
+        <div class="sources-group">
+            <h3 class="sources-group-title">
+                ⚡ 电力相关 (3 个) + 🏭 制造商 (5 个) + 📜 政策 (3 个)
+            </h3>
+            <div class="sources-list">
+                <div class="source-item">
+                    <span class="source-icon">⚡</span>
+                    <div class="source-info">
+                        <div class="source-name">中国电力企业联合会</div>
+                        <div class="source-type">行业协会</div>
                     </div>
                 </div>
-                
-                <div class="feature-item">
-                    <div class="feature-icon">📰</div>
-                    <div class="feature-content">
-                        <h3>自动抓取</h3>
-                        <p>22 个信息源自动更新，实时追踪全球光伏储能行业动态</p>
+                <div class="source-item">
+                    <span class="source-icon">⚡</span>
+                    <div class="source-info">
+                        <div class="source-name">美国电力协会</div>
+                        <div class="source-type">行业协会</div>
                     </div>
                 </div>
-                
-                <div class="feature-item">
-                    <div class="feature-icon">📱</div>
-                    <div class="feature-content">
-                        <h3>多平台导出</h3>
-                        <p>支持公众号、Cloud Hub、GitHub 等多格式导出和发布</p>
+                <div class="source-item">
+                    <span class="source-icon">🏭</span>
+                    <div class="source-info">
+                        <div class="source-name">隆基股份</div>
+                        <div class="source-type">制造商</div>
                     </div>
                 </div>
-                
-                <div class="feature-item">
-                    <div class="feature-icon">📊</div>
-                    <div class="feature-content">
-                        <h3>数据可视化</h3>
-                        <p>Chart.js 图表展示，多维度数据分析，直观易懂</p>
+                <div class="source-item">
+                    <span class="source-icon">🏭</span>
+                    <div class="source-info">
+                        <div class="source-name">晶科能源</div>
+                        <div class="source-type">制造商</div>
                     </div>
                 </div>
-                
-                <div class="feature-item">
-                    <div class="feature-icon">📔</div>
-                    <div class="feature-content">
-                        <h3>开发日记</h3>
-                        <p>记录项目发展的每一步，透明化开发过程，持续改进</p>
+                <div class="source-item">
+                    <span class="source-icon">🏭</span>
+                    <div class="source-info">
+                        <div class="source-name">Tesla Energy</div>
+                        <div class="source-type">制造商</div>
                     </div>
                 </div>
-                
-                <div class="feature-item">
-                    <div class="feature-icon">🔌</div>
-                    <div class="feature-content">
-                        <h3>RESTful API</h3>
-                        <p>10 个标准 API 端点，支持第三方集成和扩展</p>
+                <div class="source-item">
+                    <span class="source-icon">📜</span>
+                    <div class="source-info">
+                        <div class="source-name">中国发改委</div>
+                        <div class="source-type">政策机构</div>
+                    </div>
+                </div>
+                <div class="source-item">
+                    <span class="source-icon">📜</span>
+                    <div class="source-info">
+                        <div class="source-name">美国 FERC</div>
+                        <div class="source-type">政策机构</div>
+                    </div>
+                </div>
+                <div class="source-item">
+                    <span class="source-icon">📜</span>
+                    <div class="source-info">
+                        <div class="source-name">欧盟委员会</div>
+                        <div class="source-type">政策机构</div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    
-    <div class="section">
-        <div class="container">
-            <h2 class="section-title">🛠️ 技术栈</h2>
-            <div class="tech-stack">
-                <div class="tech-item">
-                    <div class="tech-icon">🐍</div>
-                    <div class="tech-name">Python 3.10+</div>
+    </section>
+
+    <!-- Technical Architecture -->
+    <section class="section">
+        <div class="section-header">
+            <span class="section-label">ARCHITECTURE</span>
+            <h2 class="section-title">技术架构</h2>
+            <p class="section-subtitle">模块化设计，高效可靠</p>
+        </div>
+        
+        <div class="architecture-diagram">
+            <!-- 数据采集层 -->
+            <div class="arch-layer">
+                <h3 class="arch-layer-title">
+                    🔽 数据采集层
+                </h3>
+                <div class="arch-components">
+                    <div class="arch-component">
+                        <div class="arch-component-icon">📰</div>
+                        <div class="arch-component-name">RSS 抓取</div>
+                    </div>
+                    <div class="arch-component">
+                        <div class="arch-component-icon">🌐</div>
+                        <div class="arch-component-name">Web 爬虫</div>
+                    </div>
+                    <div class="arch-component">
+                        <div class="arch-component-icon">📱</div>
+                        <div class="arch-component-name">社交媒体</div>
+                    </div>
+                    <div class="arch-component">
+                        <div class="arch-component-icon">🔌</div>
+                        <div class="arch-component-name">API 集成</div>
+                    </div>
                 </div>
-                <div class="tech-item">
-                    <div class="tech-icon">🌐</div>
-                    <div class="tech-name">HTML5 / CSS3</div>
+            </div>
+
+            <!-- 数据处理层 -->
+            <div class="arch-layer">
+                <h3 class="arch-layer-title">
+                    ⚙️ 数据处理层
+                </h3>
+                <div class="arch-components">
+                    <div class="arch-component">
+                        <div class="arch-component-icon">🧹</div>
+                        <div class="arch-component-name">内容提取</div>
+                    </div>
+                    <div class="arch-component">
+                        <div class="arch-component-icon">✅</div>
+                        <div class="arch-component-name">质量过滤</div>
+                    </div>
+                    <div class="arch-component">
+                        <div class="arch-component-icon">🌐</div>
+                        <div class="arch-component-name">多语翻译</div>
+                    </div>
+                    <div class="arch-component">
+                        <div class="arch-component-icon">🔑</div>
+                        <div class="arch-component-name">关键信息</div>
+                    </div>
+                    <div class="arch-component">
+                        <div class="arch-component-icon">📝</div>
+                        <div class="arch-component-name">智能摘要</div>
+                    </div>
+                    <div class="arch-component">
+                        <div class="arch-component-icon">😊</div>
+                        <div class="arch-component-name">情感分析</div>
+                    </div>
                 </div>
-                <div class="tech-item">
-                    <div class="tech-icon">📜</div>
-                    <div class="tech-name">JavaScript</div>
+            </div>
+
+            <!-- 数据存储层 -->
+            <div class="arch-layer">
+                <h3 class="arch-layer-title">
+                    💾 数据存储层
+                </h3>
+                <div class="arch-components">
+                    <div class="arch-component">
+                        <div class="arch-component-icon">🗄️</div>
+                        <div class="arch-component-name">SQLite</div>
+                    </div>
+                    <div class="arch-component">
+                        <div class="arch-component-icon">🔍</div>
+                        <div class="arch-component-name">FTS5 搜索</div>
+                    </div>
+                    <div class="arch-component">
+                        <div class="arch-component-icon">📊</div>
+                        <div class="arch-component-name">统计数据</div>
+                    </div>
+                    <div class="arch-component">
+                        <div class="arch-component-icon">💾</div>
+                        <div class="arch-component-name">翻译缓存</div>
+                    </div>
                 </div>
-                <div class="tech-item">
-                    <div class="tech-icon">🗄️</div>
-                    <div class="tech-name">SQLite FTS5</div>
-                </div>
-                <div class="tech-item">
-                    <div class="tech-icon">📊</div>
-                    <div class="tech-name">Chart.js</div>
-                </div>
-                <div class="tech-item">
-                    <div class="tech-icon">🚀</div>
-                    <div class="tech-name">GitHub Pages</div>
-                </div>
-                <div class="tech-item">
-                    <div class="tech-icon">🧪</div>
-                    <div class="tech-name">Pytest</div>
-                </div>
-                <div class="tech-item">
-                    <div class="tech-icon">📝</div>
-                    <div class="tech-name">Markdown</div>
+            </div>
+
+            <!-- 应用服务层 -->
+            <div class="arch-layer">
+                <h3 class="arch-layer-title">
+                    🚀 应用服务层
+                </h3>
+                <div class="arch-components">
+                    <div class="arch-component">
+                        <div class="arch-component-icon">🌐</div>
+                        <div class="arch-component-name">Web 搜索</div>
+                    </div>
+                    <div class="arch-component">
+                        <div class="arch-component-icon">💻</div>
+                        <div class="arch-component-name">CLI 工具</div>
+                    </div>
+                    <div class="arch-component">
+                        <div class="arch-component-icon">📊</div>
+                        <div class="arch-component-name">统计面板</div>
+                    </div>
+                    <div class="arch-component">
+                        <div class="arch-component-icon">📄</div>
+                        <div class="arch-component-name">报告生成</div>
+                    </div>
+                    <div class="arch-component">
+                        <div class="arch-component-icon">⏰</div>
+                        <div class="arch-component-name">定时任务</div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    
-    <div class="cta-section">
-        <div class="container">
-            <h2 class="section-title" style="color: white;">🚀 立即体验</h2>
-            <p style="opacity: 0.9; max-width: 600px; margin: 0 auto;">探索光储龙虾的完整功能，获取全球光伏储能行业最新动态</p>
-            <div class="cta-buttons">
-                <a href="https://xuegangwu.github.io/guangchu/" class="cta-btn">🦞 访问项目</a>
-                <a href="https://xuegangwu.github.io/guangchu/diary/" class="cta-btn secondary">📔 开发日记</a>
-                <a href="https://github.com/xuegangwu/guangchu" class="cta-btn secondary">📂 GitHub</a>
+    </section>
+
+    <!-- Technical Features -->
+    <section class="section">
+        <div class="section-header">
+            <span class="section-label">FEATURES</span>
+            <h2 class="section-title">技术特点</h2>
+            <p class="section-subtitle">创新技术，卓越性能</p>
+        </div>
+        
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon">🌐</div>
+                <h3 class="card-title">多语言翻译</h3>
+                <p class="card-description">
+                    支持英文、中文、日文三语自动翻译。集成 Google Translate、DeepL、百度翻译等多个翻译服务，自动检测源语言并翻译成目标语言。
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🔍</div>
+                <h3 class="card-title">FTS5 全文搜索</h3>
+                <p class="card-description">
+                    基于 SQLite FTS5 引擎，支持布尔搜索、短语搜索、邻近搜索等高级搜索语法。搜索响应时间 < 50ms。
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🤖</div>
+                <h3 class="card-title">智能数据处理</h3>
+                <p class="card-description">
+                    自动内容提取、质量过滤、关键信息提取（公司/人物/地点/数字）、智能摘要生成、情感分析、主题分类。
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">⏰</div>
+                <h3 class="card-title">自动化更新</h3>
+                <p class="card-description">
+                    支持定时任务自动抓取，每天自动更新。集成 Cron 定时任务，支持手动触发和自动执行。
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">💾</div>
+                <h3 class="card-title">翻译缓存</h3>
+                <p class="card-description">
+                    智能翻译缓存机制，避免重复翻译。相同内容直接返回缓存结果，节省 API 调用成本，提升响应速度。
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">📊</div>
+                <h3 class="card-title">数据统计</h3>
+                <p class="card-description">
+                    实时统计面板，展示信息源分布、类型分布、区域分布、趋势分析等。支持数据导出和可视化展示。
+                </p>
             </div>
         </div>
-    </div>
-    
-    <div class="footer">
-        <div class="container">
-            <p>© 2026 光储龙虾 · Solar-Storage News Collection & Analysis System</p>
-            <div class="footer-links">
-                <a href="https://xuegangwu.github.io/">个人主页</a>
-                <a href="https://xuegangwu.github.io/guangchu/">项目首页</a>
-                <a href="https://github.com/xuegangwu/guangchu">GitHub</a>
+    </section>
+
+    <!-- Roadmap -->
+    <section class="section">
+        <div class="section-header">
+            <span class="section-label">ROADMAP</span>
+            <h2 class="section-title">迭代路径</h2>
+            <p class="section-subtitle">持续优化，不断进化</p>
+        </div>
+        
+        <div class="roadmap">
+            <!-- 已完成 -->
+            <div class="roadmap-item completed">
+                <div class="roadmap-marker">✅</div>
+                <div class="roadmap-content">
+                    <h3 class="roadmap-title">Phase 1: 基础功能</h3>
+                    <div class="roadmap-time">2026-03-10 ~ 2026-03-12</div>
+                    <p class="roadmap-description">
+                        完成核心功能开发，包括新闻抓取、搜索索引、报告生成等基础功能。
+                    </p>
+                    <div class="roadmap-features">
+                        <div class="roadmap-feature">✅ RSS 抓取</div>
+                        <div class="roadmap-feature">✅ FTS5 搜索</div>
+                        <div class="roadmap-feature">✅ Web 界面</div>
+                        <div class="roadmap-feature">✅ 定时任务</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="roadmap-item completed">
+                <div class="roadmap-marker">✅</div>
+                <div class="roadmap-content">
+                    <h3 class="roadmap-title">Phase 2: 信息源扩展</h3>
+                    <div class="roadmap-time">2026-03-12</div>
+                    <p class="roadmap-description">
+                        扩展信息源覆盖，增加政府/能源局、电力、制造商、政策等官方信息源。
+                    </p>
+                    <div class="roadmap-features">
+                        <div class="roadmap-feature">✅ 政府网站 (7 个)</div>
+                        <div class="roadmap-feature">✅ 电力相关 (3 个)</div>
+                        <div class="roadmap-feature">✅ 制造商 (5 个)</div>
+                        <div class="roadmap-feature">✅ 政策机构 (3 个)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="roadmap-item completed">
+                <div class="roadmap-marker">✅</div>
+                <div class="roadmap-content">
+                    <h3 class="roadmap-title">Phase 3: 多语言支持</h3>
+                    <div class="roadmap-time">2026-03-12</div>
+                    <p class="roadmap-description">
+                        实现多语言自动翻译，支持英文、中文、日文三语，集成多个翻译服务。
+                    </p>
+                    <div class="roadmap-features">
+                        <div class="roadmap-feature">✅ Google Translate</div>
+                        <div class="roadmap-feature">✅ 翻译缓存</div>
+                        <div class="roadmap-feature">✅ 三语支持</div>
+                        <div class="roadmap-feature">✅ 自动检测</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 进行中 -->
+            <div class="roadmap-item current">
+                <div class="roadmap-marker">🚀</div>
+                <div class="roadmap-content">
+                    <h3 class="roadmap-title">Phase 4: 社交媒体集成</h3>
+                    <div class="roadmap-time">2026-03-15 ~ 2026-03-30</div>
+                    <p class="roadmap-description">
+                        集成 LinkedIn、Facebook、Twitter 等社交媒体平台，实时追踪行业动态和 KOL 观点。
+                    </p>
+                    <div class="roadmap-features">
+                        <div class="roadmap-feature">🔄 LinkedIn API</div>
+                        <div class="roadmap-feature">🔄 Facebook Graph API</div>
+                        <div class="roadmap-feature">🔄 Twitter API v2</div>
+                        <div class="roadmap-feature">🔄 KOL 追踪</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 计划中 -->
+            <div class="roadmap-item">
+                <div class="roadmap-marker">📋</div>
+                <div class="roadmap-content">
+                    <h3 class="roadmap-title">Phase 5: 智能数据处理</h3>
+                    <div class="roadmap-time">2026-04-01 ~ 2026-04-30</div>
+                    <p class="roadmap-description">
+                        实现智能数据处理管道，包括内容提取、质量过滤、关键信息提取、智能摘要、情感分析等。
+                    </p>
+                    <div class="roadmap-features">
+                        <div class="roadmap-feature">📋 内容提取</div>
+                        <div class="roadmap-feature">📋 质量评分</div>
+                        <div class="roadmap-feature">📋 实体识别</div>
+                        <div class="roadmap-feature">📋 智能摘要</div>
+                        <div class="roadmap-feature">📋 情感分析</div>
+                        <div class="roadmap-feature">📋 主题分类</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="roadmap-item">
+                <div class="roadmap-marker">📋</div>
+                <div class="roadmap-content">
+                    <h3 class="roadmap-title">Phase 6: 搜索展示优化</h3>
+                    <div class="roadmap-time">2026-05-01 ~ 2026-05-31</div>
+                    <p class="roadmap-description">
+                        优化搜索结果展示，实现结构化展示、关键信息高亮、多语言切换、情感可视化等。
+                    </p>
+                    <div class="roadmap-features">
+                        <div class="roadmap-feature">📋 结构化卡片</div>
+                        <div class="roadmap-feature">📋 关键信息图谱</div>
+                        <div class="roadmap-feature">📋 多语言切换</div>
+                        <div class="roadmap-feature">📋 情感可视化</div>
+                        <div class="roadmap-feature">📋 相关推荐</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="roadmap-item">
+                <div class="roadmap-marker">📋</div>
+                <div class="roadmap-content">
+                    <h3 class="roadmap-title">Phase 7: AI 增强功能</h3>
+                    <div class="roadmap-time">2026-06-01 ~ 2026-06-30</div>
+                    <p class="roadmap-description">
+                        引入 AI 能力，实现智能推荐、趋势分析、预测分析等高级功能。
+                    </p>
+                    <div class="roadmap-features">
+                        <div class="roadmap-feature">📋 智能推荐</div>
+                        <div class="roadmap-feature">📋 趋势分析</div>
+                        <div class="roadmap-feature">📋 热点预测</div>
+                        <div class="roadmap-feature">📋 知识图谱</div>
+                    </div>
+    <!-- 路线图 -->
+    <section class="section">
+        <div class="section-header">
+            <h2 class="section-title">🗺️ 项目路线图</h2>
+            <p class="section-subtitle">Development Roadmap</p>
+        </div>
+        
+        <div class="roadmap">
+            <div class="roadmap-phase completed">
+                <div class="roadmap-phase-header">
+                    <span class="roadmap-phase-icon">✅</span>
+                    <h3 class="roadmap-phase-title">第一阶段：基础建设</h3>
+                    <span class="roadmap-phase-status">已完成</span>
+                </div>
+                <div class="roadmap-tasks">
+                    <div class="roadmap-task">✅ 22 个信息源配置（政府/媒体/制造商）</div>
+                    <div class="roadmap-task">✅ 新闻抓取脚本（英文 + 中文）</div>
+                    <div class="roadmap-task">✅ 数据处理管道</div>
+                    <div class="roadmap-task">✅ 搜索功能（search.db）</div>
+                    <div class="roadmap-task">✅ GitHub Pages 部署</div>
+                    <div class="roadmap-task">✅ 日记系统（4 篇日记）</div>
+                    <div class="roadmap-task">✅ 定时任务配置（10 个）</div>
+                </div>
+            </div>
+            
+            <div class="roadmap-phase current">
+                <div class="roadmap-phase-header">
+                    <span class="roadmap-phase-icon">🚀</span>
+                    <h3 class="roadmap-phase-title">第二阶段：功能增强</h3>
+                    <span class="roadmap-phase-status">进行中</span>
+                </div>
+                <div class="roadmap-tasks">
+                    <div class="roadmap-task">✅ 数据可视化（Chart.js）</div>
+                    <div class="roadmap-task">✅ 周期性报告（日报/周报/月报）</div>
+                    <div class="roadmap-task">🔄 日记内容质量优化</div>
+                    <div class="roadmap-task">🔄 中文新闻抓取优化</div>
+                    <div class="roadmap-task">⏳ 高级搜索（过滤/排序/高亮）</div>
+                    <div class="roadmap-task">⏳ 性能监控</div>
+                </div>
+            </div>
+            
+            <div class="roadmap-phase">
+                <div class="roadmap-phase-header">
+                    <span class="roadmap-phase-icon">🎯</span>
+                    <h3 class="roadmap-phase-title">第三阶段：生态建设</h3>
+                    <span class="roadmap-phase-status">计划中</span>
+                </div>
+                <div class="roadmap-tasks">
+                    <div class="roadmap-task">⏳ API 接口开放（RESTful）</div>
+                    <div class="roadmap-task">⏳ 第三方集成支持</div>
+                    <div class="roadmap-task">⏳ 多语言界面（中/英/日）</div>
+                    <div class="roadmap-task">⏳ 移动端应用（PWA）</div>
+                    <div class="roadmap-task">⏳ AI 摘要生成</div>
+                    <div class="roadmap-task">⏳ 插件系统</div>
+                </div>
+            </div>
+            
+            <div class="roadmap-phase">
+                <div class="roadmap-phase-header">
+                    <span class="roadmap-phase-icon">🌟</span>
+                    <h3 class="roadmap-phase-title">第四阶段：商业智能</h3>
+                    <span class="roadmap-phase-status">愿景</span>
+                </div>
+                <div class="roadmap-tasks">
+                    <div class="roadmap-task">⏳ 投资决策支持系统</div>
+                    <div class="roadmap-task">⏳ 市场趋势预测</div>
+                    <div class="roadmap-task">⏳ 风险评估模型</div>
+                    <div class="roadmap-task">⏳ 多站点部署（国内 + 国外）</div>
+                    <div class="roadmap-task">⏳ 商业化运营</div>
+                </div>
             </div>
         </div>
-    </div>
+        
+        <style>
+            .roadmap { margin-top: 40px; }
+            .roadmap-phase {
+                background: white;
+                border-radius: 18px;
+                padding: 30px;
+                margin-bottom: 30px;
+                box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+                border-left: 6px solid #e0e0e0;
+            }
+            .roadmap-phase.completed { border-left-color: #34c759; }
+            .roadmap-phase.current { border-left-color: #0071e3; }
+            .roadmap-phase-header {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                margin-bottom: 20px;
+            }
+            .roadmap-phase-icon { font-size: 32px; }
+            .roadmap-phase-title { font-size: 24px; font-weight: 600; flex: 1; }
+            .roadmap-phase-status {
+                padding: 6px 16px;
+                border-radius: 980px;
+                font-size: 13px;
+                font-weight: 600;
+            }
+            .roadmap-phase.completed .roadmap-phase-status {
+                background: rgba(52, 199, 89, 0.1);
+                color: #34c759;
+            }
+            .roadmap-phase.current .roadmap-phase-status {
+                background: rgba(0, 113, 227, 0.1);
+                color: #0071e3;
+            }
+            .roadmap-tasks {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 12px;
+            }
+            .roadmap-task {
+                padding: 12px 16px;
+                background: #f8f9fa;
+                border-radius: 8px;
+                font-size: 14px;
+                color: #1d1d1f;
+            }
+            @media (max-width: 768px) {
+                .roadmap-phase-header { flex-direction: column; align-items: flex-start; }
+                .roadmap-tasks { grid-template-columns: 1fr; }
+            }
+        </style>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logo">🦞</div>
+        <div class="footer-links">
+            <a href="https://xuegangwu.github.io/">首页</a>
+            <a href="http://localhost:5000">Web 搜索</a>
+            <a href="https://github.com/xuegangwu/guangchu" target="_blank">GitHub</a>
+            <a href="./project-intro.html">项目详情</a>
+        </div>
+        <p class="footer-text">
+            © 2026 Guangchu - Solar-Storage News Collection & Analysis System<br>
+            Powered by Python, Flask, SQLite FTS5
+        </p>
+    </footer>
 </body>
 </html>
