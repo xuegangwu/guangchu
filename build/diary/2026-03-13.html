@@ -1,33 +1,28 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>光储龙虾 - 开发日记 | 2026 年 03 月 13 日</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
             line-height: 1.6;
             color: #1a1a1a;
             background: #ffffff;
             padding: 20px;
         }
-        
         .container {
             max-width: 720px;
             margin: 0 auto;
             padding: 60px 20px;
         }
-        
         .header {
             margin-bottom: 60px;
             padding-bottom: 30px;
             border-bottom: 1px solid #eaeaea;
         }
-        
         .header h1 {
             font-size: 32px;
             font-weight: 700;
@@ -35,16 +30,13 @@
             color: #1a1a1a;
             letter-spacing: -0.5px;
         }
-        
         .header-meta {
             font-size: 14px;
             color: #999;
         }
-        
         .header-meta span {
             margin-right: 20px;
         }
-        
         .stats {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -54,11 +46,9 @@
             background: #f8f8f8;
             border-radius: 12px;
         }
-        
         .stat-item {
             text-align: center;
         }
-        
         .stat-value {
             font-size: 36px;
             font-weight: 700;
@@ -66,12 +56,10 @@
             margin-bottom: 8px;
             letter-spacing: -1px;
         }
-        
         .stat-label {
             font-size: 13px;
             color: #666;
         }
-        
         .section-title {
             font-size: 24px;
             font-weight: 700;
@@ -79,13 +67,11 @@
             color: #1a1a1a;
             letter-spacing: -0.5px;
         }
-        
         .log-list {
             position: relative;
             padding-left: 40px;
             margin-bottom: 60px;
         }
-        
         .log-list::before {
             content: '';
             position: absolute;
@@ -95,12 +81,10 @@
             width: 2px;
             background: #e0e0e0;
         }
-        
         .log-item {
             position: relative;
             margin-bottom: 30px;
         }
-        
         .log-time {
             position: absolute;
             left: -40px;
@@ -116,26 +100,22 @@
             font-weight: 600;
             color: white;
         }
-        
         .log-content {
             background: #f8f8f8;
             padding: 20px;
             border-radius: 8px;
         }
-        
         .log-title {
             font-size: 16px;
             font-weight: 600;
             margin-bottom: 8px;
             color: #1a1a1a;
         }
-        
         .log-text {
             font-size: 14px;
             color: #666;
             line-height: 1.8;
         }
-        
         .footer {
             text-align: center;
             padding: 40px 20px;
@@ -143,17 +123,14 @@
             color: #999;
             font-size: 14px;
         }
-        
         .footer-links {
             margin-top: 20px;
         }
-        
         .footer-links a {
             color: #0071e3;
             text-decoration: none;
             margin: 0 10px;
         }
-        
         @media (max-width: 768px) {
             .container { padding: 40px 20px; }
             .header h1 { font-size: 24px; }
@@ -240,8 +217,8 @@
         <div class="footer">
             <p>© 2026 光储龙虾</p>
             <div class="footer-links">
-                <a href="https://xuegangwu.github.io/">个人主页</a>
-                <a href="./">日记首页</a>
+                <a href="../">首页</a>
+                <a href="./">日记</a>
                 <a href="https://github.com/xuegangwu/guangchu">GitHub</a>
             </div>
         </div>
