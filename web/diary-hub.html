@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guangchu - 日记中心</title>
+    <title>光储龙虾 Solarbot - 开发日记中心</title>
     <style>
         * {
             margin: 0;
@@ -17,12 +18,13 @@
             -moz-osx-font-smoothing: grayscale;
             line-height: 1.6;
             color: #1a1a1a;
-            background: #ffffff;
+            background: linear-gradient(135deg, #da251d 0%, #ffcd3c 100%);
+            min-height: 100vh;
             padding: 0 20px;
         }
         
         .container {
-            max-width: 720px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 60px 20px;
         }
@@ -31,148 +33,376 @@
         .logo {
             font-size: 24px;
             font-weight: 600;
-            color: #1a1a1a;
+            color: white;
             text-decoration: none;
             display: inline-block;
             margin-bottom: 40px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
         
-        /* Header */
-        .header {
+        /* Hero Header */
+        .hero-header {
+            text-align: center;
+            color: white;
+            padding: 60px 40px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
             margin-bottom: 60px;
-            padding-bottom: 30px;
-            border-bottom: 1px solid #eaeaea;
+            border: 1px solid rgba(255,255,255,0.3);
         }
         
-        .header h1 {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: #1a1a1a;
-            letter-spacing: -0.5px;
+        .hero-header h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+            text-shadow: 0 2px 12px rgba(0,0,0,0.3);
         }
         
-        .header-subtitle {
-            font-size: 16px;
+        .hero-header p {
+            font-size: 18px;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        }
+        
+        .project-name-multilang {
+            font-size: 14px;
+            opacity: 0.85;
+            margin-top: 16px;
+            font-weight: 400;
+        }
+        
+        /* Stats Overview */
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            transition: all 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.2);
+        }
+        
+        .stat-value {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #da251d, #ffcd3c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            letter-spacing: -2px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
             color: #666;
+            font-weight: 500;
         }
         
         /* Quick Actions */
         .quick-actions {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            gap: 24px;
             margin-bottom: 60px;
         }
         
         .action-card {
             display: block;
-            padding: 40px 20px;
-            background: linear-gradient(135deg, #0071e3, #0077ed);
-            border-radius: 12px;
+            padding: 40px 24px;
+            background: white;
+            border-radius: 16px;
             text-decoration: none;
-            color: white;
+            color: inherit;
             text-align: center;
             transition: all 0.3s;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
         }
         
         .action-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 16px 40px rgba(0,113,227,0.3);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.2);
+            border-color: #da251d;
         }
         
         .action-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
+            font-size: 56px;
+            margin-bottom: 20px;
             display: block;
         }
         
         .action-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 8px;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #1a1a1a;
         }
         
         .action-desc {
-            font-size: 13px;
-            opacity: 0.9;
-        }
-        
-        /* Style Section */
-        .style-section {
-            margin-bottom: 60px;
-            padding: 40px;
-            background: #f8f8f8;
-            border-radius: 12px;
-        }
-        
-        .style-section h2 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: #1a1a1a;
-        }
-        
-        .style-section p {
             font-size: 14px;
             color: #666;
-            line-height: 1.8;
-            margin-bottom: 30px;
+            line-height: 1.6;
         }
         
-        .style-features {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-        
-        .feature {
-            text-align: center;
-            padding: 20px;
+        /* Timeline Section */
+        .timeline-section {
             background: white;
-            border-radius: 8px;
+            border-radius: 24px;
+            padding: 50px 40px;
+            margin-bottom: 60px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
         }
         
-        .feature-icon {
-            font-size: 32px;
-            margin-bottom: 12px;
-            display: block;
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
         }
         
-        .feature-title {
-            font-size: 14px;
-            font-weight: 600;
+        .section-label {
+            display: inline-block;
+            padding: 8px 20px;
+            background: linear-gradient(135deg, #da251d, #ffcd3c);
+            color: white;
+            border-radius: 980px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+        
+        .section-title {
+            font-size: 36px;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+        
+        .section-subtitle {
+            font-size: 16px;
+            color: #666;
+        }
+        
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 50px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, #da251d, #ffcd3c);
+            border-radius: 3px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        
+        .timeline-marker {
+            position: absolute;
+            left: -42px;
+            top: 0;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #da251d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+            color: #da251d;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .timeline-item.current .timeline-marker {
+            background: linear-gradient(135deg, #da251d, #ffcd3c);
+            color: white;
+            border-color: #da251d;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(218,37,29,0.4); }
+            50% { box-shadow: 0 0 0 12px rgba(218,37,29,0); }
+        }
+        
+        .timeline-content {
+            background: #f8f8f8;
+            border-radius: 16px;
+            padding: 28px;
+            transition: all 0.3s;
+        }
+        
+        .timeline-content:hover {
+            background: #f0f0f0;
+        }
+        
+        .timeline-date {
+            font-size: 13px;
+            color: #da251d;
+            font-weight: 700;
             margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        
+        .timeline-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
             color: #1a1a1a;
         }
         
-        .feature-desc {
-            font-size: 12px;
-            color: #999;
+        .timeline-description {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 16px;
         }
         
-        /* Links */
-        .links-section {
+        .timeline-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .timeline-feature {
+            font-size: 13px;
+            padding: 6px 14px;
+            background: white;
+            border-radius: 980px;
+            color: #666;
+            border: 1px solid #e0e0e0;
+        }
+        
+        /* Achievements */
+        .achievements-section {
+            background: linear-gradient(135deg, #1a1a1a, #333);
+            color: white;
+            border-radius: 24px;
+            padding: 50px 40px;
+            margin-bottom: 60px;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+        }
+        
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .achievement-card {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .achievement-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        
+        .achievement-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .achievement-desc {
+            font-size: 14px;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+        
+        /* Footer */
+        .footer {
             text-align: center;
             padding: 40px 20px;
-            border-top: 1px solid #eaeaea;
+            color: white;
+            border-top: 1px solid rgba(255,255,255,0.3);
         }
         
-        .links-section a {
-            color: #0071e3;
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: white;
             text-decoration: none;
-            margin: 0 15px;
             font-weight: 600;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
         }
         
         /* Responsive */
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
+            .stats-overview {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
             .quick-actions {
                 grid-template-columns: 1fr;
             }
             
-            .style-features {
+            .achievements-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .hero-header h1 {
+                font-size: 36px;
+            }
+            
+            .timeline {
+                padding-left: 40px;
+            }
+            
+            .timeline::before {
+                left: 10px;
+            }
+            
+            .timeline-marker {
+                left: -37px;
+                width: 28px;
+                height: 28px;
+                font-size: 14px;
             }
         }
     </style>
@@ -180,69 +410,241 @@
 <body>
     <div class="container">
         <!-- Logo -->
-        <a href="/" class="logo">🦞 Guangchu</a>
+        <a href="https://xuegangwu.github.io/" class="logo">🦞 光储龙虾 Solarbot</a>
         
-        <!-- Header -->
-        <div class="header">
-            <h1>📔 日记中心</h1>
-            <p class="header-subtitle">记录每一天的成长，见证每一步的进步</p>
+        <!-- Hero Header -->
+        <div class="hero-header">
+            <h1>📔 开发日记中心</h1>
+            <p>记录从 0 到 1 的每一步成长，见证光储龙虾项目的诞生与进化</p>
+            <div class="project-name-multilang">
+                光储龙虾 / Solarbot / ソーラーロボ / 태양로봇 / Robot Solar
+            </div>
+        </div>
+        
+        <!-- Stats Overview -->
+        <div class="stats-overview">
+            <div class="stat-card">
+                <div class="stat-value">5</div>
+                <div class="stat-label">开发天数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">68+</div>
+                <div class="stat-label">GitHub 提交</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">20+</div>
+                <div class="stat-label">核心文件</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">100%</div>
+                <div class="stat-label">自动化部署</div>
+            </div>
         </div>
         
         <!-- Quick Actions -->
         <div class="quick-actions">
-            <a href="/diary/" class="action-card">
+            <a href="./diary/2026-03-15.html" class="action-card">
                 <span class="action-icon">📖</span>
-                <div class="action-title">今日日记</div>
-                <div class="action-desc">查看今天的开发记录</div>
+                <div class="action-title">最新日记</div>
+                <div class="action-desc">查看 2026-03-15 的开发记录<br>多语言命名与页面优化</div>
             </a>
             
-            <a href="/diary/index.html" class="action-card">
+            <a href="./diary/index.html" class="action-card">
                 <span class="action-icon">📚</span>
-                <div class="action-title">日记列表</div>
-                <div class="action-desc">浏览所有历史日记</div>
+                <div class="action-title">完整日记列表</div>
+                <div class="action-desc">浏览所有历史开发日记<br>从项目初始化到现在的完整历程</div>
             </a>
             
-            <a href="/3wan-style.html" class="action-card">
-                <span class="action-icon">✨</span>
-                <div class="action-title">sanwan.ai 风格</div>
-                <div class="action-desc">参考 3 万点 AI 设计</div>
+            <a href="./project-intro.html" class="action-card">
+                <span class="action-icon">🚀</span>
+                <div class="action-title">项目详情</div>
+                <div class="action-desc">了解光储龙虾系统架构<br>22 个信息源 · 多语言支持</div>
             </a>
         </div>
         
-        <!-- Style Section -->
-        <div class="style-section">
-            <h2>🎨 设计风格</h2>
-            <p>
-                我们的日记页面完全参考 <strong>sanwan.ai (3 万点 AI)</strong> 的设计风格，
-                追求极简、专业、真实的记录方式。每一天都值得被认真记录。
-            </p>
+        <!-- Timeline Section -->
+        <div class="timeline-section">
+            <div class="section-header">
+                <span class="section-label">DEVELOPMENT TIMELINE</span>
+                <h2 class="section-title">开发历程</h2>
+                <p class="section-subtitle">每一天都值得被认真记录</p>
+            </div>
             
-            <div class="style-features">
-                <div class="feature">
-                    <span class="feature-icon">🎯</span>
-                    <div class="feature-title">极简设计</div>
-                    <div class="feature-desc">纯白背景 · 清晰层次</div>
+            <div class="timeline">
+                <!-- Day 4 - Current -->
+                <div class="timeline-item current">
+                    <div class="timeline-marker">🚀</div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2026-03-15 · 第 4 天</div>
+                        <h3 class="timeline-title">多语言命名与页面优化</h3>
+                        <p class="timeline-description">
+                            完成项目名称的多语言化升级，包括中文"光储龙虾"、英文"Solarbot"、日文"ソーラーロボ"、韩文"태양로봇"和西班牙文"Robot Solar"。
+                            全面优化日记首页，增加项目统计、开发历程时间线和成就展示。
+                        </p>
+                        <div class="timeline-features">
+                            <span class="timeline-feature">🌍 多语言支持</span>
+                            <span class="timeline-feature">📊 数据统计</span>
+                            <span class="timeline-feature">🎨 页面美化</span>
+                            <span class="timeline-feature">🔗 链接闭环</span>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="feature">
-                    <span class="feature-icon">📊</span>
-                    <div class="feature-title">数据可视化</div>
-                    <div class="feature-desc">Git 统计 · 代码变更</div>
+                <!-- Day 3 -->
+                <div class="timeline-item">
+                    <div class="timeline-marker">✅</div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2026-03-14 · 第 3 天</div>
+                        <h3 class="timeline-title">GitHub Pages 部署完善</h3>
+                        <p class="timeline-description">
+                            解决 GitHub Pages 部署问题，创建 build.sh 脚本自动构建部署目录。
+                            添加搜索页面、数据分析页面和 GitHub Skills 文档，完成所有页面的链接闭环验证。
+                        </p>
+                        <div class="timeline-features">
+                            <span class="timeline-feature">🔧 build.sh 脚本</span>
+                            <span class="timeline-feature">📄 搜索页面</span>
+                            <span class="timeline-feature">📊 数据分析</span>
+                            <span class="timeline-feature">📚 文档系统</span>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="feature">
-                    <span class="feature-icon">⏰</span>
-                    <div class="feature-title">时间线展示</div>
-                    <div class="feature-desc">从早到晚 · 完整记录</div>
+                <!-- Day 2 -->
+                <div class="timeline-item">
+                    <div class="timeline-marker">✅</div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2026-03-13 · 第 2 天</div>
+                        <h3 class="timeline-title">架构图与 Token 报告</h3>
+                        <p class="timeline-description">
+                            创建系统架构图页面，展示 5 层架构设计（数据源/采集/处理/存储/应用）。
+                            开发 AI 助手 Token 消耗报告页面，包含实时数据可视化和成本分析。
+                        </p>
+                        <div class="timeline-features">
+                            <span class="timeline-feature">🏗️ 架构图</span>
+                            <span class="timeline-feature">🤖 Token 报告</span>
+                            <span class="timeline-feature">📈 数据可视化</span>
+                            <span class="timeline-feature">💰 成本分析</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Day 1 -->
+                <div class="timeline-item">
+                    <div class="timeline-marker">✅</div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2026-03-12 · 第 1 天</div>
+                        <h3 class="timeline-title">日记系统正式上线</h3>
+                        <p class="timeline-description">
+                            参考 sanwan.ai 设计风格，开发完整的日记系统。
+                            包括自动生成脚本、多种风格模板（傅盛风格/3 万风格/可视化风格）、Git 统计集成等。
+                        </p>
+                        <div class="timeline-features">
+                            <span class="timeline-feature">📔 日记系统</span>
+                            <span class="timeline-feature">🎨 多种风格</span>
+                            <span class="timeline-feature">📊 Git 统计</span>
+                            <span class="timeline-feature">⏰ 时间线</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Day 0 -->
+                <div class="timeline-item">
+                    <div class="timeline-marker">🎯</div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2026-03-11 · 第 0 天</div>
+                        <h3 class="timeline-title">项目初始化</h3>
+                        <p class="timeline-description">
+                            光储龙虾项目正式启动，完成基础架构搭建。
+                            实现新闻抓取、FTS5 搜索索引、报告生成等核心功能，配置 SSH 认证和 GitHub Actions。
+                        </p>
+                        <div class="timeline-features">
+                            <span class="timeline-feature">🚀 项目启动</span>
+                            <span class="timeline-feature">🔐 SSH 配置</span>
+                            <span class="timeline-feature">📰 新闻抓取</span>
+                            <span class="timeline-feature">🔍 FTS5 搜索</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         
-        <!-- Links -->
-        <div class="links-section">
-            <a href="/">← 返回首页</a>
-            <a href="/project-intro.html">项目详情</a>
-            <a href="https://github.com/xuegangwu/guangchu" target="_blank">GitHub</a>
+        <!-- Achievements Section -->
+        <div class="achievements-section">
+            <div class="section-header">
+                <span class="section-label" style="background: rgba(255,255,255,0.2);">ACHIEVEMENTS</span>
+                <h2 class="section-title" style="color: white;">项目成就</h2>
+                <p class="section-subtitle" style="color: rgba(255,255,255,0.8);">5 天时间，从 0 到 1 的突破</p>
+            </div>
+            
+            <div class="achievements-grid">
+                <div class="achievement-card">
+                    <div class="achievement-icon">🌐</div>
+                    <div class="achievement-title">22 个信息源</div>
+                    <div class="achievement-desc">
+                        覆盖全球光伏 + 储能行业<br>
+                        新闻媒体/政府机构/行业协会/制造商
+                    </div>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="achievement-icon">🗣️</div>
+                    <div class="achievement-title">5 种语言</div>
+                    <div class="achievement-desc">
+                        中/英/日/韩/西班牙文<br>
+                        自动翻译 · 智能缓存
+                    </div>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="achievement-icon">⚡</div>
+                    <div class="achievement-title">100% 自动化</div>
+                    <div class="achievement-desc">
+                        GitHub Actions 自动部署<br>
+                        定时任务自动抓取更新
+                    </div>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="achievement-icon">🔍</div>
+                    <div class="achievement-title">FTS5 全文搜索</div>
+                    <div class="achievement-desc">
+                        < 50ms 搜索响应<br>
+                        布尔搜索 · 短语搜索 · 邻近搜索
+                    </div>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="achievement-icon">📊</div>
+                    <div class="achievement-title">数据可视化</div>
+                    <div class="achievement-desc">
+                        Chart.js 实时图表<br>
+                        Token 统计 · 成本分析 · ROI 计算
+                    </div>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="achievement-icon">📱</div>
+                    <div class="achievement-title">响应式设计</div>
+                    <div class="achievement-desc">
+                        手机/平板/桌面完美适配<br>
+                        Apple 风格美学
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>© 2026 光储龙虾 (Solarbot) - Solar-Storage News Collection & Analysis System</p>
+            <p style="margin-top: 8px; opacity: 0.8; font-size: 13px;">
+                光储龙虾 / Solarbot / ソーラーロボ / 태양로봇 / Robot Solar
+            </p>
+            <div class="footer-links">
+                <a href="https://xuegangwu.github.io/">← 返回个人主页</a>
+                <a href="./project-intro.html">项目详情</a>
+                <a href="./diary/index.html">完整日记</a>
+                <a href="https://github.com/xuegangwu/guangchu" target="_blank">GitHub</a>
+            </div>
         </div>
     </div>
 </body>
