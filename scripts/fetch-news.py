@@ -75,7 +75,7 @@ def fetch_rss(url: str, max_entries: int = 10, max_retries: int = 3) -> List[Dic
     for attempt in range(max_retries):
         try:
             logger.debug(f"抓取 RSS: {url} (尝试 {attempt + 1}/{max_retries})")
-            feed = feedparser.parse(url, timeout=30)
+            feed = feedparser.parse(url)
 
             if not feed.entries:
                 warning(f"RSS 源无内容：{url}")

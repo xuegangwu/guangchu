@@ -48,7 +48,7 @@ def generate_daily_report(date_str=None):
             for item in by_region[region][:5]:  # 每个区域最多 5 条
                 report.append(f"- [{item['type']}] {item['title']}")
                 report.append(f"  - {item['summary']}")
-                report.append(f"  - 来源：{item['source']} [链接]({item['link']})\n")
+                report.append(f"  - 来源：{item['source']} [链接]({item['url']})\n")
 
     report.append("\n---\n")
     report.append("## 📈 价格速递\n")
