@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>光储龙虾 - 高级搜索</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header {
+            text-align: center;
+            color: white;
+            padding: 60px 20px;
+            margin-bottom: 40px;
+        }
+        .header h1 { font-size: 40px; margin-bottom: 10px; }
+        .header p { font-size: 18px; opacity: 0.9; }
+        .search-box {
+            background: white;
+            border-radius: 18px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+        .search-input {
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .search-btn {
+            width: 100%;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .search-btn:hover {
+            transform: translateY(-2px);
+        }
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+        .filter-group label {
+            display: block;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 6px;
+        }
+        .filter-group select, .filter-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .results {
+            background: white;
+            border-radius: 18px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .result-item {
+            padding: 20px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .result-item:last-child { border-bottom: none; }
+        .result-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .result-title a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        .result-title a:hover { text-decoration: underline; }
+        .result-meta {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 10px;
+        }
+        .result-snippet {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+        }
+        .back-link:hover { background: rgba(255,255,255,0.3); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 高级搜索</h1>
+            <p>搜索全球光伏 + 储能行业信息</p>
+        </div>
+        
+        <div class="search-box">
+            <input type="text" class="search-input" id="searchInput" placeholder="输入关键词，例如：储能、光伏、电池...">
+            <button class="search-btn" onclick="performSearch()">🔍 搜索</button>
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <label>来源</label>
+                    <select id="sourceFilter">
+                        <option value="">全部来源</option>
+                        <option value="sina">新浪财经</option>
+                        <option value="eastmoney">东方财富</option>
+                        <option value="10000">万家财经</option>
+                        <option value="cnfol">中金在线</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>日期范围</label>
+                    <input type="date" id="dateFrom">
+                </div>
+                <div class="filter-group">
+                    <label>至</label>
+                    <input type="date" id="dateTo">
+                </div>
+                <div class="filter-group">
+                    <label>排序</label>
+                    <select id="sortFilter">
+                        <option value="relevance">相关度</option>
+                        <option value="date">日期 (最新)</option>
+                        <option value="date_asc">日期 (最早)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div class="results" id="results">
+            <div style="text-align: center; padding: 60px 20px; color: #999;">
+                <p style="font-size: 48px; margin-bottom: 20px;">🔍</p>
+                <p>输入关键词开始搜索</p>
+                <p style="font-size: 14px; margin-top: 10px;">支持全文搜索、高亮显示、多条件筛选</p>
+            </div>
+        </div>
+        
+        <a href="index.html" class="back-link">← 返回首页</a>
+    </div>
+    
+    <script>
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.trim();
+            if (!query) {
+                alert('请输入搜索关键词');
+                return;
+            }
+            
+            // 构建搜索 URL
+            const params = new URLSearchParams({ q: query });
+            const source = document.getElementById('sourceFilter').value;
+            if (source) params.append('source', source);
+            const dateFrom = document.getElementById('dateFrom').value;
+            if (dateFrom) params.append('from', dateFrom);
+            const dateTo = document.getElementById('dateTo').value;
+            if (dateTo) params.append('to', dateTo);
+            const sort = document.getElementById('sortFilter').value;
+            if (sort !== 'relevance') params.append('sort', sort);
+            
+            // 跳转到搜索结果页
+            window.location.href = 'search-results.html?' + params.toString();
+        }
+        
+        // 支持回车搜索
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') performSearch();
+        });
+        
+        // 检查 URL 参数
+        const urlParams = new URLSearchParams(window.location.search);
+        const query = urlParams.get('q');
+        if (query) {
+            document.getElementById('searchInput').value = query;
+            performSearch();
+        }
+    </script>
+</body>
+</html>
