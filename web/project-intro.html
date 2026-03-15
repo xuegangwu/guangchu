@@ -171,6 +171,47 @@
             background: rgba(255,255,255,0.3);
         }
         
+        /* Language Switcher */
+        .language-switcher {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+        
+        .lang-btn {
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.4);
+            border-radius: 980px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        
+        .lang-btn:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: white;
+        }
+        
+        .lang-btn.active {
+            background: white;
+            color: var(--primary-red);
+            border-color: white;
+        }
+        
+        /* Language Content */
+        .lang-content {
+            display: none;
+        }
+        
+        .lang-content.active {
+            display: block;
+        }
+        
         .btn-disabled {
             background: rgba(255,255,255,0.3);
             color: rgba(255,255,255,0.6);
@@ -543,11 +584,21 @@
         /* Responsive */
         @media (max-width: 768px) {
             .hero {
-                padding: 100px 20px 60px;
+                padding: 80px 20px 60px;
             }
             
             .hero-logo {
                 font-size: 60px;
+            }
+            
+            .language-switcher {
+                gap: 8px;
+                margin-bottom: 20px;
+            }
+            
+            .lang-btn {
+                padding: 6px 12px;
+                font-size: 13px;
             }
             
             .hero h1 {
@@ -704,6 +755,15 @@
         
         /* Extra Small Devices */
         @media (max-width: 375px) {
+            .language-switcher {
+                gap: 6px;
+            }
+            
+            .lang-btn {
+                padding: 5px 10px;
+                font-size: 12px;
+            }
+            
             .hero h1 {
                 font-size: 28px;
             }
@@ -752,21 +812,75 @@
     <!-- Hero -->
     <section class="hero">
         <div class="hero-logo">🦞</div>
-        <h1>光储龙虾 Solarbot</h1>
-        <p class="hero-subtitle">光储龙虾 / Solarbot / ソーラーロボ / 태양로봇 / Robot Solar</p>
-        <p class="hero-description">
-            全球光伏 + 储能行业信息收集与分析系统<br>
-            Guangchu - Solar-Storage News Collection & Analysis System<br>
-            光储ニュース収集・分析システム / 태양광 저장 뉴스 수집 및 분석 시스템
-        </p>
-        <div class="hero-actions">
-            <span class="btn btn-disabled" title="即将上线 · 敬请期待">
-                🔍 立即体验
-                <span class="coming-soon-badge">Coming Soon</span>
-            </span>
-            <a href="https://github.com/xuegangwu/guangchu" target="_blank" class="btn btn-secondary">
-                🔗 GitHub 仓库
-            </a>
+        
+        <!-- Language Switcher -->
+        <div class="language-switcher">
+            <button class="lang-btn active" onclick="switchLanguage('zh')" title="中文">
+                🇨🇳 中文
+            </button>
+            <button class="lang-btn" onclick="switchLanguage('en')" title="English">
+                🇬🇧 EN
+            </button>
+            <button class="lang-btn" onclick="switchLanguage('ja')" title="日本語">
+                🇯🇵 日本語
+            </button>
+        </div>
+        
+        <!-- Chinese Content -->
+        <div class="lang-content lang-zh active">
+            <h1>光储龙虾</h1>
+            <p class="hero-subtitle">光伏 + 储能行业信息收集与分析系统</p>
+            <p class="hero-description">
+                全球光伏 + 储能行业信息收集与分析系统<br>
+                支持 22 个信息源，多语言自动翻译，智能数据处理
+            </p>
+            <div class="hero-actions">
+                <span class="btn btn-disabled" title="即将上线 · 敬请期待">
+                    🔍 立即体验
+                    <span class="coming-soon-badge">Coming Soon</span>
+                </span>
+                <a href="https://github.com/xuegangwu/guangchu" target="_blank" class="btn btn-secondary">
+                    🔗 GitHub 仓库
+                </a>
+            </div>
+        </div>
+        
+        <!-- English Content -->
+        <div class="lang-content lang-en">
+            <h1>Solarbot</h1>
+            <p class="hero-subtitle">Solar-Storage News Collection & Analysis System</p>
+            <p class="hero-description">
+                Global solar and energy storage industry information collection and analysis system<br>
+                Supporting 22 information sources, multi-language auto translation, intelligent data processing
+            </p>
+            <div class="hero-actions">
+                <span class="btn btn-disabled" title="Coming Soon">
+                    🔍 Try Now
+                    <span class="coming-soon-badge">Coming Soon</span>
+                </span>
+                <a href="https://github.com/xuegangwu/guangchu" target="_blank" class="btn btn-secondary">
+                    🔗 GitHub Repository
+                </a>
+            </div>
+        </div>
+        
+        <!-- Japanese Content -->
+        <div class="lang-content lang-ja">
+            <h1>ソーラーロボ</h1>
+            <p class="hero-subtitle">太陽光・蓄電池ニュース収集・分析システム</p>
+            <p class="hero-description">
+                世界の太陽光発電およびエネルギー貯蔵業界の情報収集・分析システム<br>
+                22 の情報源、多言語自動翻訳、インテリジェントデータ処理をサポート
+            </p>
+            <div class="hero-actions">
+                <span class="btn btn-disabled" title="近日公開">
+                    🔍 今すぐ試す
+                    <span class="coming-soon-badge">Coming Soon</span>
+                </span>
+                <a href="https://github.com/xuegangwu/guangchu" target="_blank" class="btn btn-secondary">
+                    🔗 GitHub リポジトリ
+                </a>
+            </div>
         </div>
     </section>
 
@@ -1305,5 +1419,31 @@
             Powered by Python, Flask, SQLite FTS5
         </p>
     </footer>
+    
+    <script>
+        // Language Switcher Function
+        function switchLanguage(lang) {
+            // Remove active class from all buttons and contents
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelectorAll('.lang-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Add active class to selected language
+            document.querySelector(`.lang-btn[onclick="switchLanguage('${lang}')"]`).classList.add('active');
+            document.querySelector(`.lang-${lang}`).classList.add('active');
+            
+            // Save preference to localStorage
+            localStorage.setItem('preferred-lang', lang);
+        }
+        
+        // Load saved language preference on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('preferred-lang') || 'zh';
+            switchLanguage(savedLang);
+        });
+    </script>
 </body>
 </html>
