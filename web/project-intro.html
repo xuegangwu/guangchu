@@ -171,6 +171,30 @@
             background: rgba(255,255,255,0.3);
         }
         
+        .btn-disabled {
+            background: rgba(255,255,255,0.3);
+            color: rgba(255,255,255,0.6);
+            cursor: not-allowed;
+            position: relative;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .btn-disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .coming-soon-badge {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.8;
+        }
+        
         /* Section */
         .section {
             max-width: 1200px;
@@ -581,9 +605,10 @@
             光储ニュース収集・分析システム / 태양광 저장 뉴스 수집 및 분석 시스템
         </p>
         <div class="hero-actions">
-            <a href="http://localhost:5000" class="btn btn-primary">
+            <span class="btn btn-disabled" title="即将上线 · 敬请期待">
                 🔍 立即体验
-            </a>
+                <span class="coming-soon-badge">Coming Soon</span>
+            </span>
             <a href="https://github.com/xuegangwu/guangchu" target="_blank" class="btn btn-secondary">
                 🔗 GitHub 仓库
             </a>
