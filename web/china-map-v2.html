@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中国光储投资地图</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', Arial, sans-serif; }
+        .header { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { font-size: 20px; }
+        .header a { color: white; text-decoration: none; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 4px; }
+        
+        .settings-panel { background: white; padding: 20px; margin: 10px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .settings-title { font-weight: bold; margin-bottom: 12px; color: #333; }
+        .weight-row { display: flex; align-items: center; margin-bottom: 10px; }
+        .weight-label { width: 100px; font-size: 14px; }
+        .weight-slider { flex: 1; margin: 0 10px; }
+        .weight-value { width: 40px; text-align: right; font-size: 14px; color: #667eea; font-weight: bold; }
+        
+        .container { display: flex; height: calc(100vh - 180px); }
+        .sidebar { width: 380px; background: #f5f5f5; padding: 15px; overflow-y: auto; }
+        .map { flex: 1; }
+        #map { width: 100%; height: 100%; }
+        
+        .province-item { background: white; padding: 12px; margin-bottom: 8px; border-radius: 8px; cursor: pointer; border-left: 4px solid #667eea; }
+        .province-item:hover { background: #e8f0fe; }
+        .province-name { font-weight: bold; }
+        .province-score { color: #667eea; font-size: 14px; margin-top: 4px; }
+        .province-detail { font-size: 11px; color: #666; margin-top: 4px; }
+        
+        .grade-a { border-left-color: #52c41a; }
+        .grade-b { border-left-color: #1890ff; }
+        .grade-c { border-left-color: #faad14; }
+        .grade-d { border-left-color: #f5222d; }
+        
+        .stats { display: flex; gap: 10px; margin-bottom: 15px; }
+        .stat { background: white; padding: 10px; border-radius: 8px; text-align: center; flex: 1; }
+        .stat-value { font-size: 20px; font-weight: bold; color: #667eea; }
+        .stat-label { font-size: 12px; color: #666; }
+        
+        .recommend-badge { background: #52c41a; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 8px; }
+        
+        @media (max-width: 768px) {
+            .container { flex-direction: column; }
+            .sidebar { width: 100%; height: 45vh; }
+            .settings-panel { padding: 10px; }
+            .weight-label { width: 80px; font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌞 中国光储电站投资地图</h1>
+        <a href="/investment-map.html">← 返回</a>
+    </div>
+    
+    <div class="settings-panel">
+        <div class="settings-title">📊 参数权重配置</div>
+        <div class="weight-row">
+            <span class="weight-label">📈 资源禀赋</span>
+            <input type="range" class="weight-slider" id="weight-resource" min="0" max="100" value="30" oninput="updateWeights()">
+            <span class="weight-value" id="val-resource">30%</span>
+        </div>
+        <div class="weight-row">
+            <span class="weight-label">💰 电价水平</span>
+            <input type="range" class="weight-slider" id="weight-price" min="0" max="100" value="25" oninput="updateWeights()">
+            <span class="weight-value" id="val-price">25%</span>
+        </div>
+        <div class="weight-row">
+            <span class="weight-label">🏪 市场条件</span>
+            <input type="range" class="weight-slider" id="weight-market" min="0" max="100" value="25" oninput="updateWeights()">
+            <span class="weight-value" id="val-market">25%</span>
+        </div>
+        <div class="weight-row">
+            <span class="weight-label">🔌 电网条件</span>
+            <input type="range" class="weight-slider" id="weight-grid" min="0" max="100" value="20" oninput="updateWeights()">
+            <span class="weight-value" id="val-grid">20%</span>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="sidebar">
+            <div class="stats">
+                <div class="stat"><div class="stat-value" id="total">30</div><div class="stat-label">省份</div></div>
+                <div class="stat"><div class="stat-value" id="grade-a">0</div><div class="stat-label">A级</div></div>
+                <div class="stat"><div class="stat-value" id="grade-b">0</div><div class="stat-label">B级</div></div>
+            </div>
+            <h3>省份列表 <button onclick="recalculate()" style="float:right;font-size:12px;padding:4px 8px;cursor:pointer;">🔄 重算</button></h3>
+            <div id="province-list"></div>
+        </div>
+        <div class="map"><div id="map"></div></div>
+    </div>
+    
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // 省份数据 - 根据实际投资价值调整
+        // 核心经济区（江浙沪、珠三角、香港）评分最高
+        const rawData = [
+            {name: "上海", lat: 31.2304, lng: 121.4737, resource: 75, price: 95, market: 98, grid: 95, recommend: true},
+            {name: "江苏", lat: 32.0603, lng: 118.7969, resource: 80, price: 88, market: 92, grid: 90, recommend: true},
+            {name: "浙江", lat: 30.2741, lng: 120.1551, resource: 82, price: 86, market: 90, grid: 88, recommend: true},
+            {name: "广东", lat: 23.1291, lng: 113.2644, resource: 85, price: 90, market: 95, grid: 92, recommend: true},
+            {name: "香港", lat: 22.3193, lng: 114.1694, resource: 60, price: 98, market: 95, grid: 90, recommend: true},
+            
+            {name: "北京", lat: 39.9042, lng: 116.4074, resource: 60, price: 92, market: 88, grid: 75, recommend: false},
+            {name: "天津", lat: 39.3434, lng: 117.3616, resource: 65, price: 85, market: 80, grid: 78, recommend: false},
+            
+            {name: "安徽", lat: 31.8612, lng: 117.283, resource: 68, price: 75, market: 72, grid: 70, recommend: false},
+            {name: "福建", lat: 26.0745, lng: 119.2965, resource: 70, price: 78, market: 70, grid: 68, recommend: false},
+            {name: "江西", lat: 28.6829, lng: 115.8579, resource: 72, price: 68, market: 65, grid: 65, recommend: false},
+            {name: "山东", lat: 36.6512, lng: 117.1205, resource: 78, price: 75, market: 72, grid: 70, recommend: false},
+            
+            {name: "湖北", lat: 30.5928, lng: 114.3055, resource: 75, price: 70, market: 72, grid: 70, recommend: false},
+            {name: "湖南", lat: 28.2282, lng: 112.9388, resource: 70, price: 68, market: 65, grid: 65, recommend: false},
+            {name: "四川", lat: 30.5728, lng: 104.0668, resource: 78, price: 72, market: 75, grid: 78, recommend: false},
+            {name: "重庆", lat: 29.4316, lng: 106.9123, resource: 70, price: 65, market: 65, grid: 65, recommend: false},
+            
+            {name: "河南", lat: 34.7656, lng: 113.7535, resource: 80, price: 65, market: 68, grid: 75, recommend: false},
+            {name: "河北", lat: 38.0428, lng: 114.5149, resource: 82, price: 68, market: 70, grid: 72, recommend: false},
+            {name: "山西", lat: 37.8706, lng: 112.5489, resource: 85, price: 62, market: 60, grid: 65, recommend: false},
+            
+            {name: "辽宁", lat: 41.7968, lng: 123.4315, resource: 72, price: 70, market: 68, grid: 68, recommend: false},
+            {name: "吉林", lat: 43.8171, lng: 125.3235, resource: 75, price: 65, market: 65, grid: 68, recommend: false},
+            {name: "黑龙江", lat: 45.8038, lng: 126.535, resource: 80, price: 60, market: 60, grid: 65, recommend: false},
+            
+            {name: "新疆", lat: 43.793, lng: 87.6271, resource: 95, price: 35, market: 25, grid: 30, recommend: false},
+            {name: "甘肃", lat: 36.0611, lng: 103.8343, resource: 92, price: 32, market: 20, grid: 25, recommend: false},
+            {name: "内蒙古", lat: 40.8427, lng: 111.7499, resource: 90, price: 30, market: 18, grid: 22, recommend: false},
+            {name: "青海", lat: 36.6232, lng: 101.7782, resource: 88, price: 28, market: 15, grid: 20, recommend: false},
+            {name: "宁夏", lat: 38.468, lng: 106.2586, resource: 85, price: 30, market: 15, grid: 18, recommend: false},
+            
+            {name: "陕西", lat: 34.2658, lng: 108.9541, resource: 75, price: 60, market: 55, grid: 60, recommend: false},
+            {name: "云南", lat: 25.0453, lng: 102.7097, resource: 78, price: 55, market: 50, grid: 55, recommend: false},
+            {name: "贵州", lat: 26.598, lng: 106.7073, resource: 75, price: 50, market: 45, grid: 50, recommend: false},
+            {name: "广西", lat: 22.817, lng: 108.3665, resource: 72, price: 52, market: 48, grid: 52, recommend: false},
+            {name: "海南", lat: 20.0444, lng: 110.1999, resource: 85, price: 58, market: 45, grid: 42, recommend: false}
+        ];
+        
+        let provinces = [];
+        let weights = { resource: 30, price: 25, market: 25, grid: 20 };
+        const colors = { A: '#52c41a', B: '#1890ff', C: '#faad14', D: '#f5222d' };
+        
+        const map = L.map('map').setView([30, 110], 4);
+        
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+        
+        let markers = {};
+        
+        function calculateScore(p) {
+            return (p.resource * weights.resource / 100) + 
+                   (p.price * weights.price / 100) + 
+                   (p.market * weights.market / 100) + 
+                   (p.grid * weights.grid / 100);
+        }
+        
+        function getGrade(score) {
+            if (score >= 80) return 'A';
+            if (score >= 70) return 'B';
+            if (score >= 60) return 'C';
+            return 'D';
+        }
+        
+        function updateWeights() {
+            weights.resource = parseInt(document.getElementById('weight-resource').value);
+            weights.price = parseInt(document.getElementById('weight-price').value);
+            weights.market = parseInt(document.getElementById('weight-market').value);
+            weights.grid = parseInt(document.getElementById('weight-grid').value);
+            
+            document.getElementById('val-resource').textContent = weights.resource + '%';
+            document.getElementById('val-price').textContent = weights.price + '%';
+            document.getElementById('val-market').textContent = weights.market + '%';
+            document.getElementById('val-grid').textContent = weights.grid + '%';
+            
+            recalculate();
+        }
+        
+        function recalculate() {
+            provinces = rawData.map(p => ({
+                ...p,
+                score: calculateScore(p),
+                grade: getGrade(calculateScore(p))
+            }));
+            
+            provinces.sort((a, b) => b.score - a.score);
+            
+            Object.values(markers).forEach(m => map.removeLayer(m));
+            markers = {};
+            
+            provinces.forEach(p => {
+                const color = colors[p.grade];
+                const size = p.recommend ? 18 : (10 + (p.score / 100) * 12);
+                
+                const marker = L.circleMarker([p.lat, p.lng], {
+                    radius: size,
+                    fillColor: color,
+                    color: '#fff',
+                    weight: p.recommend ? 3 : 2,
+                    opacity: 1,
+                    fillOpacity: p.recommend ? 0.9 : 0.7
+                }).addTo(map);
+                
+                const recLabel = p.recommend ? '<br><span style="color:#52c41a;font-weight:bold;">⭐ 推荐投资</span>' : '';
+                marker.bindPopup(`<b>${p.name}</b>${recLabel}<br>综合评分: ${p.score.toFixed(1)}<br>等级: ${p.grade}级<hr>📈资源: ${p.resource} | 💰电价: ${p.price}<br>🏪市场: ${p.market} | 🔌电网: ${p.grid}`);
+                markers[p.name] = marker;
+            });
+            
+            const list = document.getElementById('province-list');
+            list.innerHTML = '';
+            provinces.forEach(p => {
+                const item = document.createElement('div');
+                item.className = 'province-item grade-' + p.grade.toLowerCase();
+                const recBadge = p.recommend ? '<span class="recommend-badge">⭐推荐</span>' : '';
+                item.innerHTML = `<div class="province-name">${p.name}${recBadge}</div><div class="province-score">评分: ${p.score.toFixed(1)} (${p.grade}级)</div><div class="province-detail">电价:${p.price} 市场:${p.market} 电网:${p.grid}</div>`;
+                item.onclick = () => {
+                    map.setView([p.lat, p.lng], p.recommend ? 7 : 6);
+                    markers[p.name].openPopup();
+                };
+                list.appendChild(item);
+            });
+            
+            document.getElementById('total').textContent = provinces.length;
+            document.getElementById('grade-a').textContent = provinces.filter(p => p.grade === 'A').length;
+            document.getElementById('grade-b').textContent = provinces.filter(p => p.grade === 'B').length;
+        }
+        
+        recalculate();
+    </script>
+</body>
+</html>

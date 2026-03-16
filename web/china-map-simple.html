@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中国光储投资地图</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', Arial, sans-serif; }
+        .header { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; text-align: center; }
+        .header h1 { font-size: 24px; margin-bottom: 8px; }
+        .container { display: flex; height: calc(100vh - 80px); }
+        .sidebar { width: 350px; background: #f5f5f5; padding: 15px; overflow-y: auto; }
+        .map { flex: 1; }
+        #map { width: 100%; height: 100%; }
+        .province-item { background: white; padding: 12px; margin-bottom: 8px; border-radius: 8px; cursor: pointer; border-left: 4px solid #667eea; }
+        .province-item:hover { background: #e8f0fe; }
+        .province-name { font-weight: bold; }
+        .province-score { color: #667eea; font-size: 14px; margin-top: 4px; }
+        .grade-a { border-left-color: #52c41a; }
+        .grade-b { border-left-color: #1890ff; }
+        .grade-c { border-left-color: #faad14; }
+        .grade-d { border-left-color: #f5222d; }
+        .stats { display: flex; gap: 10px; margin-bottom: 15px; }
+        .stat { background: white; padding: 10px; border-radius: 8px; text-align: center; flex: 1; }
+        .stat-value { font-size: 20px; font-weight: bold; color: #667eea; }
+        .stat-label { font-size: 12px; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌞 中国光储电站投资地图</h1>
+    </div>
+    <div class="container">
+        <div class="sidebar">
+            <div class="stats">
+                <div class="stat"><div class="stat-value" id="total">30</div><div class="stat-label">省份</div></div>
+                <div class="stat"><div class="stat-value" id="grade-a">5</div><div class="stat-label">A级</div></div>
+                <div class="stat"><div class="stat-value" id="grade-b">10</div><div class="stat-label">B级</div></div>
+            </div>
+            <h3>省份列表</h3>
+            <div id="province-list"></div>
+        </div>
+        <div class="map"><div id="map"></div></div>
+    </div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // 省份数据
+        const provinces = [
+            {name: "新疆", lat: 43.793, lng: 87.6271, score: 95, grade: "A"},
+            {name: "甘肃", lat: 36.0611, lng: 103.8343, score: 92, grade: "A"},
+            {name: "内蒙古", lat: 40.8427, lng: 111.7499, score: 90, grade: "A"},
+            {name: "青海", lat: 36.6232, lng: 101.7782, score: 88, grade: "A"},
+            {name: "宁夏", lat: 38.468, lng: 106.2586, score: 75, grade: "B"},
+            {name: "陕西", lat: 34.2658, lng: 108.9541, score: 72, grade: "B"},
+            {name: "山西", lat: 37.8706, lng: 112.5489, score: 70, grade: "B"},
+            {name: "河北", lat: 38.0428, lng: 114.5149, score: 76, grade: "B"},
+            {name: "山东", lat: 36.6512, lng: 117.1205, score: 72, grade: "B"},
+            {name: "江苏", lat: 32.0603, lng: 118.7969, score: 70, grade: "B"},
+            {name: "浙江", lat: 30.2741, lng: 120.1551, score: 68, grade: "B"},
+            {name: "广东", lat: 23.1291, lng: 113.2644, score: 72, grade: "B"},
+            {name: "四川", lat: 30.5728, lng: 104.0668, score: 78, grade: "B"},
+            {name: "湖北", lat: 30.5928, lng: 114.3055, score: 74, grade: "B"},
+            {name: "河南", lat: 34.7656, lng: 113.7535, score: 75, grade: "B"},
+            {name: "云南", lat: 25.0453, lng: 102.7097, score: 68, grade: "B"},
+            {name: "贵州", lat: 26.598, lng: 106.7073, score: 66, grade: "C"},
+            {name: "广西", lat: 22.817, lng: 108.3665, score: 65, grade: "C"},
+            {name: "湖南", lat: 28.2282, lng: 112.9388, score: 67, grade: "C"},
+            {name: "安徽", lat: 31.8612, lng: 117.283, score: 68, grade: "C"},
+            {name: "江西", lat: 28.6829, lng: 115.8579, score: 66, grade: "C"},
+            {name: "福建", lat: 26.0745, lng: 119.2965, score: 64, grade: "C"},
+            {name: "辽宁", lat: 41.7968, lng: 123.4315, score: 70, grade: "B"},
+            {name: "吉林", lat: 43.8171, lng: 125.3235, score: 72, grade: "B"},
+            {name: "黑龙江", lat: 45.8038, lng: 126.535, score: 74, grade: "B"},
+            {name: "海南", lat: 20.0444, lng: 110.1999, score: 62, grade: "C"},
+            {name: "天津", lat: 39.3434, lng: 117.3616, score: 68, grade: "B"},
+            {name: "重庆", lat: 29.4316, lng: 106.9123, score: 66, grade: "C"},
+            {name: "上海", lat: 31.2304, lng: 121.4737, score: 83, grade: "A"},
+            {name: "北京", lat: 39.9042, lng: 116.4074, score: 75, grade: "B"}
+        ];
+        
+        const colors = { A: '#52c41a', B: '#1890ff', C: '#faad14', D: '#f5222d' };
+        
+        // 初始化地图
+        const map = L.map('map').setView([35, 105], 4);
+        
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+        
+        // 添加标记
+        const markers = {};
+        provinces.forEach(p => {
+            const color = colors[p.grade];
+            const size = 10 + (p.score / 100) * 15;
+            
+            const marker = L.circleMarker([p.lat, p.lng], {
+                radius: size,
+                fillColor: color,
+                color: '#fff',
+                weight: 2,
+                opacity: 1,
+                fillOpacity: 0.8
+            }).addTo(map);
+            
+            marker.bindPopup(`<b>${p.name}</b><br>评分: ${p.score}<br>等级: ${p.grade}级`);
+            markers[p.name] = marker;
+        });
+        
+        // 渲染列表
+        const list = document.getElementById('province-list');
+        provinces.sort((a,b) => b.score - a.score).forEach(p => {
+            const item = document.createElement('div');
+            item.className = 'province-item grade-' + p.grade.toLowerCase();
+            item.innerHTML = `<div class="province-name">${p.name}</div><div class="province-score">评分: ${p.score} (${p.grade}级)</div>`;
+            item.onclick = () => {
+                map.setView([p.lat, p.lng], 8);
+                markers[p.name].openPopup();
+            };
+            list.appendChild(item);
+        });
+        
+        // 更新统计
+        document.getElementById('total').textContent = provinces.length;
+        document.getElementById('grade-a').textContent = provinces.filter(p => p.grade === 'A').length;
+        document.getElementById('grade-b').textContent = provinces.filter(p => p.grade === 'B').length;
+    </script>
+</body>
+</html>

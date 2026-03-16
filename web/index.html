@@ -1,263 +1,463 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head><link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦞</text></svg>">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>光储龙虾 - 全球光伏储能信息系统</title>
+    <title>光储投资地图 - 光储龙虾</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦞</text></svg>">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            font-family: 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif;
-            background: #fff;
-            color: #202124;
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #fff;
         }
         
-        .header {
+        nav {
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
             align-items: center;
-            padding: 16px 24px;
-            gap: 16px;
+            padding: 20px 60px;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
         }
         
-        .header a {
-            color: #202124;
+        .logo { font-size: 22px; font-weight: 600; }
+        
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 14px; }
+        .nav-links a:hover { color: #fff; }
+        
+        .hero {
+            text-align: center;
+            padding: 80px 20px 60px;
+        }
+        
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(90deg, #fff, #64b5f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            color: rgba(255,255,255,0.7);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+        
+        .section h2 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 40px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        
+        .card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 32px 24px;
+            text-align: center;
             text-decoration: none;
-            font-size: 13px;
+            color: #fff;
+            transition: all 0.3s ease;
         }
         
-        .header a:hover {
-            text-decoration: underline;
+        .card:hover {
+            transform: translateY(-8px);
+            background: linear-gradient(145deg, rgba(255,255,255,0.15), rgba(255,255,255,0.08));
+            border-color: rgba(255,255,255,0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
         
-        .main {
+        .card-icon { font-size: 48px; margin-bottom: 16px; display: block; }
+        .card-title { font-size: 22px; font-weight: 600; margin-bottom: 8px; }
+        .card-desc { font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 20px; }
+        
+        .card-stats { display: flex; justify-content: center; gap: 28px; }
+        .card-stat-value { font-size: 20px; font-weight: 600; color: #4fc3f7; }
+        .card-stat-label { font-size: 12px; color: rgba(255,255,255,0.5); }
+        
+        /* News Carousel */
+        .news-section {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+        
+        .news-header {
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
-            padding-top: 100px;
-            min-height: 60vh;
+            margin-bottom: 30px;
         }
         
-        .logo {
-            font-size: 72px;
-            margin-bottom: 24px;
+        .news-title {
+            font-size: 28px;
+            font-weight: 600;
         }
         
-        .logo-text {
-            font-size: 24px;
-            font-weight: 400;
-            color: #202124;
-            margin-bottom: 32px;
-        }
-        
-        .search-box {
-            width: 100%;
-            max-width: 584px;
-            margin-bottom: 24px;
-        }
-        
-        .search-input {
-            width: 100%;
-            padding: 16px 24px;
-            font-size: 16px;
-            border: 1px solid #dfe1e5;
-            border-radius: 24px;
-            outline: none;
-            transition: box-shadow 0.2s;
-        }
-        
-        .search-input:hover,
-        .search-input:focus {
-            box-shadow: 0 1px 6px rgba(32,33,36,0.28);
-            border-color: rgba(223,225,229,0);
-        }
-        
-        .buttons {
+        .news-nav {
             display: flex;
-            gap: 12px;
+            gap: 10px;
         }
         
-        .btn {
-            padding: 12px 24px;
-            background: #f8f9fa;
-            border: 1px solid #f8f9fa;
-            border-radius: 4px;
-            color: #3c4043;
-            font-size: 14px;
+        .news-nav button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.1);
+            color: #fff;
             cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s;
         }
         
-        .btn:hover {
-            background: #f8f9fa;
-            border-color: #dadce0;
-            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        .news-nav button:hover {
+            background: rgba(255,255,255,0.2);
         }
         
-        .quick-links {
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+        }
+        
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        
+        .news-card {
+            min-width: 100%;
+            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 30px;
             display: flex;
             gap: 24px;
-            margin-top: 48px;
         }
         
-        .quick-link {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            color: #202124;
-        }
-        
-        .quick-link-icon {
-            width: 48px;
-            height: 48px;
-            background: #f1f3f4;
-            border-radius: 50%;
+        .news-image {
+            width: 200px;
+            height: 140px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.1);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 48px;
+            flex-shrink: 0;
         }
         
-        .quick-link:hover .quick-link-icon {
-            background: #e8f0fe;
+        .news-content {
+            flex: 1;
+            text-align: left;
         }
         
-        .quick-link span {
-            font-size: 13px;
-        }
-        
-        .stats {
-            margin-top: 48px;
-            padding: 16px 24px;
-            background: #f1f3f4;
-            border-radius: 8px;
-            display: flex;
-            gap: 32px;
-        }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-value {
-            font-size: 24px;
-            font-weight: 500;
-            color: #1a73e8;
-        }
-        
-        .stat-label {
+        .news-source {
             font-size: 12px;
-            color: #5f6368;
+            color: #4fc3f7;
+            margin-bottom: 8px;
         }
         
-        .footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: #f2f2f2;
-            padding: 16px 24px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 14px;
-            color: #70757a;
+        .news-headline {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            line-height: 1.4;
         }
         
-        .footer a {
-            color: #70757a;
+        .news-headline a {
+            color: #fff;
             text-decoration: none;
         }
         
-        .footer a:hover {
+        .news-headline a:hover {
             text-decoration: underline;
+        }
+        
+        .news-meta {
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+        
+        .news-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+        
+        .news-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .news-dot.active {
+            background: #4fc3f7;
+            width: 24px;
+            border-radius: 4px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: rgba(255,255,255,0.4);
+            font-size: 14px;
+        }
+        
+        @media (max-width: 1000px) {
+            .grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        
+        @media (max-width: 768px) {
+            .news-card { flex-direction: column; }
+            .news-image { width: 100%; height: 120px; }
+        }
+        
+        @media (max-width: 600px) {
+            nav { padding: 16px 20px; flex-direction: column; gap: 12px; }
+            .hero h1 { font-size: 36px; }
+            .hero p { font-size: 15px; }
+            .grid { grid-template-columns: 1fr; }
+            .card { padding: 24px 16px; }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <a href="/diary.html">研发日记</a>
-        <a href="/project-intro.html">项目介绍</a>
-        <a href="/map-v1.0.html">投资地图</a>
-    </div>
+    <nav>
+        <div class="logo">🦞 光储龙虾</div>
+        <div class="nav-links">
+            <a href="/">首页</a>
+            <a href="/project-intro.html">项目介绍</a>
+            <a href="/diary.html">研发日记</a>
+        </div>
+    </nav>
     
-    <div class="main">
-        <div class="logo">🦞</div>
-        <div class="logo-text">光储龙虾</div>
-        
-        <div class="search-box">
-            <input type="text" class="search-input" placeholder="搜索全球光伏储能信息..." id="searchInput">
-        </div>
-        
-        <div class="buttons">
-            <button class="btn" onclick="search()">搜索</button>
-            <button class="btn" onclick="window.location.href='/diary.html'">研发日记</button>
-        </div>
-        
-        <div class="quick-links">
-            <a href="/project-intro.html" class="quick-link">
-                <div class="quick-link-icon">📊</div>
-                <span>项目介绍</span>
-            </a>
-            <a href="/diary.html" class="quick-link">
-                <div class="quick-link-icon">📝</div>
-                <span>研发日记</span>
-            </a>
-            <a href="/diary-list.html" class="quick-link">
-                <div class="quick-link-icon">📅</div>
-                <span>日记列表</span>
-            </a>
-            <a href="/investment-map.html" class="quick-link">
-                <div class="quick-link-icon">🗺️</div>
-                <span>投资地图</span>
-            </a>
-        </div>
-        
-        <div class="stats">
-            <div class="stat-item">
-                <div class="stat-value">20+</div>
-                <div class="stat-label">今日新闻</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">2</div>
-                <div class="stat-label">信息来源</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">2</div>
-                <div class="stat-label">覆盖区域</div>
-            </div>
-        </div>
-    </div>
+    <section class="hero">
+        <h1>光储投资地图</h1>
+        <p>基于资源禀赋、电价政策，市场条件、电网条件四大维度<br>智能评估全球光伏储能电站投资潜力</p>
+    </section>
     
-    <div class="footer">
-        <div>
-            <a href="#">关于</a>
-            <a href="#">隐私</a>
-            <a href="#">条款</a>
+    <section class="section">
+        <h2>选择目标区域</h2>
+        <div class="grid">
+            <a href="/china-map-v2.html" class="card">
+                <span class="card-icon">🇨🇳</span>
+                <div class="card-title">中国</div>
+                <div class="card-desc">30个省份投资潜力评估</div>
+                <div class="card-stats">
+                    <div><div class="card-stat-value">30</div><div class="card-stat-label">省份</div></div>
+                    <div><div class="card-stat-value">A</div><div class="card-stat-label">最高等级</div></div>
+                </div>
+            </a>
+            
+            <a href="/vietnam-map.html" class="card">
+                <span class="card-icon">🇻🇳</span>
+                <div class="card-title">越南</div>
+                <div class="card-desc">15个省份投资潜力评估</div>
+                <div class="card-stats">
+                    <div><div class="card-stat-value">15</div><div class="card-stat-label">省份</div></div>
+                    <div><div class="card-stat-value">A</div><div class="card-stat-label">最高等级</div></div>
+                </div>
+            </a>
+            
+            <a href="/japan-map.html" class="card">
+                <span class="card-icon">🇯🇵</span>
+                <div class="card-title">日本</div>
+                <div class="card-desc">47个都道府县投资评估</div>
+                <div class="card-stats">
+                    <div><div class="card-stat-value">47</div><div class="card-stat-label">都道府县</div></div>
+                    <div><div class="card-stat-value">B</div><div class="card-stat-label">最高等级</div></div>
+                </div>
+            </a>
+            
+            <a href="/europe-map-simple.html" class="card">
+                <span class="card-icon">🇪🇺</span>
+                <div class="card-title">欧洲</div>
+                <div class="card-desc">20+国家投资潜力评估</div>
+                <div class="card-stats">
+                    <div><div class="card-stat-value">20+</div><div class="card-stat-label">国家</div></div>
+                    <div><div class="card-stat-value">A</div><div class="card-stat-label">最高等级</div></div>
+                </div>
+            </a>
+            
+            <a href="/north-america-map.html" class="card">
+                <span class="card-icon">🌎</span>
+                <div class="card-title">北美洲</div>
+                <div class="card-desc">美国/加拿大/墨西哥投资评估</div>
+                <div class="card-stats">
+                    <div><div class="card-stat-value">10</div><div class="card-stat-label">国家/地区</div></div>
+                    <div><div class="card-stat-value">A</div><div class="card-stat-label">最高等级</div></div>
+                </div>
+            </a>
+            
+            <a href="/south-america-map.html" class="card">
+                <span class="card-icon">🌎</span>
+                <div class="card-title">南美洲</div>
+                <div class="card-desc">巴西/智利/阿根廷投资评估</div>
+                <div class="card-stats">
+                    <div><div class="card-stat-value">10</div><div class="card-stat-label">国家</div></div>
+                    <div><div class="card-stat-value">A</div><div class="card-stat-label">最高等级</div></div>
+                </div>
+            </a>
+            
+            <a href="/southeast-asia-map.html" class="card">
+                <span class="card-icon">🌏</span>
+                <div class="card-title">东南亚</div>
+                <div class="card-desc">越南/泰国/印尼投资评估</div>
+                <div class="card-stats">
+                    <div><div class="card-stat-value">10</div><div class="card-stat-label">国家</div></div>
+                    <div><div class="card-stat-value">A</div><div class="card-stat-label">最高等级</div></div>
+                </div>
+            </a>
+            
+            <a href="/middle-east-map.html" class="card">
+                <span class="card-icon">🏜️</span>
+                <div class="card-title">中东</div>
+                <div class="card-desc">沙特/阿联酋/以色列投资评估</div>
+                <div class="card-stats">
+                    <div><div class="card-stat-value">10</div><div class="card-stat-label">国家</div></div>
+                    <div><div class="card-stat-value">A</div><div class="card-stat-label">最高等级</div></div>
+                </div>
+            </a>
+            
+            <a href="/africa-map.html" class="card">
+                <span class="card-icon">🌍</span>
+                <div class="card-title">非洲</div>
+                <div class="card-desc">南非/摩洛哥/肯尼亚投资评估</div>
+                <div class="card-stats">
+                    <div><div class="card-stat-value">10</div><div class="card-stat-label">国家</div></div>
+                    <div><div class="card-stat-value">A</div><div class="card-stat-label">最高等级</div></div>
+                </div>
+            </a>
         </div>
-        <div>
-            © 2026 光储龙虾
+    </section>
+    
+    <!-- 新闻速递 -->
+    <section class="news-section">
+        <div class="news-header">
+            <h2 class="news-title">📰 光储龙虾新闻速递</h2>
+            <div class="news-nav">
+                <button onclick="prevSlide()">‹</button>
+                <button onclick="nextSlide()">›</button>
+            </div>
         </div>
-    </div>
+        
+        <div class="carousel-container">
+            <div class="carousel-track" id="carousel">
+                <!-- 新闻内容由JS动态加载 -->
+            </div>
+        </div>
+        
+        <div class="news-dots" id="dots"></div>
+    </section>
+    
+    <footer>
+        © 2026 光储龙虾 | 数据仅供参考，投资需谨慎
+    </footer>
     
     <script>
-        function search() {
-            const query = document.getElementById('searchInput').value;
-            if (query) {
-                window.location.href = '/search?q=' + encodeURIComponent(query);
-            }
+        let newsData = [];
+        let currentSlide = 0;
+        
+        // 从服务器获取新闻
+        fetch('/data/news.json')
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.length > 0) {
+                    newsData = data;
+                }
+                renderCarousel();
+            })
+            .catch(() => {
+                newsData = [{
+                    source: "光储龙虾",
+                    title: "暂无新闻",
+                    url: "#",
+                    date: new Date().toISOString().split('T')[0],
+                    emoji: "📰"
+                }];
+                renderCarousel();
+            });
+        
+        function renderCarousel() {
+            const track = document.getElementById('carousel');
+            const dotsContainer = document.getElementById('dots');
+            
+            // 渲染新闻卡片
+            track.innerHTML = newsData.map((news, index) => `
+                <div class="news-card">
+                    <div class="news-image">${news.emoji}</div>
+                    <div class="news-content">
+                        <div class="news-source">${news.source}</div>
+                        <h3 class="news-headline"><a href="${news.url}">${news.title}</a></h3>
+                        <div class="news-meta">${news.date}</div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // 渲染导航点
+            dotsContainer.innerHTML = newsData.map((_, index) => 
+                `<div class="news-dot ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></div>`
+            ).join('');
+            
+            updateCarousel();
         }
         
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                search();
-            }
-        });
+        function updateCarousel() {
+            const track = document.getElementById('carousel');
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            // 更新点
+            document.querySelectorAll('.news-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+        
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % newsData.length;
+            updateCarousel();
+        }
+        
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + newsData.length) % newsData.length;
+            updateCarousel();
+        }
+        
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+        }
+        
+        // 自动轮播
+        setInterval(nextSlide, 5000);
+        
+        // 初始化
+        renderCarousel();
     </script>
 </body>
 </html>

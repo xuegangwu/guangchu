@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中东光储投资地图</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦞</text></svg>">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', Arial, sans-serif; }
+        .header { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { font-size: 20px; margin: 0; }
+        .header a { color: white; text-decoration: none; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 4px; }
+        
+        .settings-panel { background: white; padding: 16px; margin: 10px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .weight-row { display: flex; align-items: center; margin-bottom: 8px; }
+        .weight-label { width: 100px; font-size: 13px; }
+        .weight-slider { flex: 1; margin: 0 10px; }
+        .weight-value { width: 40px; text-align: right; font-size: 13px; color: #667eea; font-weight: bold; }
+        
+        .container { display: flex; height: calc(100vh - 150px); }
+        .sidebar { width: 350px; background: #f5f5f5; padding: 15px; overflow-y: auto; }
+        .map { flex: 1; }
+        #map { width: 100%; height: 100%; }
+        
+        .province-item { background: white; padding: 10px; margin-bottom: 6px; border-radius: 6px; cursor: pointer; border-left: 4px solid #667eea; }
+        .province-item:hover { background: #e8f0fe; }
+        .province-name { font-weight: bold; font-size: 14px; }
+        .province-score { color: #667eea; font-size: 13px; margin-top: 2px; }
+        
+        .grade-a { border-left-color: #52c41a; }
+        .grade-b { border-left-color: #1890ff; }
+        .grade-c { border-left-color: #faad14; }
+        .grade-d { border-left-color: #f5222d; }
+        
+        .stats { display: flex; gap: 8px; margin-bottom: 12px; }
+        .stat { background: white; padding: 8px; border-radius: 6px; text-align: center; flex: 1; }
+        .stat-value { font-size: 18px; font-weight: bold; color: #667eea; }
+        .stat-label { font-size: 11px; color: #666; }
+        
+        @media (max-width: 768px) {
+            .container { flex-direction: column; }
+            .sidebar { width: 100%; height: 40vh; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏜️ 中东光储投资地图</h1>
+        <a href="/investment-map.html">← 返回首页</a>
+    </div>
+    
+    <div class="settings-panel">
+        <div class="weight-row">
+            <span class="weight-label">📈 资源禀赋</span>
+            <input type="range" class="weight-slider" id="weight-resource" min="0" max="100" value="30" oninput="updateWeights()">
+            <span class="weight-value" id="val-resource">30%</span>
+        </div>
+        <div class="weight-row">
+            <span class="weight-label">💰 电价水平</span>
+            <input type="range" class="weight-slider" id="weight-price" min="0" max="100" value="25" oninput="updateWeights()">
+            <span class="weight-value" id="val-price">25%</span>
+        </div>
+        <div class="weight-row">
+            <span class="weight-label">🏪 市场条件</span>
+            <input type="range" class="weight-slider" id="weight-market" min="0" max="100" value="25" oninput="updateWeights()">
+            <span class="weight-value" id="val-market">25%</span>
+        </div>
+        <div class="weight-row">
+            <span class="weight-label">🔌 电网条件</span>
+            <input type="range" class="weight-slider" id="weight-grid" min="0" max="100" value="20" oninput="updateWeights()">
+            <span class="weight-value" id="val-grid">20%</span>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="sidebar">
+            <div class="stats">
+                <div class="stat"><div class="stat-value" id="total">10</div><div class="stat-label">国家</div></div>
+                <div class="stat"><div class="stat-value" id="grade-a">0</div><div class="stat-label">A级</div></div>
+                <div class="stat"><div class="stat-value" id="grade-b">0</div><div class="stat-label">B级</div></div>
+            </div>
+            <h3>国家列表 <button onclick="recalculate()" style="float:right;font-size:11px;padding:4px 8px;cursor:pointer;">🔄</button></h3>
+            <div id="province-list"></div>
+        </div>
+        <div class="map"><div id="map"></div></div>
+    </div>
+    
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const rawData = [
+            {name: "沙特阿拉伯", lat: 23.8859, lng: 45.0792, resource: 98, price: 60, market: 75, grid: 70},
+            {name: "阿联酋", lat: 23.4241, lng: 53.8478, resource: 95, price: 85, market: 90, grid: 88},
+            {name: "以色列", lat: 31.0461, lng: 34.8516, resource: 88, price: 90, market: 85, grid: 82},
+            {name: "卡塔尔", lat: 25.3548, lng: 51.1839, resource: 92, price: 75, market: 70, grid: 72},
+            {name: "科威特", lat: 29.3117, lng: 47.4818, resource: 90, price: 55, market: 50, grid: 55},
+            {name: "阿曼", lat: 21.4735, lng: 55.9754, resource: 93, price: 60, market: 55, grid: 58},
+            {name: "巴林", lat: 26.0667, lng: 50.5577, resource: 85, price: 78, market: 65, grid: 70},
+            {name: "约旦", lat: 30.5852, lng: 36.2384, resource: 82, price: 72, market: 60, grid: 62},
+            {name: "埃及", lat: 26.8206, lng: 30.8025, resource: 90, price: 50, market: 55, grid: 50},
+            {name: "伊朗", lat: 32.4279, lng: 53.6880, resource: 92, price: 35, market: 40, grid: 38}
+        ];
+        
+        let provinces = [];
+        let weights = { resource: 30, price: 25, market: 25, grid: 20 };
+        const colors = { A: '#52c41a', B: '#1890ff', C: '#faad14', D: '#f5222d' };
+        
+        const map = L.map('map').setView([25, 50], 4);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {attribution: '© OpenStreetMap'}).addTo(map);
+        
+        let markers = {};
+        
+        function calculateScore(p) {
+            return (p.resource * weights.resource / 100) + (p.price * weights.price / 100) + (p.market * weights.market / 100) + (p.grid * weights.grid / 100);
+        }
+        
+        function getGrade(score) {
+            if (score >= 80) return 'A';
+            if (score >= 70) return 'B';
+            if (score >= 60) return 'C';
+            return 'D';
+        }
+        
+        function updateWeights() {
+            weights.resource = parseInt(document.getElementById('weight-resource').value);
+            weights.price = parseInt(document.getElementById('weight-price').value);
+            weights.market = parseInt(document.getElementById('weight-market').value);
+            weights.grid = parseInt(document.getElementById('weight-grid').value);
+            document.getElementById('val-resource').textContent = weights.resource + '%';
+            document.getElementById('val-price').textContent = weights.price + '%';
+            document.getElementById('val-market').textContent = weights.market + '%';
+            document.getElementById('val-grid').textContent = weights.grid + '%';
+            recalculate();
+        }
+        
+        function recalculate() {
+            provinces = rawData.map(p => ({...p, score: calculateScore(p), grade: getGrade(calculateScore(p))}));
+            provinces.sort((a, b) => b.score - a.score);
+            Object.values(markers).forEach(m => map.removeLayer(m));
+            markers = {};
+            
+            provinces.forEach(p => {
+                const color = colors[p.grade];
+                const marker = L.circleMarker([p.lat, p.lng], {
+                    radius: 10 + (p.score / 100) * 12,
+                    fillColor: color, color: '#fff', weight: 2, opacity: 1, fillOpacity: 0.8
+                }).addTo(map);
+                marker.bindPopup(`<b>${p.name}</b><br>评分: ${p.score.toFixed(1)}<br>等级: ${p.grade}级`);
+                markers[p.name] = marker;
+            });
+            
+            const list = document.getElementById('province-list');
+            list.innerHTML = '';
+            provinces.forEach(p => {
+                const item = document.createElement('div');
+                item.className = 'province-item grade-' + p.grade.toLowerCase();
+                item.innerHTML = `<div class="province-name">${p.name}</div><div class="province-score">评分: ${p.score.toFixed(1)} (${p.grade}级)</div>`;
+                item.onclick = () => { map.setView([p.lat, p.lng], 5); markers[p.name].openPopup(); };
+                list.appendChild(item);
+            });
+            
+            document.getElementById('total').textContent = provinces.length;
+            document.getElementById('grade-a').textContent = provinces.filter(p => p.grade === 'A').length;
+            document.getElementById('grade-b').textContent = provinces.filter(p => p.grade === 'B').length;
+        }
+        
+        recalculate();
+    </script>
+</body>
+</html>

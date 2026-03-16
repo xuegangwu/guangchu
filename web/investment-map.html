@@ -1,28 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head><link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦞</text></svg>">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>光储投资地图 - 光储龙虾</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦞</text></svg>">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        :root {
-            --primary: #1a73e8;
-            --secondary: #5f6368;
-            --success: #34a853;
-            --warning: #fbbc04;
-            --danger: #ea4335;
-            --gradient-start: #1e3c72;
-            --gradient-end: #2a5298;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif;
@@ -31,7 +18,6 @@
             color: #fff;
         }
         
-        /* 顶部导航 */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -39,49 +25,22 @@
             padding: 20px 60px;
             background: rgba(0,0,0,0.3);
             backdrop-filter: blur(20px);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
         }
         
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 22px;
-            font-weight: 600;
-        }
+        .logo { display: flex; align-items: center; gap: 12px; font-size: 22px; font-weight: 600; }
+        .logo-icon { font-size: 28px; }
         
-        .logo-icon {
-            font-size: 28px;
-        }
+        .nav-links { display: flex; gap: 32px; }
+        .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 15px; }
+        .nav-links a:hover { color: #fff; }
         
-        .nav-links {
-            display: flex;
-            gap: 32px;
-        }
-        
-        .nav-links a {
-            color: rgba(255,255,255,0.8);
-            text-decoration: none;
-            font-size: 15px;
-            transition: color 0.3s;
-        }
-        
-        .nav-links a:hover {
-            color: #fff;
-        }
-        
-        /* 主内容 */
         .hero {
-            min-height: 100vh;
+            min-height: auto;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 120px 20px 60px;
+            padding: 30px 20px;
             text-align: center;
         }
         
@@ -93,310 +52,89 @@
             background: rgba(255,255,255,0.1);
             border-radius: 50px;
             font-size: 14px;
-            margin-bottom: 32px;
+            margin-bottom: 16px;
             border: 1px solid rgba(255,255,255,0.2);
         }
         
         .hero-title {
-            font-size: 56px;
+            font-size: 36px;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             background: linear-gradient(135deg, #fff 0%, #a8c0ff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
         
         .hero-subtitle {
-            font-size: 20px;
+            font-size: 16px;
             color: rgba(255,255,255,0.7);
             max-width: 600px;
             line-height: 1.6;
-            margin-bottom: 48px;
         }
         
-        /* 地图卡片网格 */
-        .maps-section {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 40px 20px 80px;
-        }
+        .maps-section { max-width: 1200px; margin: 0 auto; padding: 20px 16px 40px; }
         
         .section-title {
             text-align: center;
-            font-size: 32px;
+            font-size: 22px;
             font-weight: 600;
-            margin-bottom: 48px;
+            margin-bottom: 24px;
         }
         
         .maps-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
         }
         
         .map-card {
             background: rgba(255,255,255,0.08);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 32px 24px;
+            border-radius: 16px;
+            padding: 20px 16px;
             text-align: center;
             text-decoration: none;
             color: inherit;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .map-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--success));
-            transform: scaleX(0);
-            transition: transform 0.3s;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         
         .map-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-4px);
             background: rgba(255,255,255,0.12);
             border-color: rgba(255,255,255,0.2);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
         }
         
-        .map-card:hover::before {
-            transform: scaleX(1);
-        }
+        .map-flag { font-size: 40px; margin-bottom: 8px; display: block; }
+        .map-name { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+        .map-desc { font-size: 12px; color: rgba(255,255,255,0.6); margin-bottom: 12px; }
         
-        .map-flag {
-            font-size: 56px;
-            margin-bottom: 16px;
-            display: block;
-        }
+        .map-meta { display: flex; justify-content: center; gap: 20px; width: 100%; }
+        .meta-item { text-align: center; }
+        .meta-value { font-size: 14px; font-weight: 600; color: #34a853; }
+        .meta-label { font-size: 10px; color: rgba(255,255,255,0.5); }
         
-        .map-name {
-            font-size: 22px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        
-        .map-desc {
-            font-size: 14px;
-            color: rgba(255,255,255,0.6);
-            margin-bottom: 20px;
-        }
-        
-        .map-meta {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-        }
-        
-        .meta-item {
-            text-align: center;
-        }
-        
-        .meta-value {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--success);
-        }
-        
-        .meta-label {
-            font-size: 12px;
-            color: rgba(255,255,255,0.5);
-        }
-        
-        /* 特色功能 */
-        .features-section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 60px 20px;
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
-        }
-        
-        .feature-card {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 16px;
-            padding: 28px;
-            text-align: center;
-            transition: all 0.3s;
-        }
-        
-        .feature-card:hover {
-            background: rgba(255,255,255,0.1);
-            transform: translateY(-4px);
-        }
-        
-        .feature-icon {
-            font-size: 40px;
-            margin-bottom: 16px;
-        }
-        
-        .feature-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        
-        .feature-desc {
-            font-size: 13px;
-            color: rgba(255,255,255,0.6);
-            line-height: 1.5;
-        }
-        
-        /* 评分说明 */
-        .rating-section {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 60px 20px;
-        }
-        
-        .rating-cards {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-        
-        .rating-card {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 16px 24px;
-            background: rgba(255,255,255,0.08);
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .rating-grade {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            font-weight: 700;
-        }
-        
-        .rating-a { background: #d4edda; color: #155724; }
-        .rating-b { background: #cce5ff; color: #004085; }
-        .rating-c { background: #fff3cd; color: #856404; }
-        .rating-d { background: #f8d7da; color: #721c24; }
-        
-        .rating-info h4 {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-        
-        .rating-info p {
-            font-size: 13px;
-            color: rgba(255,255,255,0.6);
-        }
-        
-        /* 页脚 */
         .footer {
             text-align: center;
-            padding: 40px;
+            padding: 30px;
             color: rgba(255,255,255,0.4);
             font-size: 14px;
-            border-top: 1px solid rgba(255,255,255,0.1);
         }
         
-        /* 响应式 */
-        @media (max-width: 1200px) {
-            .maps-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        @media (max-width: 900px) {
+            .maps-grid { grid-template-columns: repeat(2, 1fr); }
         }
         
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 16px 20px;
-            }
-            .nav-links {
-                display: none;
-            }
-            .hero-title {
-                font-size: 36px;
-            }
-            .hero-subtitle {
-                font-size: 16px;
-            }
-            .maps-grid {
-                grid-template-columns: 1fr;
-            }
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        /* 背景装饰 */
-        .bg-decoration {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: -1;
-        }
-        
-        .bg-circle {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.3;
-        }
-        
-        .bg-circle-1 {
-            width: 400px;
-            height: 400px;
-            background: var(--primary);
-            top: 10%;
-            left: -100px;
-        }
-        
-        .bg-circle-2 {
-            width: 300px;
-            height: 300px;
-            background: var(--success);
-            bottom: 20%;
-            right: -50px;
-        }
-        
-        .bg-circle-3 {
-            width: 250px;
-            height: 250px;
-            background: var(--warning);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        @media (max-width: 600px) {
+            .navbar { padding: 16px 20px; flex-direction: column; gap: 12px; }
+            .hero-title { font-size: 28px; }
+            .maps-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <div class="bg-decoration">
-        <div class="bg-circle bg-circle-1"></div>
-        <div class="bg-circle bg-circle-2"></div>
-        <div class="bg-circle bg-circle-3"></div>
-    </div>
-    
     <nav class="navbar">
         <div class="logo">
             <span class="logo-icon">🦞</span>
@@ -406,37 +144,25 @@
             <a href="/">首页</a>
             <a href="/project-intro.html">项目介绍</a>
             <a href="/diary.html">研发日记</a>
-            <a href="/map-v1.0.html">投资地图</a>
         </div>
     </nav>
     
     <section class="hero">
-        <div class="hero-badge">
-            🌟 全球光储投资评估系统
-        </div>
+        <div class="hero-badge">🌟 全球光储投资评估系统</div>
         <h1 class="hero-title">光储投资地图</h1>
-        <p class="hero-subtitle">
-            基于资源禀赋、电价政策、市场条件、电网条件四大维度<br>
-            智能评估全球光伏储能电站投资潜力
-        </p>
+        <p class="hero-subtitle">基于资源禀赋、电价政策、市场条件、电网条件四大维度<br>智能评估全球光伏储能电站投资潜力</p>
     </section>
     
     <section class="maps-section">
-        <h2 class="section-title">选择目标国家</h2>
+        <h2 class="section-title">选择目标国家/地区</h2>
         <div class="maps-grid">
-            <a href="/map-v1.0.html" class="map-card">
+            <a href="/china-map-v2.html" class="map-card">
                 <span class="map-flag">🇨🇳</span>
                 <div class="map-name">中国</div>
                 <div class="map-desc">30个省份投资潜力评估</div>
                 <div class="map-meta">
-                    <div class="meta-item">
-                        <div class="meta-value">30</div>
-                        <div class="meta-label">省份</div>
-                    </div>
-                    <div class="meta-item">
-                        <div class="meta-value">A</div>
-                        <div class="meta-label">最高等级</div>
-                    </div>
+                    <div class="meta-item"><div class="meta-value">30</div><div class="meta-label">省份</div></div>
+                    <div class="meta-item"><div class="meta-value">A</div><div class="meta-label">最高等级</div></div>
                 </div>
             </a>
             
@@ -445,14 +171,8 @@
                 <div class="map-name">越南</div>
                 <div class="map-desc">15个省份投资潜力评估</div>
                 <div class="map-meta">
-                    <div class="meta-item">
-                        <div class="meta-value">15</div>
-                        <div class="meta-label">省份</div>
-                    </div>
-                    <div class="meta-item">
-                        <div class="meta-value">A</div>
-                        <div class="meta-label">最高等级</div>
-                    </div>
+                    <div class="meta-item"><div class="meta-value">15</div><div class="meta-label">省份</div></div>
+                    <div class="meta-item"><div class="meta-value">A</div><div class="meta-label">最高等级</div></div>
                 </div>
             </a>
             
@@ -461,92 +181,70 @@
                 <div class="map-name">日本</div>
                 <div class="map-desc">47个都道府县投资评估</div>
                 <div class="map-meta">
-                    <div class="meta-item">
-                        <div class="meta-value">47</div>
-                        <div class="meta-label">都道府县</div>
-                    </div>
-                    <div class="meta-item">
-                        <div class="meta-value">B</div>
-                        <div class="meta-label">最高等级</div>
-                    </div>
+                    <div class="meta-item"><div class="meta-value">47</div><div class="meta-label">都道府县</div></div>
+                    <div class="meta-item"><div class="meta-value">B</div><div class="meta-label">最高等级</div></div>
                 </div>
             </a>
             
-            <a href="/europe-map.html" class="map-card">
+            <a href="/europe-map-simple.html" class="map-card">
                 <span class="map-flag">🇪🇺</span>
                 <div class="map-name">欧洲</div>
-                <div class="map-desc">20+国家投资潜力评估</div>
+                <div class="map-desc">20国投资潜力评估</div>
                 <div class="map-meta">
-                    <div class="meta-item">
-                        <div class="meta-value">20+</div>
-                        <div class="meta-label">国家</div>
-                    </div>
-                    <div class="meta-item">
-                        <div class="meta-value">A</div>
-                        <div class="meta-label">最高等级</div>
-                    </div>
+                    <div class="meta-item"><div class="meta-value">20+</div><div class="meta-label">国家</div></div>
+                    <div class="meta-item"><div class="meta-value">A</div><div class="meta-label">最高等级</div></div>
                 </div>
             </a>
-        </div>
-    </section>
-    
-    <section class="features-section">
-        <h2 class="section-title">核心功能</h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">📊</div>
-                <div class="feature-title">多维度评估</div>
-                <div class="feature-desc">资源禀赋、电价政策、市场条件、电网条件综合评分</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🎯</div>
-                <div class="feature-title">智能分级</div>
-                <div class="feature-desc">A/B/C/D四级投资建议，精准定位优质项目</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">⚙️</div>
-                <a href="/config.html" style="text-decoration:none;color:inherit;"><div class="feature-title">参数配置</div></a>
-                <div class="feature-desc">灵活调整各维度权重，生成个性化评估报告</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📱</div>
-                <div class="feature-title">移动适配</div>
-                <div class="feature-desc">手机、平板、桌面端完美适配，随时随地查看</div>
-            </div>
-        </div>
-    </section>
-    
-    <section class="rating-section">
-        <h2 class="section-title">投资等级说明</h2>
-        <div class="rating-cards">
-            <div class="rating-card">
-                <div class="rating-grade rating-a">A</div>
-                <div class="rating-info">
-                    <h4>≥80 分</h4>
-                    <p>优先投资</p>
+            
+            <a href="/north-america-map.html" class="map-card">
+                <span class="map-flag">🌎</span>
+                <div class="map-name">北美洲</div>
+                <div class="map-desc">美国/加拿大/墨西哥投资评估</div>
+                <div class="map-meta">
+                    <div class="meta-item"><div class="meta-value">10</div><div class="meta-label">国家/地区</div></div>
+                    <div class="meta-item"><div class="meta-value">A</div><div class="meta-label">最高等级</div></div>
                 </div>
-            </div>
-            <div class="rating-card">
-                <div class="rating-grade rating-b">B</div>
-                <div class="rating-info">
-                    <h4>70-79 分</h4>
-                    <p>推荐投资</p>
+            </a>
+            
+            <a href="/south-america-map.html" class="map-card">
+                <span class="map-flag">🌎</span>
+                <div class="map-name">南美洲</div>
+                <div class="map-desc">巴西/智利/阿根廷投资评估</div>
+                <div class="map-meta">
+                    <div class="meta-item"><div class="meta-value">10</div><div class="meta-label">国家</div></div>
+                    <div class="meta-item"><div class="meta-value">A</div><div class="meta-label">最高等级</div></div>
                 </div>
-            </div>
-            <div class="rating-card">
-                <div class="rating-grade rating-c">C</div>
-                <div class="rating-info">
-                    <h4>60-69 分</h4>
-                    <p>谨慎投资</p>
+            </a>
+            
+            <a href="/southeast-asia-map.html" class="map-card">
+                <span class="map-flag">🌏</span>
+                <div class="map-name">东南亚</div>
+                <div class="map-desc">越南/泰国/印尼投资评估</div>
+                <div class="map-meta">
+                    <div class="meta-item"><div class="meta-value">10</div><div class="meta-label">国家</div></div>
+                    <div class="meta-item"><div class="meta-value">A</div><div class="meta-label">最高等级</div></div>
                 </div>
-            </div>
-            <div class="rating-card">
-                <div class="rating-grade rating-d">D</div>
-                <div class="rating-info">
-                    <h4>&lt;60 分</h4>
-                    <p>暂不建议</p>
+            </a>
+            
+            <a href="/middle-east-map.html" class="map-card">
+                <span class="map-flag">🏜️</span>
+                <div class="map-name">中东</div>
+                <div class="map-desc">沙特/阿联酋/以色列投资评估</div>
+                <div class="map-meta">
+                    <div class="meta-item"><div class="meta-value">10</div><div class="meta-label">国家</div></div>
+                    <div class="meta-item"><div class="meta-value">A</div><div class="meta-label">最高等级</div></div>
                 </div>
-            </div>
+            </a>
+            
+            <a href="/africa-map.html" class="map-card">
+                <span class="map-flag">🌍</span>
+                <div class="map-name">非洲</div>
+                <div class="map-desc">南非/摩洛哥/肯尼亚投资评估</div>
+                <div class="map-meta">
+                    <div class="meta-item"><div class="meta-value">10</div><div class="meta-label">国家</div></div>
+                    <div class="meta-item"><div class="meta-value">A</div><div class="meta-label">最高等级</div></div>
+                </div>
+            </a>
         </div>
     </section>
     
