@@ -360,6 +360,30 @@
         </div>
     </section>
     
+    <!-- 每日头条 -->
+    <section class="headline-section" style="max-width:1000px;margin:0 auto;padding:40px 20px;">
+        <h2 class="section-title" style="text-align:center;font-size:28px;margin-bottom:24px;">📢 今日光储头条</h2>
+        <div id="headline-card" style="background:linear-gradient(135deg,rgba(102,126,234,0.2),rgba(118,75,162,0.2));border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:30px;cursor:pointer;transition:all 0.3s;" onclick="window.open(headlineData.url,'_blank')">
+            <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
+                <span id="headline-emoji" style="font-size:48px;">🔋</span>
+                <div>
+                    <span id="headline-source" style="font-size:14px;color:#4fc3f7;">Energy Storage News</span>
+                    <span style="color:rgba(255,255,255,0.5);margin:0 8px;">|</span>
+                    <span id="headline-date" style="font-size:12px;color:rgba(255,255,255,0.5);">2026-03-16</span>
+                </div>
+            </div>
+            <h3 id="headline-title" style="font-size:22px;font-weight:600;margin-bottom:12px;line-height:1.4;">Loading...</h3>
+            <p id="headline-summary" style="font-size:15px;color:rgba(255,255,255,0.7);line-height:1.6;margin:0;">正在加载今日头条...</p>
+        </div>
+    </section>
+    
+    <script>
+    let headlineData = {emoji:"📰",title:"",url:"#",source:"",date:"",summary:""};
+    fetch('/data/headline.json').then(r=>r.json()).then(d=>{headlineData=d;document.getElementById('headline-emoji').textContent=d.emoji||"📰";document.getElementById('headline-source').textContent=d.source||"";document.getElementById('headline-title').textContent=d.title||"暂无头条";document.getElementById('headline-summary').textContent=d.summary||"";try{document.getElementById('headline-date').textContent=new Date(d.date).toLocaleDateString('zh-CN');}catch{}});
+    document.getElementById('headline-card').onmouseover=function(){this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,0.3)';};
+    document.getElementById('headline-card').onmouseout=function(){this.style.transform='translateY(0)';this.style.boxShadow='none';};
+    </script>
+
     <!-- 新闻速递 -->
     <section class="news-section">
         <div class="news-header">
