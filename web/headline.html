@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今日光储头条 - 光储龙虾</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦞</text></svg>">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans SC', -apple-system, sans-serif; background: linear-gradient(135deg, #1a1a2e, #16213e); min-height: 100vh; color: #fff; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; background: rgba(0,0,0,0.3); }
+        .logo { font-size: 20px; font-weight: 600; }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 14px; }
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        .headline-card { background: linear-gradient(135deg, rgba(102,126,234,0.15), rgba(118,75,162,0.15)); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 40px; margin-bottom: 30px; }
+        .headline-emoji { font-size: 64px; text-align: center; margin-bottom: 20px; }
+        .headline-meta { text-align: center; margin-bottom: 24px; color: rgba(255,255,255,0.6); font-size: 14px; }
+        .headline-meta span { margin: 0 10px; }
+        .headline-source { color: #4fc3f7; }
+        .headline-section { margin-bottom: 30px; }
+        .headline-section h3 { font-size: 16px; color: rgba(255,255,255,0.5); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .headline-title { font-size: 26px; font-weight: 600; line-height: 1.5; margin-bottom: 20px; }
+        .headline-summary { font-size: 16px; line-height: 1.8; color: rgba(255,255,255,0.8); }
+        .headline-en { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+        .headline-zh { background: rgba(79,195,247,0.1); border-radius: 12px; padding: 20px; border-left: 3px solid #4fc3f7; }
+        .label-en { font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
+        .label-zh { font-size: 12px; color: #4fc3f7; margin-bottom: 8px; }
+        .read-more { display: block; text-align: center; margin-top: 30px; }
+        .read-more a { display: inline-block; padding: 14px 40px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; text-decoration: none; border-radius: 50px; font-weight: 600; transition: all 0.3s; }
+        .read-more a:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(102,126,234,0.4); }
+        .back-link { display: inline-block; color: rgba(255,255,255,0.7); text-decoration: none; margin-bottom: 20px; }
+        .loading { text-align: center; padding: 60px; color: rgba(255,255,255,0.5); }
+        @media (max-width: 600px) { .headline-card { padding: 24px; } .headline-title { font-size: 20px; } .headline-emoji { font-size: 48px; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">🦞 光储龙虾</div>
+        <div class="nav-links">
+            <a href="/">首页</a>
+            <a href="/project-intro.html">项目介绍</a>
+            <a href="/diary.html">研发日记</a>
+        </div>
+    </nav>
+    <div class="container">
+        <a href="/" class="back-link">← 返回首页</a>
+        <div id="content" class="loading">正在加载头条...</div>
+    </div>
+    <script>
+    fetch('/data/headline.json').then(r=>r.json()).then(d=>{
+        const html = '<div class="headline-card"><div class="headline-emoji">'+(d.emoji||'📰')+'</div><div class="headline-meta"><span class="headline-source">'+(d.source||'')+'</span><span>|</span><span>'+new Date(d.date).toLocaleDateString('zh-CN')+'</span><span>|</span><span>评分: '+(d.score||'-')+'</span></div><div class="headline-section"><h3>📌 中文标题</h3><div class="headline-zh"><div class="label-zh">中文</div><div class="headline-title">'+(d.title_zh||d.title_en||'')+'</div><div class="headline-summary">'+(d.summary_zh||'')+'</div></div></div><div class="headline-section"><h3>EN English Title</h3><div class="headline-en"><div class="label-en">English</div><div class="headline-title">'+(d.title_en||'')+'</div><div class="headline-summary">'+(d.summary_en||'')+'</div></div></div><div class="read-more"><a href="'+(d.url||'#')+'" target="_blank">🔗 阅读原文</a></div></div>';
+        document.getElementById('content').innerHTML = html;
+        document.title = (d.title_zh||'今日光储头条') + ' - 光储龙虾';
+    }).catch(e=>{ document.getElementById('content').innerHTML = '<p style="text-align:center;padding:60px;">暂无头条数据</p>'; });
+    </script>
+</body>
+</html>

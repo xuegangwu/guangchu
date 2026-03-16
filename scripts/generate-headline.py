@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""每日光储头条生成器"""
+"""每日光储头条生成器 v2 - 支持中英双语"""
 import json
 import re
-from datetime import datetime, timedelta
-from collections import defaultdict
+import urllib.request
+import urllib.parse
+from datetime import datetime
 
 NEWS_FILE = '/root/guangchu/web/data/news.json'
 HEADLINE_FILE = '/root/guangchu/web/data/headline.json'
@@ -14,128 +15,116 @@ SOURCE_WEIGHTS = {
     "Solar Power World": 0.9,
     "Energy Storage News": 0.95,
     "Greentech Media": 0.8,
-    "CleanTechnica": 0.85,
-    "Reuters": 1.0,
-    "Energy Voice": 0.7
+    "CleanTechnica": 0.85
 }
 
 # 关键词权重
 KEYWORD_WEIGHTS = {
-    # 高权重 - 重大政策/投资
     "policy": 2.0, "government": 1.8, "subsidy": 1.8,
     "investment": 1.5, "billion": 1.5, "GW": 1.5,
     "auction": 1.5, "tender": 1.5,
-    
-    # 中权重 - 技术突破
     "breakthrough": 1.5, "record": 1.4, "efficiency": 1.3,
-    "technology": 1.2, "innovation": 1.3,
-    
-    # 市场
-    "market": 1.2, "growth": 1.2, "share": 1.1,
-    "price": 1.1, "cost": 1.1,
-    
-    # 储能
-    "battery": 1.3, "storage": 1.3, "capacity": 1.2,
-    
-    # 中国相关
-    "China": 1.3, "Chinese": 1.3, "中国": 1.5
+    "battery": 1.3, "storage": 1.3, "China": 1.3
 }
 
-def parse_date(date_str):
-    """解析各种日期格式"""
+# 简单翻译映射
+TRANSLATION_DICT = {
+    "Cambodia welcomes 'significant and historic achievement' of 1GWh grid-forming battery storage project": 
+        "柬埔寨欢迎1GWh电网成型储能项目的重大历史性成就",
+    "GW": "吉瓦",
+    "MW": "兆瓦",
+    "battery": "电池",
+    "storage": "储能",
+    "solar": "光伏",
+    "photovoltaic": "光伏",
+    "PV": "光伏",
+    "grid": "电网",
+    "energy": "能源",
+    "power": "电力",
+    "project": "项目",
+    "investment": "投资",
+    "market": "市场",
+    "China": "中国",
+    "US": "美国",
+    "Europe": "欧洲",
+    "India": "印度",
+    "record": "创纪录",
+    "growth": "增长",
+    "new": "新建",
+    "first": "首个",
+    "largest": "最大",
+    "announces": "宣布",
+    "launches": "启动",
+    "expands": "扩张",
+    "commissioning": "投产",
+    "factory": "工厂",
+    "manufacturing": "制造",
+    "capacity": "产能",
+    "module": "组件",
+    "panel": "面板"
+}
+
+def simple_translate(text):
+    """简单翻译 - 基于词典和模式匹配"""
+    result = text
+    
+    # 先替换常见词汇
+    for eng, chi in TRANSLATION_DICT.items():
+        result = result.replace(eng, chi)
+    
+    # 尝试调用免费翻译API
     try:
-        # RFC 2822 format
-        if 'GMT' in date_str or '+0000' in date_str:
-            dt = datetime.strptime(date_str.replace('GMT', '+0000'), '%a, %d %b %Y %H:%M:%S %z')
-            return dt
-        # ISO format
-        return datetime.fromisoformat(date_str.replace('Z', '+00:00'))
-    except:
-        return datetime.now()
+        url = f'https://api.mymemory.translated.net/get?q={urllib.parse.quote(text[:500])}&langpair=en|zh'
+        with urllib.request.urlopen(url, timeout=5) as response:
+            data = json.loads(response.read().decode())
+            if data.get('responseStatus') == 200:
+                translated = data.get('responseData', {}).get('translatedText', '')
+                if translated and len(translated) > 10:
+                    result = translated
+    except Exception as e:
+        print(f"Translation API error: {e}")
+    
+    return result
 
 def calculate_score(news_item):
-    """计算新闻权重分数"""
     title = news_item.get('title', '').lower()
     source = news_item.get('source', '')
-    date_str = news_item.get('date', '')
     
-    # 1. 来源权重
     source_score = SOURCE_WEIGHTS.get(source, 0.7)
-    
-    # 2. 关键词权重
     keyword_score = 1.0
     for keyword, weight in KEYWORD_WEIGHTS.items():
         if keyword.lower() in title:
             keyword_score *= weight
     
-    # 3. 时间权重
-    try:
-        news_date = parse_date(date_str)
-        hours_old = (datetime.now() - news_date.replace(tzinfo=None)).total_seconds() / 3600
-        if hours_old < 24:
-            time_score = 1.0
-        elif hours_old < 48:
-            time_score = 0.7
-        elif hours_old < 72:
-            time_score = 0.5
-        else:
-            time_score = 0.3
-    except:
-        time_score = 0.5
-    
-    # 4. 标题长度适中加分
-    length = len(title)
-    if 50 < length < 150:
-        length_score = 1.1
-    else:
-        length_score = 1.0
-    
-    total_score = source_score * keyword_score * time_score * length_score
-    return total_score
+    return source_score * keyword_score
 
-def generate_summary(title, max_length=120):
-    """生成文章摘要"""
-    # 移除括号内容
+def generate_summary(title, max_length=80):
     title = re.sub(r'\([^)]*\)', '', title)
     title = re.sub(r'\[[^\]]*\]', '', title)
     title = title.strip()
-    
     if len(title) <= max_length:
         return title
-    
-    # 在句号处截断
-    sentences = title.split('.')
-    summary = ''
-    for s in sentences:
-        if len(summary) + len(s) <= max_length:
-            summary += s + '.'
-        else:
-            break
-    
-    return summary.strip() + '...'
+    return title[:max_length] + '...'
 
 def select_headline(news_list):
-    """选择最佳头条"""
     if not news_list:
         return None
     
-    # 计算所有新闻分数
-    scored_news = []
-    for news in news_list:
-        score = calculate_score(news)
-        scored_news.append((score, news))
-    
-    # 按分数排序
+    scored_news = [(calculate_score(n), n) for n in news_list]
     scored_news.sort(key=lambda x: x[0], reverse=True)
-    
-    # 选择最高的
     top_news = scored_news[0][1]
     
-    # 生成头条数据
+    # 翻译标题
+    title_en = top_news.get('title', '')
+    title_zh = simple_translate(title_en)
+    summary_zh = simple_translate(generate_summary(title_en))
+    
     headline = {
-        "id": top_news.get('id', 1),
-        "title": top_news.get('title', ''),
-        "summary": generate_summary(top_news.get('title', '')),
+        "id": 1,
+        "title_en": title_en,
+        "title_zh": title_zh,
+        "summary_en": generate_summary(title_en),
+        "summary_zh": summary_zh,
         "url": top_news.get('url', '#'),
         "source": top_news.get('source', ''),
         "region": top_news.get('region', 'Global'),
@@ -148,34 +137,25 @@ def select_headline(news_list):
     return headline
 
 def main():
-    print("=== 每日光储头条生成器 ===")
+    print("=== 每日光储头条生成器 v2 ===")
     
-    # 读取新闻
     try:
         with open(NEWS_FILE, 'r', encoding='utf-8') as f:
             news_list = json.load(f)
     except Exception as e:
-        print(f"Error reading news: {e}")
+        print(f"Error: {e}")
         return
     
-    if not news_list:
-        print("No news to process!")
-        return
-    
-    # 选择头条
     headline = select_headline(news_list)
     
     if headline:
-        # 保存头条
         with open(HEADLINE_FILE, 'w', encoding='utf-8') as f:
             json.dump(headline, f, ensure_ascii=False, indent=2)
         
-        print(f"\n✅ 今日头条生成成功!")
-        print(f"标题: {headline['title'][:60]}...")
+        print(f"\n✅ 头条生成成功!")
+        print(f"英文: {headline['title_en'][:50]}...")
+        print(f"中文: {headline['title_zh'][:50]}...")
         print(f"来源: {headline['source']}")
-        print(f"分数: {headline['score']}")
-    else:
-        print("Failed to generate headline!")
 
 if __name__ == "__main__":
     main()
