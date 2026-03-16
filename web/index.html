@@ -238,7 +238,7 @@
             .news-image { width: 100%; height: 120px; }
         }
         
-        @media (max-width: 600px) {
+        /* Large phones */ @media (max-width: 480px) { nav { padding: 12px 16px; } .logo { font-size: 18px; } .nav-links { gap: 15px; font-size: 12px; } .hero { padding: 40px 16px 30px; } .hero h1 { font-size: 28px; } .hero p { font-size: 13px; line-height: 1.5; } .section { padding: 30px 12px 50px; } .section h2 { font-size: 22px; margin-bottom: 20px; } .grid { gap: 12px; } .card { padding: 16px 12px; border-radius: 14px; } .card-icon { font-size: 32px; margin-bottom: 8px; } .card-title { font-size: 16px; } .card-desc { font-size: 11px; margin-bottom: 10px; } .card-stats { gap: 16px; } .card-stat-value { font-size: 16px; } .card-stat-label { font-size: 10px; } .news-section { padding: 30px 12px; } .news-title { font-size: 20px; } .news-nav button { width: 32px; height: 32px; font-size: 14px; } .news-card { padding: 16px; border-radius: 14px; } .news-headline { font-size: 14px; } .social-links { padding: 16px; gap: 12px; flex-wrap: wrap; } .social-links a { font-size: 12px; margin: 0 8px; } footer { padding: 20px; font-size: 12px; } } @media (max-width: 600px) {
             nav { padding: 16px 20px; flex-direction: column; gap: 12px; }
             .hero h1 { font-size: 36px; }
             .hero p { font-size: 15px; }
@@ -246,6 +246,9 @@
             .card { padding: 24px 16px; }
         }
     </style>
+<style>
+.social-links a:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+</style>
 </head>
 <body>
     <nav>
@@ -376,22 +379,58 @@
         <div class="news-dots" id="dots"></div>
     </section>
     
+    <div class="social-links" style="text-align:center;padding:30px;background:rgba(0,0,0,0.3);display:flex;justify-content:center;gap:20px;flex-wrap:wrap;">
+        <a href="https://github.com/xuegangwu" target="_blank" title="GitHub" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:rgba(255,255,255,0.1);border-radius:25px;color:#fff;text-decoration:none;transition:all 0.3s;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            <span>GitHub</span>
+        </a>
+        <a href="https://www.linkedin.cn/incareer/in/terry-wu-ba818216/" target="_blank" title="LinkedIn" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:#0077b5;border-radius:25px;color:#fff;text-decoration:none;transition:all 0.3s;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            <span>LinkedIn</span>
+        </a>
+        <a href="mailto:wuxuegang@gmail.com" title="Email" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:#ea4335;border-radius:25px;color:#fff;text-decoration:none;transition:all 0.3s;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4h-16c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-12c0-1.1-.9-2-2-2zm0 4l-8 5-8-5v-2l8 5 8-5v2z"/></svg>
+            <span>Email</span>
+        </a>
+        <a href="https://www.toutiao.com/c/user/token/Cia7E_c2-7uU5Q5OUUqvUE7YDbBw6_9HRA1UFOojKL3nyOfAFYsSgRpJCjwAAAAAAAAAAAAAUC9KaexulLty_IEvq3dVCfF4B1diXDH51LE5llxspSqoV_gKnVP0idKcPtEySnf6YT4Qk5SMDhjDxYPqBCIBA0AvX4g=/" target="_blank" title="头条" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:#ff0000;border-radius:25px;color:#fff;text-decoration:none;transition:all 0.3s;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.075 9.375c-.575-1.45-2.275-2.175-3.625-1.55-1.25.575-1.85 2.1-1.2 3.35.025.05.05.075.075.125-.4.275-.775.625-1.1 1.025-.325-.45-.7-.8-1.1-1.025.025-.05.05-.075.075-.125.65-1.25.05-2.775-1.2-3.35-1.35-.625-3.05.1-3.625 1.55-.625 1.55-.175 3.45 1.15 4.6-.025.125-.05.25-.05.375 0 2.075 1.7 3.775 3.775 3.775s3.775-1.7 3.775-3.775c0-.125-.025-.25-.05-.375 1.325-1.15 1.775-3.05 1.15-4.6zM12 16.15c-1.025 0-1.875-.8-1.875-1.875s.8-1.875 1.875-1.875 1.875.8 1.875 1.875-.8 1.875-1.875 1.875z"/></svg>
+            <span>头条</span>
+        </a>
+    </div>
+
     <footer>
         © 2026 光储龙虾 | 数据仅供参考，投资需谨慎
     </footer>
     
     <script>
         let newsData = [];
-        let currentSlide = 0;
+        function getEmoji(r, s) { 
+    if(s.includes("PV")||s.includes("pv")) return "☀️"; 
+    if(s.includes("Power")) return "⚡"; 
+    if(s.includes("Clean")) return "🔋"; 
+    if(r=="Europe") return "🇪🇺"; 
+    if(r=="US") return "🇺🇸"; 
+    if(r=="China") return "🇨🇳"; 
+    return "🌍"; 
+} 
+function getSourceCN(s) { 
+    const m={"pv magazine International":"PV Magazine","Solar Magazine":"Solar Magazine","Solar Power World":"Solar Power World","CleanTechnica":"CleanTechnica"}; 
+    return m[s]||s; 
+} 
+function formatDate(d) { 
+    try{return new Date(d).toLocaleDateString("zh-CN");}
+    catch{return d;}
+} 
+let currentSlide = 0;
         
         // 从服务器获取新闻
-        fetch('/data/news.json')
+        fetch('/data/news.json').catch(() => fetch('/api/news'))
             .then(res => res.json())
             .then(data => {
                 if (data && data.length > 0) {
                     newsData = data;
                 }
-                renderCarousel();
+                console.log("News data:", newsData); renderCarousel();
             })
             .catch(() => {
                 newsData = [{
@@ -401,7 +440,7 @@
                     date: new Date().toISOString().split('T')[0],
                     emoji: "📰"
                 }];
-                renderCarousel();
+                console.log("News data:", newsData); renderCarousel();
             });
         
         function renderCarousel() {
@@ -411,11 +450,11 @@
             // 渲染新闻卡片
             track.innerHTML = newsData.map((news, index) => `
                 <div class="news-card">
-                    <div class="news-image">${news.emoji}</div>
+                    <div class="news-image">${getEmoji(news.region, news.source)}</div>
                     <div class="news-content">
-                        <div class="news-source">${news.source}</div>
+                        <div class="news-source">${getSourceCN(news.source)}</div>
                         <h3 class="news-headline"><a href="${news.url}">${news.title}</a></h3>
-                        <div class="news-meta">${news.date}</div>
+                        <div class="news-meta">${formatDate(news.date)}</div>
                     </div>
                 </div>
             `).join('');
@@ -457,7 +496,7 @@
         setInterval(nextSlide, 5000);
         
         // 初始化
-        renderCarousel();
+        console.log("News data:", newsData); renderCarousel();
     </script>
 </body>
 </html>
