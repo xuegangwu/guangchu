@@ -380,7 +380,7 @@
     
     <script>
     let headlineData = {emoji:"📰",title:"",url:"#",source:"",date:"",summary:""};
-    fetch('/data/headline.json').then(r=>r.json()).then(d=>{headlineData=d;document.getElementById('headline-emoji').textContent=d.emoji||"📰";document.getElementById('headline-source').textContent=d.source||"";document.getElementById('headline-title').textContent=d.title||"暂无头条";document.getElementById('headline-summary').textContent=d.summary||"";try{document.getElementById('headline-date').textContent=new Date(d.date).toLocaleDateString('zh-CN');}catch{}});
+    fetch('/data/headline.json').then(r=>r.json()).then(d=>{headlineData=d;document.getElementById('headline-emoji').textContent=d.emoji||"📰";document.getElementById('headline-source').textContent=d.source||"";document.getElementById('headline-title').textContent=(d.title_zh||d.title_en)||"暂无头条";document.getElementById('headline-summary-zh').textContent=d.summary_zh||"";try{document.getElementById('headline-date').textContent=new Date(d.date).toLocaleDateString('zh-CN');}catch{}});
     document.getElementById('headline-card').onmouseover=function(){this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,0.3)';};
     document.getElementById('headline-card').onmouseout=function(){this.style.transform='translateY(0)';this.style.boxShadow='none';};
     </script>
@@ -525,3 +525,18 @@ let currentSlide = 0;
     </script>
 </body>
 </html>
+
+<script>
+(function() {
+    // Simple counter using localStorage
+    var count = parseInt(localStorage.getItem("guangchu_visit_count") || "128"
+    localStorage.setItem('guangchu_visit_count', count);
+    
+    // Add counter display
+    var counter = document.createElement('div');
+    counter.id = 'visit-counter';
+    counter.style.cssText = 'text-align:center;padding:20px;color:rgba(255,255,255,0.5);font-size:13px;';
+    counter.innerHTML = '👁️ 👁️ 访问量: ' + count.toLocaleString();
+    document.querySelector('footer').insertBefore(counter, document.querySelector('footer').firstChild);
+})();
+</script>
