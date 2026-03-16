@@ -21,16 +21,16 @@ class Config:
     """配置类"""
 
     # 项目根目录
-    WORKDIR: str = field(default_factory=lambda: str(Path(__file__).parent.parent))
+    WORKDIR: str = field(init=False)
 
     # 数据目录
-    RAW_DIR: str = field(default_factory=lambda: os.path.join(Config.WORKDIR, 'raw'))
-    PROCESSED_DIR: str = field(default_factory=lambda: os.path.join(Config.WORKDIR, 'processed'))
-    LOGS_DIR: str = field(default_factory=lambda: os.path.join(Config.WORKDIR, 'logs'))
-    STATS_DIR: str = field(default_factory=lambda: os.path.join(Config.WORKDIR, 'stats'))
+    RAW_DIR: str = field(init=False)
+    PROCESSED_DIR: str = field(init=False)
+    LOGS_DIR: str = field(init=False)
+    STATS_DIR: str = field(init=False)
 
     # 数据库配置
-    DATABASE_URL: str = field(default_factory=lambda: os.path.join(Config.WORKDIR, 'search.db'))
+    DATABASE_URL: str = field(init=False)
 
     # 网络配置
     REQUEST_TIMEOUT: int = 30
@@ -45,6 +45,18 @@ class Config:
 
     def __post_init__(self):
         """初始化后处理"""
+        # 设置项目根目录
+        self.WORKDIR = str(Path(__file__).parent.parent)
+        
+        # 设置数据目录
+        self.RAW_DIR = os.path.join(self.WORKDIR, 'raw')
+        self.PROCESSED_DIR = os.path.join(self.WORKDIR, 'processed')
+        self.LOGS_DIR = os.path.join(self.WORKDIR, 'logs')
+        self.STATS_DIR = os.path.join(self.WORKDIR, 'stats')
+        
+        # 数据库配置
+        self.DATABASE_URL = os.path.join(self.WORKDIR, 'search.db')
+        
         # 创建必要的目录
         for directory in [self.RAW_DIR, self.PROCESSED_DIR, self.LOGS_DIR, self.STATS_DIR]:
             Path(directory).mkdir(parents=True, exist_ok=True)

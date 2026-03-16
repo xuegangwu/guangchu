@@ -1,0 +1,44 @@
+{
+  "month": "2026-03",
+  "data": [
+    {
+      "date": "2026-03-10",
+      "news_count": 20,
+      "news_tokens": 1026,
+      "daily_report_tokens": 1579,
+      "total_tokens": 2605,
+      "cost": 0.0052
+    },
+    {
+      "date": "2026-03-11",
+      "news_count": 20,
+      "news_tokens": 1004,
+      "daily_report_tokens": 1677,
+      "total_tokens": 2681,
+      "cost": 0.0054
+    },
+    {
+      "date": "2026-03-12",
+      "news_count": 20,
+      "news_tokens": 981,
+      "daily_report_tokens": 1410,
+      "total_tokens": 2391,
+      "cost": 0.0048
+    },
+    {
+      "date": "2026-03-12",
+      "news_count": 20,
+      "news_tokens": 981,
+      "daily_report_tokens": 1406,
+      "total_tokens": 2387,
+      "cost": 0.0048
+    }
+  ],
+  "summary": {
+    "total_days": 4,
+    "total_tokens": 10064,
+    "total_news": 80,
+    "avg_tokens_per_day": 2516,
+    "estimated_cost_usd": 0.0201
+  }
+}

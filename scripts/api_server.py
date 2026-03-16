@@ -382,6 +382,122 @@ def api_get_trend():
         return api_error('TREND_ERROR', f'获取趋势失败：{str(e)}', 500)
 
 
+# ==================== Token 统计 API ====================
+
+@app.route('/api/token-stats', methods=['GET'])
+@rate_limit
+@cached(ttl=300, prefix="token_stats")
+def api_get_token_stats():
+    """
+    获取 Token 消耗统计
+    
+    Query Parameters:
+        month (str): 月份 (YYYY-MM), 默认为当前月份
+    
+    Returns:
+        JSON: Token 统计数据
+    """
+    from datetime import datetime
+    
+    month = request.args.get('month', datetime.now().strftime('%Y-%m'))
+    
+    try:
+        stats_file = Path(config.STATS_DIR) / f"{month}.jsonl"
+        
+        if not stats_file.exists():
+            return api_error('NO_DATA', f'No data for month: {month}', 404)
+        
+        stats = []
+        total_tokens = 0
+        total_news = 0
+        total_days = 0
+        
+        with open(stats_file, 'r', encoding='utf-8') as f:
+            for line in f:
+                if line.strip():
+                    data = json.loads(line)
+                    stats.append(data)
+                    total_tokens += data.get('total_tokens', 0)
+                    total_news += data.get('news_count', 0)
+                    total_days += 1
+        
+        # 计算平均值
+        avg_tokens = total_tokens // total_days if total_days > 0 else 0
+        avg_news = total_news // total_days if total_days > 0 else 0
+        
+        # 估算成本 (按 $0.002/1K tokens)
+        estimated_cost = total_tokens * 0.000002
+        
+        return api_response({
+            'success': True,
+            'month': month,
+            'data': stats,
+            'summary': {
+                'total_days': total_days,
+                'total_tokens': total_tokens,
+                'total_news': total_news,
+                'avg_tokens_per_day': avg_tokens,
+                'avg_news_per_day': avg_news,
+                'estimated_cost_usd': round(estimated_cost, 4)
+            }
+        })
+        
+    except Exception as e:
+        error(f"获取 Token 统计失败：{str(e)}")
+        return api_error('TOKEN_STATS_ERROR', f'获取 Token 统计失败：{str(e)}', 500)
+
+
+@app.route('/api/token-stats/daily', methods=['GET'])
+@rate_limit
+def api_get_daily_token_stats():
+    """
+    获取指定日期的 Token 统计
+    
+    Query Parameters:
+        date (str): 日期 (YYYY-MM-DD), 默认为今天
+    
+    Returns:
+        JSON: 单日 Token 统计数据
+    """
+    from datetime import datetime
+    
+    date = request.args.get('date', datetime.now().strftime('%Y-%m-%d'))
+    
+    try:
+        # 从月度文件中查找指定日期的数据
+        month = date[:7]  # YYYY-MM
+        stats_file = Path(config.STATS_DIR) / f"{month}.jsonl"
+        
+        if not stats_file.exists():
+            return api_error('NO_DATA', f'No data for month: {month}', 404)
+        
+        target_data = None
+        with open(stats_file, 'r', encoding='utf-8') as f:
+            for line in f:
+                if line.strip():
+                    data = json.loads(line)
+                    if data.get('date') == date:
+                        target_data = data
+                        break
+        
+        if not target_data:
+            return api_error('NO_DATA', f'No data for date: {date}', 404)
+        
+        # 估算成本
+        estimated_cost = target_data.get('total_tokens', 0) * 0.000002
+        target_data['estimated_cost_usd'] = round(estimated_cost, 4)
+        
+        return api_response({
+            'success': True,
+            'date': date,
+            'data': target_data
+        })
+        
+    except Exception as e:
+        error(f"获取单日 Token 统计失败：{str(e)}")
+        return api_error('DAILY_TOKEN_STATS_ERROR', f'获取单日 Token 统计失败：{str(e)}', 500)
+
+
 # ==================== 缓存 API ====================
 
 @app.route('/api/cache/stats', methods=['GET'])
