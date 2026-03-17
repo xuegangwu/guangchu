@@ -1,0 +1,122 @@
+[
+  {
+    "province": "辽宁省",
+    "radiation": 1774.4,
+    "power": 1495.5,
+    "price": 0.38,
+    "score": 109.0,
+    "reason": "电价¥0.38/kWh + 辐射1774.4"
+  },
+  {
+    "province": "内蒙古自治区",
+    "radiation": 2022.3,
+    "power": 1702.6,
+    "price": 0.28,
+    "score": 108.9,
+    "reason": "电价¥0.28/kWh + 辐射2022.3"
+  },
+  {
+    "province": "海南省",
+    "radiation": 1688.4,
+    "power": 1343.9,
+    "price": 0.404,
+    "score": 107.9,
+    "reason": "电价¥0.404/kWh + 辐射1688.4"
+  },
+  {
+    "province": "吉林省",
+    "radiation": 1774.0,
+    "power": 1511.9,
+    "price": 0.359,
+    "score": 106.9,
+    "reason": "电价¥0.359/kWh + 辐射1774.0"
+  },
+  {
+    "province": "黑龙江省",
+    "radiation": 1794.2,
+    "power": 1546.5,
+    "price": 0.338,
+    "score": 105.6,
+    "reason": "电价¥0.338/kWh + 辐射1794.2"
+  },
+  {
+    "province": "河北省",
+    "radiation": 1687.0,
+    "power": 1396.1,
+    "price": 0.373,
+    "score": 104.8,
+    "reason": "电价¥0.373/kWh + 辐射1687.0"
+  },
+  {
+    "province": "天津市",
+    "radiation": 1686.6,
+    "power": 1398.1,
+    "price": 0.36,
+    "score": 103.5,
+    "reason": "电价¥0.36/kWh + 辐射1686.6"
+  },
+  {
+    "province": "青海省",
+    "radiation": 1983.2,
+    "power": 1655.2,
+    "price": 0.24,
+    "score": 103.3,
+    "reason": "电价¥0.24/kWh + 辐射1983.2"
+  },
+  {
+    "province": "北京市",
+    "radiation": 1672.6,
+    "power": 1385.4,
+    "price": 0.36,
+    "score": 102.9,
+    "reason": "电价¥0.36/kWh + 辐射1672.6"
+  },
+  {
+    "province": "宁夏回族自治区",
+    "radiation": 1905.1,
+    "power": 1573.8,
+    "price": 0.26,
+    "score": 102.2,
+    "reason": "电价¥0.26/kWh + 辐射1905.1"
+  },
+  {
+    "province": "云南省",
+    "radiation": 1697.9,
+    "power": 1370.4,
+    "price": 0.33,
+    "score": 100.9,
+    "reason": "电价¥0.33/kWh + 辐射1697.9"
+  },
+  {
+    "province": "新疆维吾尔自治区",
+    "radiation": 1735.7,
+    "power": 1425.8,
+    "price": 0.235,
+    "score": 92.9,
+    "reason": "电价¥0.235/kWh + 辐射1735.7"
+  },
+  {
+    "province": "山西省",
+    "radiation": 1787.9,
+    "power": 1477.6,
+    "price": 0.182,
+    "score": 89.7,
+    "reason": "电价¥0.182/kWh + 辐射1787.9"
+  },
+  {
+    "province": "山东省",
+    "radiation": 1620.5,
+    "power": 1338.3,
+    "price": 0.248,
+    "score": 89.6,
+    "reason": "电价¥0.248/kWh + 辐射1620.5"
+  },
+  {
+    "province": "甘肃省",
+    "radiation": 1751.1,
+    "power": 1447.3,
+    "price": 0.195,
+    "score": 89.5,
+    "reason": "电价¥0.195/kWh + 辐射1751.1"
+  }
+]
