@@ -1,0 +1,107 @@
+[
+  {
+    "province": "内蒙古自治区",
+    "count": 102,
+    "avg_radiation": 2022.3,
+    "avg_efficiency": 84.2,
+    "avg_power": 1702.6
+  },
+  {
+    "province": "青海省",
+    "count": 45,
+    "avg_radiation": 1983.2,
+    "avg_efficiency": 83.5,
+    "avg_power": 1655.2
+  },
+  {
+    "province": "宁夏回族自治区",
+    "count": 22,
+    "avg_radiation": 1905.1,
+    "avg_efficiency": 82.6,
+    "avg_power": 1573.8
+  },
+  {
+    "province": "黑龙江省",
+    "count": 124,
+    "avg_radiation": 1794.2,
+    "avg_efficiency": 86.2,
+    "avg_power": 1546.5
+  },
+  {
+    "province": "山西省",
+    "count": 117,
+    "avg_radiation": 1787.9,
+    "avg_efficiency": 82.6,
+    "avg_power": 1477.6
+  },
+  {
+    "province": "辽宁省",
+    "count": 100,
+    "avg_radiation": 1774.4,
+    "avg_efficiency": 84.3,
+    "avg_power": 1495.5
+  },
+  {
+    "province": "吉林省",
+    "count": 60,
+    "avg_radiation": 1774.0,
+    "avg_efficiency": 85.2,
+    "avg_power": 1511.9
+  },
+  {
+    "province": "甘肃省",
+    "count": 87,
+    "avg_radiation": 1751.1,
+    "avg_efficiency": 82.7,
+    "avg_power": 1447.3
+  },
+  {
+    "province": "新疆维吾尔自治区",
+    "count": 116,
+    "avg_radiation": 1735.7,
+    "avg_efficiency": 82.1,
+    "avg_power": 1425.8
+  },
+  {
+    "province": "云南省",
+    "count": 127,
+    "avg_radiation": 1697.9,
+    "avg_efficiency": 80.7,
+    "avg_power": 1370.4
+  },
+  {
+    "province": "海南省",
+    "count": 27,
+    "avg_radiation": 1688.4,
+    "avg_efficiency": 79.6,
+    "avg_power": 1343.9
+  },
+  {
+    "province": "河北省",
+    "count": 165,
+    "avg_radiation": 1687.0,
+    "avg_efficiency": 82.7,
+    "avg_power": 1396.1
+  },
+  {
+    "province": "天津市",
+    "count": 16,
+    "avg_radiation": 1686.6,
+    "avg_efficiency": 82.9,
+    "avg_power": 1398.1
+  },
+  {
+    "province": "北京市",
+    "count": 16,
+    "avg_radiation": 1672.6,
+    "avg_efficiency": 82.8,
+    "avg_power": 1385.4
+  },
+  {
+    "province": "山东省",
+    "count": 137,
+    "avg_radiation": 1620.5,
+    "avg_efficiency": 82.6,
+    "avg_power": 1338.3
+  }
+]
