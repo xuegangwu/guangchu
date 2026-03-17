@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中国光储投资地图 - 光储龙虾</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦞</text></svg>">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans SC', sans-serif; background: #0f172a; color: #fff; }
+        .header { background: linear-gradient(135deg, #667eea, #764ba2); padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { font-size: 20px; }
+        .header a { color: white; text-decoration: none; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 4px; }
+        .content { display: flex; height: calc(100vh - 60px); }
+        #map { flex: 1; }
+        .sidebar { width: 320px; background: #1e293b; padding: 20px; overflow-y: auto; }
+        .sidebar h3 { font-size: 16px; margin-bottom: 12px; color: #4fc3f7; }
+        .province-item { background: rgba(255,255,255,0.05); padding: 12px; margin-bottom: 8px; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+        .province-item:hover { background: rgba(255,255,255,0.1); }
+        .province-name { font-weight: 600; margin-bottom: 4px; }
+        .province-stats { display: flex; gap: 12px; font-size: 12px; color: rgba(255,255,255,0.6); }
+        .score { font-weight: 600; color: #4fc3f7; }
+        .legend { background: white; padding: 10px; border-radius: 8px; color: #333; font-size: 12px; }
+        .legend-item { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+        .legend-color { width: 12px; height: 12px; border-radius: 50%; }
+        @media (max-width: 768px) { .content { flex-direction: column; } .sidebar { width: 100%; height: 200px; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🇨🇳 中国光储投资地图 (Solar Data)</h1>
+        <a href="/">← 返回首页</a>
+    </div>
+    <div class="content">
+        <div id="map"></div>
+        <div class="sidebar">
+            <h3>📊 省份投资评分排行 (基于Solargis数据)</h3>
+            <div id="province-list"></div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([35, 105], 4);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(map);
+        
+        // Province data with Solargis solar radiation data
+        var provinces = [
+            {name: '内蒙古', lat: 40.8, lng: 111.7, score: 92, radiation: 2022, power: 1703, desc: '最优倾角辐射2022kWh/m²'},
+            {name: '青海', lat: 36.6, lng: 101.8, score: 90, radiation: 1983, power: 1655, desc: '最优倾角辐射1983kWh/m²'},
+            {name: '宁夏', lat: 38.5, lng: 106.2, score: 88, radiation: 1905, power: 1574, desc: '最优倾角辐射1905kWh/m²'},
+            {name: '黑龙江', lat: 45.8, lng: 126.5, score: 85, radiation: 1794, power: 1547, desc: '最优倾角辐射1794kWh/m²'},
+            {name: '山西', lat: 37.9, lng: 112.5, score: 84, radiation: 1788, power: 1478, desc: '最优倾角辐射1788kWh/m²'},
+            {name: '辽宁', lat: 41.8, lng: 123.4, score: 83, radiation: 1774, power: 1496, desc: '最优倾角辐射1774kWh/m²'},
+            {name: '吉林', lat: 43.9, lng: 125.3, score: 83, radiation: 1774, power: 1512, desc: '最优倾角辐射1774kWh/m²'},
+            {name: '甘肃', lat: 36.1, lng: 103.8, score: 82, radiation: 1751, power: 1447, desc: '最优倾角辐射1751kWh/m²'},
+            {name: '新疆', lat: 41.1, lng: 85.2, score: 81, radiation: 1736, power: 1426, desc: '最优倾角辐射1736kWh/m²'},
+            {name: '云南', lat: 25.0, lng: 102.7, score: 78, radiation: 1698, power: 1370, desc: '最优倾角辐射1698kWh/m²'},
+            {name: '河北', lat: 38.0, lng: 114.5, score: 76, radiation: 1687, power: 1396, desc: '最优倾角辐射1687kWh/m²'},
+            {name: '山东', lat: 36.7, lng: 117.0, score: 72, radiation: 1621, power: 1338, desc: '最优倾角辐射1621kWh/m²'},
+            {name: '江苏', lat: 32.0, lng: 118.8, score: 65, radiation: 1520, power: 1250, desc: '次优倾角辐射1520kWh/m²'},
+            {name: '浙江', lat: 30.3, lng: 120.2, score: 63, radiation: 1480, power: 1200, desc: '次优倾角辐射1480kWh/m²'},
+            {name: '广东', lat: 23.4, lng: 113.5, score: 60, radiation: 1450, power: 1150, desc: '次优倾角辐射1450kWh/m²'},
+            {name: '上海', lat: 31.2, lng: 121.5, score: 55, radiation: 1380, power: 1100, desc: '一般辐射1380kWh/m²'}
+        ];
+        
+        provinces.sort(function(a, b) { return b.score - a.score; });
+        
+        // Add markers
+        provinces.forEach(function(p) {
+            var color = p.score >= 85 ? '#22c55e' : p.score >= 75 ? '#eab308' : p.score >= 65 ? '#f97316' : '#ef4444';
+            L.circleMarker([p.lat, p.lng], {
+                radius: 8 + p.score/15,
+                fillColor: color,
+                color: '#fff',
+                weight: 2,
+                opacity: 1,
+                fillOpacity: 0.7
+            }).bindPopup('<b>' + p.name + '</b><br>评分: ' + p.score + '<br>辐射: ' + p.radiation + ' kWh/m²<br>发电量: ' + p.power + ' kWh/kWp').addTo(map);
+        });
+        
+        // Add to sidebar
+        var listHtml = '';
+        provinces.forEach(function(p, i) {
+            var color = p.score >= 85 ? '#22c55e' : p.score >= 75 ? '#eab308' : p.score >= 65 ? '#f97316' : '#ef4444';
+            listHtml += '<div class="province-item" onclick="panTo(' + p.lat + ',' + p.lng + ')"><div class="province-name"><span style="color:' + color + ';">' + (i+1) + '</span> ' + p.name + ' <span class="score">' + p.score + '</span></div><div class="province-stats"><span>☀️ ' + p.radiation + ' kWh/m²</span><span>⚡ ' + p.power + ' kWh/kWp</span></div></div>';
+        });
+        document.getElementById('province-list').innerHTML = listHtml;
+        
+        function panTo(lat, lng) {
+            map.flyTo([lat, lng], 7);
+        }
+    </script>
+</body>
+</html>
