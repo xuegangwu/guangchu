@@ -1,0 +1,219 @@
+[
+  {
+    "province": "山东省",
+    "total": 91.73,
+    "centralized": 31.95,
+    "commercial": 30.7,
+    "residential": 29.08
+  },
+  {
+    "province": "江苏省",
+    "total": 86.12,
+    "centralized": 24.51,
+    "commercial": 40.4,
+    "residential": 21.2
+  },
+  {
+    "province": "河北省",
+    "total": 81.52,
+    "centralized": 47.03,
+    "commercial": 22.49,
+    "residential": 22.75
+  },
+  {
+    "province": "新疆维吾尔自治区",
+    "total": 79.96,
+    "centralized": 79.57,
+    "commercial": 0.32,
+    "residential": 0.08
+  },
+  {
+    "province": "浙江省",
+    "total": 61.06,
+    "centralized": 10.26,
+    "commercial": 44.84,
+    "residential": 5.96
+  },
+  {
+    "province": "广东省",
+    "total": 58.89,
+    "centralized": 15.78,
+    "commercial": 36.01,
+    "residential": 7.11
+  },
+  {
+    "province": "安徽省",
+    "total": 54.38,
+    "centralized": 15.91,
+    "commercial": 20.68,
+    "residential": 17.79
+  },
+  {
+    "province": "河南省",
+    "total": 52.58,
+    "centralized": 6.78,
+    "commercial": 19.04,
+    "residential": 26.76
+  },
+  {
+    "province": "云南省",
+    "total": 52.01,
+    "centralized": 47.22,
+    "commercial": 1.45,
+    "residential": 3.35
+  },
+  {
+    "province": "内蒙古自治区",
+    "total": 50.91,
+    "centralized": 46.33,
+    "commercial": 0.46,
+    "residential": 1.75
+  },
+  {
+    "province": "山西省",
+    "total": 48.35,
+    "centralized": 33.46,
+    "commercial": 7.46,
+    "residential": 7.44
+  },
+  {
+    "province": "湖北省",
+    "total": 43.63,
+    "centralized": 22.23,
+    "commercial": 17.27,
+    "residential": 4.13
+  },
+  {
+    "province": "陕西省",
+    "total": 40.51,
+    "centralized": 27.33,
+    "commercial": 7.16,
+    "residential": 6.02
+  },
+  {
+    "province": "青海省",
+    "total": 38.69,
+    "centralized": 38.22,
+    "commercial": 0.4,
+    "residential": 0.07
+  },
+  {
+    "province": "甘肃省",
+    "total": 36.48,
+    "centralized": 33.7,
+    "commercial": 2.12,
+    "residential": 0.67
+  },
+  {
+    "province": "宁夏回族自治区",
+    "total": 35.3,
+    "centralized": 32.73,
+    "commercial": 2.22,
+    "residential": 0.36
+  },
+  {
+    "province": "广西壮族自治区",
+    "total": 29.58,
+    "centralized": 13.32,
+    "commercial": 15.69,
+    "residential": 0.57
+  },
+  {
+    "province": "江西省",
+    "total": 28.11,
+    "centralized": 14.01,
+    "commercial": 6.43,
+    "residential": 7.67
+  },
+  {
+    "province": "贵州省",
+    "total": 27.68,
+    "centralized": 25.0,
+    "commercial": 1.22,
+    "residential": 1.46
+  },
+  {
+    "province": "湖南省",
+    "total": 26.17,
+    "centralized": 6.49,
+    "commercial": 8.07,
+    "residential": 11.61
+  },
+  {
+    "province": "四川省",
+    "total": 16.39,
+    "centralized": 10.68,
+    "commercial": 4.48,
+    "residential": 1.23
+  },
+  {
+    "province": "福建省",
+    "total": 16.34,
+    "centralized": 1.07,
+    "commercial": 9.35,
+    "residential": 5.92
+  },
+  {
+    "province": "辽宁省",
+    "total": 15.12,
+    "centralized": 6.09,
+    "commercial": 4.71,
+    "residential": 4.31
+  },
+  {
+    "province": "天津市",
+    "total": 9.88,
+    "centralized": 4.55,
+    "commercial": 3.53,
+    "residential": 0.7
+  },
+  {
+    "province": "海南省",
+    "total": 9.48,
+    "centralized": 5.95,
+    "commercial": 3.23,
+    "residential": 0.29
+  },
+  {
+    "province": "黑龙江省",
+    "total": 8.64,
+    "centralized": 5.01,
+    "commercial": 2.2,
+    "residential": 1.44
+  },
+  {
+    "province": "吉林省",
+    "total": 7.01,
+    "centralized": 4.31,
+    "commercial": 1.14,
+    "residential": 1.56
+  },
+  {
+    "province": "上海市",
+    "total": 5.71,
+    "centralized": 0.54,
+    "commercial": 4.82,
+    "residential": 0.36
+  },
+  {
+    "province": "西藏自治区",
+    "total": 5.39,
+    "centralized": 5.34,
+    "commercial": 0.05,
+    "residential": 0.0
+  },
+  {
+    "province": "重庆市",
+    "total": 5.38,
+    "centralized": 1.45,
+    "commercial": 3.56,
+    "residential": 0.38
+  },
+  {
+    "province": "北京市",
+    "total": 1.93,
+    "centralized": 0.08,
+    "commercial": 1.18,
+    "residential": 0.6
+  }
+]
