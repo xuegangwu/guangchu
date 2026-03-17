@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中国光储投资地图 v6 - 分布式光伏首选</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦞</text></svg>">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans SC', -apple-system, sans-serif; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); min-height: 100vh; color: #fff; }
+        
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { font-size: 20px; font-weight: 600; }
+        .header a { color: white; text-decoration: none; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; }
+        
+        .main { display: flex; height: calc(100vh - 60px); }
+        .map-container { flex: 1; }
+        #map { height: 100%; width: 100%; }
+        
+        .sidebar { width: 380px; background: rgba(30, 41, 59, 0.95); padding: 20px; overflow-y: auto; }
+        .sidebar-title { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+        .sidebar-subtitle { font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 16px; }
+        
+        .legend { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+        .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; }
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+        
+        .province-card { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 14px; margin-bottom: 10px; cursor: pointer; transition: all 0.3s; border-left: 4px solid #666; }
+        .province-card:hover { background: rgba(255,255,255,0.1); transform: translateX(4px); }
+        .province-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .province-name { font-weight: 600; }
+        .province-score { font-size: 20px; font-weight: 700; }
+        .province-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; font-size: 11px; }
+        .stat-box { background: rgba(0,0,0,0.2); padding: 6px; border-radius: 6px; text-align: center; }
+        .invest-tag { display: inline-block; padding: 3px 10px; border-radius: 10px; font-size: 10px; margin-top: 8px; }
+        
+        @media (max-width: 900px) {
+            .main { flex-direction: column; }
+            .sidebar { width: 100%; height: 40vh; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>🦞 中国光储投资地图 v6 <span style="font-weight:400;font-size:14px;opacity:0.8;">| 分布式光伏首选</span></h1>
+        <a href="/">← 返回首页</a>
+    </header>
+    
+    <main class="main">
+        <div class="map-container"><div id="map"></div></div>
+        <aside class="sidebar">
+            <div class="sidebar-title">🏆 分布式光伏投资排行</div>
+            <div class="sidebar-subtitle">评分逻辑: 电价(50%) + 光照(20%) + 市场成熟度(15%) + 沿海区位(15%)</div>
+            
+            <div class="legend">
+                <div class="legend-item"><div class="legend-dot" style="background:#22c55e;"></div>75+ 强烈推荐</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#3b82f6;"></div>60-74 推荐</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#f59e0b;"></div>45-59 可考虑</div>
+            </div>
+            
+            <div id="province-list"></div>
+        </aside>
+    </main>
+    
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map', {zoomControl: true}).setView([30, 118], 5);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {attribution: '© CartoDB'}).addTo(map);
+        
+        var coords = {
+            '江苏': [32.0, 118.8], '广东': [23.4, 113.5], '河北': [38.0, 114.5], '浙江': [30.3, 120.2],
+            '安徽': [31.8, 117.3], '香港': [22.3, 114.2], '澳门': [22.2, 113.5], '江西': [28.5, 115.9],
+            '河南': [34.7, 113.6], '福建': [26.1, 118.3], '台湾': [25.0, 121.5], '湖北': [30.6, 114.3],
+            '湖南': [28.2, 112.9], '云南': [25.0, 102.7], '上海': [31.2, 121.5], '山东': [36.7, 117.0],
+            '北京': [39.9, 116.4], '天津': [39.1, 117.2], '四川': [30.6, 104.1], '陕西': [34.3, 108.9]
+        };
+        
+        var data = [
+            {name: '江苏', score: 73.6, price: 0.41, ghi: 1350, installed: 86.1, type: '⭐⭐ 推荐-分布式'},
+            {name: '广东', score: 73.5, price: 0.45, ghi: 1300, installed: 58.9, type: '⭐⭐ 推荐-分布式'},
+            {name: '河北', score: 69.0, price: 0.37, ghi: 1500, installed: 81.5, type: '⭐⭐ 推荐-分布式'},
+            {name: '浙江', score: 67.1, price: 0.38, ghi: 1300, installed: 61.1, type: '⭐⭐ 推荐-分布式'},
+            {name: '安徽', score: 66.3, price: 0.42, ghi: 1300, installed: 54.4, type: '⭐⭐ 推荐-分布式'},
+            {name: '香港', score: 65.6, price: 0.50, ghi: 1400, installed: 0, type: '⭐⭐ 推荐-分布式'},
+            {name: '澳门', score: 65.6, price: 0.50, ghi: 1400, installed: 0, type: '⭐⭐ 推荐-分布式'},
+            {name: '江西', score: 63.7, price: 0.43, ghi: 1350, installed: 28.1, type: '⭐⭐ 推荐-分布式'},
+            {name: '河南', score: 62.5, price: 0.37, ghi: 1400, installed: 52.6, type: '⭐⭐ 推荐-分布式'},
+            {name: '福建', score: 62.0, price: 0.42, ghi: 1250, installed: 16.3, type: '⭐⭐ 推荐-分布式'},
+            {name: '台湾', score: 61.7, price: 0.45, ghi: 1500, installed: 0, type: '⭐⭐ 推荐-分布式'},
+            {name: '湖北', score: 61.7, price: 0.40, ghi: 1200, installed: 43.6, type: '⭐⭐ 推荐-分布式'},
+            {name: '湖南', score: 60.9, price: 0.43, ghi: 1150, installed: 26.2, type: '⭐⭐ 推荐-分布式'},
+            {name: '云南', score: 60.5, price: 0.33, ghi: 1600, installed: 52.0, type: '⭐⭐ 推荐-分布式'},
+            {name: '上海', score: 60.1, price: 0.42, ghi: 1300, installed: 5.7, type: '⭐⭐ 推荐-分布式'}
+        ];
+        
+        data.sort((a,b) => b.score - a.score);
+        
+        data.forEach(function(p) {
+            var c = coords[p.name] || [35, 105];
+            var color = p.score >= 75 ? '#22c55e' : p.score >= 60 ? '#3b82f6' : '#f59e0b';
+            L.circleMarker(c, {
+                radius: 8 + p.score/15,
+                fillColor: color,
+                color: '#fff',
+                weight: 2,
+                fillOpacity: 0.8
+            }).bindPopup('<b>' + p.name + '</b><br>评分: ' + p.score + '<br>电价: ¥' + p.price + '/kWh<br>装机: ' + p.installed + ' GW<br>类型: ' + p.type).addTo(map);
+        });
+        
+        var listHtml = '';
+        data.forEach(function(p, i) {
+            var color = p.score >= 75 ? '#22c55e' : p.score >= 60 ? '#3b82f6' : '#f59e0b';
+            var tagClass = p.score >= 75 ? 'background:rgba(34,197,94,0.3);color:#22c55e;' : p.score >= 60 ? 'background:rgba(59,130,246,0.3);color:#3b82f6;' : 'background:rgba(245,158,11,0.3);color:#f59e0b;';
+            listHtml += '<div class="province-card" style="border-left-color:' + color + '" onclick="map.flyTo(coords[\'' + p.name + '\'] || [35,105], 7)"><div class="province-header"><span class="province-name"><span style="color:' + color + ';margin-right:6px;">' + (i+1) + '</span>' + p.name + '</span><span class="province-score" style="color:' + color + ';">' + p.score + '</span></div><div class="province-stats"><div class="stat-box"><div style="font-weight:600;">¥' + p.price + '</div><div style="color:rgba(255,255,255,0.5);font-size:10px;">电价</div></div><div class="stat-box"><div style="font-weight:600;">' + p.ghi + 'h</div><div style="color:rgba(255,255,255,0.5);font-size:10px;">光照</div></div><div class="stat-box"><div style="font-weight:600;">' + p.installed + '</div><div style="color:rgba(255,255,255,0.5);font-size:10px;">装机(GW)</div></div></div><div class="invest-tag" style="' + tagClass + '">' + p.type + '</div></div>';
+        });
+        document.getElementById('province-list').innerHTML = listHtml;
+    </script>
+</body>
+</html>
