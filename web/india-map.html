@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>印度光储投资地图 - 光储龙虾</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦞</text></svg>">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans SC', sans-serif; background: #0f172a; color: #fff; }
+        .header { background: linear-gradient(135deg, #667eea, #764ba2); padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { font-size: 20px; }
+        .header a { color: white; text-decoration: none; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 4px; }
+        #map { height: calc(100vh - 70px); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🇮🇳 印度光储投资地图</h1>
+        <a href="/">← 返回首页</a>
+    </div>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([20.6, 79.0], 5);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(map);
+        
+        var regions = [
+            {name: '拉贾斯坦邦', lat: 27.0, lng: 74.5, score: 90, desc: '太阳能资源最丰富, 大型项目集中'},
+            {name: '古吉拉特邦', lat: 22.2, lng: 71.2, score: 85, desc: '制造业发达, 政策支持'},
+            {name: '马哈拉施特拉邦', lat: 19.5, lng: 75.5, score: 82, desc: '最大光储市场'},
+            {name: '卡纳塔克邦', lat: 12.5, lng: 76.0, score: 78, desc: 'IT中心, 绿色能源需求大'},
+            {name: '泰米尔纳德邦', lat: 11.1, lng: 77.3, score: 75, desc: '制造业基地'},
+            {name: '特伦甘纳邦', lat: 17.3, lng: 78.5, score: 72, desc: '海德拉巴, 新兴市场'}
+        ];
+        
+        regions.forEach(function(r) {
+            var color = r.score >= 80 ? '#22c55e' : r.score >= 70 ? '#eab308' : '#ef4444';
+            L.circleMarker([r.lat, r.lng], {
+                radius: 10 + r.score/10,
+                fillColor: color,
+                color: '#fff',
+                weight: 2,
+                opacity: 1,
+                fillOpacity: 0.7
+            }).bindPopup('<b>' + r.name + '</b><br>评分: ' + r.score + '<br>' + r.desc).addTo(map);
+        });
+    </script>
+</body>
+</html>

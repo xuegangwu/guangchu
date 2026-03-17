@@ -1,122 +1,112 @@
 [
   {
+    "id": 1,
     "title": "48.4-MW New Mexico community solar portfolio nears completion",
+    "title_zh": "48.4-MW New Mexico community 光伏 portfolio nears completion",
     "url": "https://www.solarpowerworldonline.com/2026/03/48-4-mw-new-mexico-community-solar-portfolio-nears-completion/",
     "date": "Mon, 16 Mar 2026 15:12:31 +0000",
     "source": "Solar Power World",
     "region": "US",
+    "category": "综合",
     "emoji": "⚡"
   },
   {
+    "id": 1,
     "title": "Intertek forecasts higher US solar module prices through 2027",
+    "title_zh": "Intertek forecasts higher 美国 光伏 module prices through 2027",
     "url": "https://www.pv-magazine.com/2026/03/16/intertek-forecasts-higher-us-solar-module-prices-through-2027/",
     "date": "Mon, 16 Mar 2026 15:00:46 +0000",
     "source": "PV Magazine",
     "region": "Europe",
+    "category": "市场",
     "emoji": "☀️"
   },
   {
+    "id": 2,
     "title": "SolaREIT expands real estate financing to PV transmission and substations",
+    "title_zh": "SolaREIT expands real estate financing to 光伏 transmission and substations",
     "url": "https://www.solarpowerworldonline.com/2026/03/solareit-expands-real-estate-financing-to-pv-transmission-and-substations/",
     "date": "Mon, 16 Mar 2026 14:42:45 +0000",
     "source": "Solar Power World",
     "region": "US",
+    "category": "综合",
     "emoji": "⚡"
   },
   {
+    "id": 2,
     "title": "Dutch startup plans roll-to-roll factory for perovskite solar cells",
+    "title_zh": "Dutch startup plans roll-to-roll factory for perovskite 光伏 cells",
     "url": "https://www.pv-magazine.com/2026/03/16/dutch-startup-plans-roll-to-roll-factory-for-perovskite-solar-cells/",
     "date": "Mon, 16 Mar 2026 14:14:07 +0000",
     "source": "PV Magazine",
     "region": "Europe",
+    "category": "项目",
     "emoji": "☀️"
   },
   {
+    "id": 3,
     "title": "Arctech presents dry cleaning robot weighing just 38 kg",
+    "title_zh": "Arctech presents dry cleaning robot weighing just 38 kg",
     "url": "https://www.pv-magazine.com/2026/03/16/arctech-presents-dry-cleaning-robot-weighing-just-38-kg/",
     "date": "Mon, 16 Mar 2026 14:00:57 +0000",
     "source": "PV Magazine",
     "region": "Europe",
+    "category": "综合",
     "emoji": "☀️"
   },
   {
+    "id": 4,
     "title": "Ciemat unveils large-area multispectral solar simulator for PV module testing",
+    "title_zh": "Ciemat unveils large-area multispectral 光伏 simulator for 光伏 module testing",
     "url": "https://www.pv-magazine.com/2026/03/16/ciemat-unveils-large-area-multispectral-solar-simulator-for-pv-module-testing/",
     "date": "Mon, 16 Mar 2026 13:52:37 +0000",
     "source": "PV Magazine",
     "region": "Europe",
+    "category": "综合",
     "emoji": "☀️"
   },
   {
-    "title": "Ormat Technologies begins commercial operations at 320MWh California BESS",
-    "url": "https://www.energy-storage.news/ormat-technologies-begins-commercial-operations-at-320mwh-california-bess/",
-    "date": "Mon, 16 Mar 2026 13:33:01 +0000",
-    "source": "Energy Storage News",
-    "region": "Global",
-    "emoji": "🔋"
-  },
-  {
-    "title": "US sodium-ion startup Peak Energy piloting 3.1MWh system at RWE Wisconsin lab",
-    "url": "https://www.energy-storage.news/us-sodium-ion-startup-peak-energy-piloting-3-1mwh-system-at-rwe-wisconsin-lab/",
-    "date": "Mon, 16 Mar 2026 13:32:41 +0000",
-    "source": "Energy Storage News",
-    "region": "Global",
-    "emoji": "🔋"
-  },
-  {
+    "id": 5,
     "title": "Is Switzerland going back contact?",
+    "title_zh": "Is Switzerland going back contact?",
     "url": "https://www.pv-magazine.com/2026/03/16/is-switzerland-going-back-contact/",
     "date": "Mon, 16 Mar 2026 12:46:24 +0000",
     "source": "PV Magazine",
     "region": "Europe",
+    "category": "综合",
     "emoji": "☀️"
   },
   {
-    "title": "VIDEO: Europe’s first 100GW of energy storage and what’s next, with Energy Storage Europe",
-    "url": "https://www.energy-storage.news/video-europes-first-100gw-of-energy-storage-and-whats-next-with-energy-storage-europe/",
-    "date": "Mon, 16 Mar 2026 12:23:38 +0000",
-    "source": "Energy Storage News",
-    "region": "Global",
-    "emoji": "🔋"
-  },
-  {
+    "id": 3,
     "title": "Solar panels are trying to use less silver. Is that wise?",
+    "title_zh": "Solar panels are trying to use less silver. Is that wise?",
     "url": "https://www.solarpowerworldonline.com/2026/03/solar-panels-are-trying-to-use-less-silver-is-that-wise/",
     "date": "Mon, 16 Mar 2026 12:00:41 +0000",
     "source": "Solar Power World",
     "region": "US",
+    "category": "综合",
     "emoji": "⚡"
   },
   {
-    "title": "Cambodia welcomes ‘significant and historic achievement’ of 1GWh grid-forming battery storage project",
-    "url": "https://www.energy-storage.news/cambodia-welcomes-significant-and-historic-achievement-of-1gwh-grid-forming-battery-storage-project/",
-    "date": "Mon, 16 Mar 2026 11:29:08 +0000",
-    "source": "Energy Storage News",
-    "region": "Global",
-    "emoji": "🔋"
-  },
-  {
-    "title": "Australia’s energy storage market faces a reckoning as rooftop solar threatens utility-scale economics",
-    "url": "https://www.energy-storage.news/australias-energy-storage-market-faces-a-reckoning-as-rooftop-solar-threatens-utility-scale-economics/",
-    "date": "Mon, 16 Mar 2026 09:26:14 +0000",
-    "source": "Energy Storage News",
-    "region": "Global",
-    "emoji": "🔋"
-  },
-  {
+    "id": 4,
     "title": "Maryland legislators include utility solar in statewide energy savings initiative",
+    "title_zh": "Maryland legislators include utility 光伏 in statewide energy savings initiative",
     "url": "https://www.solarpowerworldonline.com/2026/03/maryland-legislators-include-utility-solar-in-statewide-energy-savings-initiative/",
     "date": "Fri, 13 Mar 2026 16:34:31 +0000",
     "source": "Solar Power World",
     "region": "US",
+    "category": "综合",
     "emoji": "⚡"
   },
   {
+    "id": 5,
     "title": "SunPower integrates TPO solar company Sunder Energy after acquisition",
+    "title_zh": "SunPower integrates TPO 光伏 company Sunder Energy after acquisition",
     "url": "https://www.solarpowerworldonline.com/2026/03/sunpower-integrates-tpo-solar-company-sunder-energy-after-acquisition/",
     "date": "Fri, 13 Mar 2026 13:16:15 +0000",
     "source": "Solar Power World",
     "region": "US",
+    "category": "综合",
     "emoji": "⚡"
   }
 ]

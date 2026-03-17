@@ -356,6 +356,25 @@
                     <div><div class="card-stat-value">10</div><div class="card-stat-label">国家</div></div>
                     <div><div class="card-stat-value">A</div><div class="card-stat-label">最高等级</div></div>
                 </div>
+            
+            <a href="/australia-map.html" class="card">
+                <span class="card-icon">🌏</span>
+                <div class="card-title">澳洲</div>
+                <div class="card-desc">澳大利亚/新西兰投资评估</div>
+                <div class="card-stats">
+                    <div><div class="card-stat-value">6</div><div class="card-stat-label">地区</div></div>
+                    <div><div class="card-stat-value">A</div><div class="card-stat-label">最高等级</div></div>
+                </div>
+            </a>
+            
+            <a href="/india-map.html" class="card">
+                <span class="card-icon">🇮🇳</span>
+                <div class="card-title">印度</div>
+                <div class="card-desc">重点邦/投资评估</div>
+                <div class="card-stats">
+                    <div><div class="card-stat-value">6</div><div class="card-stat-label">邦</div></div>
+                    <div><div class="card-stat-value">A</div><div class="card-stat-label">最高等级</div></div>
+                </div>
             </a>
         </div>
     </section>
@@ -429,7 +448,11 @@
     
     <script>
         let newsData = [];
-        function getEmoji(r, s) { 
+        function getCategoryColor(cat) {
+    const colors = {'政策':'#ef4444','市场':'#22c55e','技术':'#3b82f6','项目':'#f59e0b','综合':'#6b7280'};
+    return colors[cat] || '#6b7280';
+}
+function getEmoji(r, s) { 
     if(s.includes("PV")||s.includes("pv")) return "☀️"; 
     if(s.includes("Power")) return "⚡"; 
     if(s.includes("Clean")) return "🔋"; 
