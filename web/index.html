@@ -245,10 +245,34 @@
             .grid { grid-template-columns: 1fr; }
             .card { padding: 24px 16px; }
         }
+    
+        @media (max-width: 900px) {
+            .trend-grid { grid-template-columns: repeat(2, 1fr) !important; }
+            .trend-alerts { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 480px) {
+            .trend-grid { grid-template-columns: 1fr !important; }
+            .trend-card { padding: 16px !important; }
+            .trend-card div:first-child { font-size: 24px !important; }
+            .trend-card div:nth-child(2) { font-size: 18px !important; }
+        }
+
     </style>
 <style>
 .social-links a:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-</style>
+
+        @media (max-width: 900px) {
+            .trend-grid { grid-template-columns: repeat(2, 1fr) !important; }
+            .trend-alerts { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 480px) {
+            .trend-grid { grid-template-columns: 1fr !important; }
+            .trend-card { padding: 16px !important; }
+            .trend-card div:first-child { font-size: 24px !important; }
+            .trend-card div:nth-child(2) { font-size: 18px !important; }
+        }
+
+    </style>
 </head>
 <body>
     <nav>
