@@ -55,10 +55,35 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+// News API (public) - 光储新闻
+app.get('/api/news', (req, res) => {
+  const news = [
+    { id: 1, source: 'PV Magazine', title: '欧盟宣布2030年光伏装机目标提升至600GW', url: 'https://www.pv-magazine.com', date: '2026-03-16', emoji: '☀️' },
+    { id: 2, source: 'Solar Power World', title: '美国加州光伏装机突破80GW，储能需求激增', url: 'https://www.solarpowerworldonline.com', date: '2026-03-16', emoji: '🇺🇸' },
+    { id: 3, source: 'Energy Storage News', title: '全球储能市场2025年增长45%，中国领先', url: '#', date: '2026-03-15', emoji: '🔋' },
+    { id: 4, source: 'PV Magazine', title: '越南光伏政策调整，利好分布式项目', url: 'https://www.pv-magazine.com', date: '2026-03-15', emoji: '🇻🇳' },
+    { id: 5, source: 'Solar Power World', title: '巴西光伏装机超50GW，拉美市场火热', url: 'https://www.solarpowerworldonline.com', date: '2026-03-14', emoji: '🇧🇷' }
+  ];
+  res.json(news);
+});
+
+
 // 静态文件服务（前端）
-app.use(express.static(path.join(__dirname, '../web')));
 
 // 前端路由
+// Counter API
+const { getCounter, incrementCounter } = require('./counter');
+
+app.get('/api/counter', (req, res) => {
+    const count = incrementCounter();
+    res.json({ count: count.count, label: '访问量' });
+});
+
+app.get('/api/counter/reset', (req, res) => {
+    const count = getCounter();
+    res.json({ count: count.count, label: '访问量' });
+});
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../web/login-v1.0.html'));
 });
@@ -91,3 +116,6 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
+
+// News API (public)
+
