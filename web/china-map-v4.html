@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中国光储投资地图 v4 - 综合评分</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦞</text></svg>">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans SC', sans-serif; background: #0f172a; color: #fff; }
+        .header { background: linear-gradient(135deg, #667eea, #764ba2); padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { font-size: 20px; }
+        .header a { color: white; text-decoration: none; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 4px; }
+        .content { display: flex; height: calc(100vh - 60px); }
+        #map { flex: 1; }
+        .sidebar { width: 360px; background: #1e293b; padding: 20px; overflow-y: auto; }
+        .sidebar h3 { font-size: 16px; margin-bottom: 12px; color: #4fc3f7; }
+        .province-item { background: rgba(255,255,255,0.05); padding: 14px; margin-bottom: 8px; border-radius: 10px; cursor: pointer; transition: all 0.2s; border-left: 4px solid #666; }
+        .province-item:hover { background: rgba(255,255,255,0.1); }
+        .province-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .province-name { font-weight: 600; font-size: 15px; }
+        .score-badge { padding: 3px 10px; border-radius: 12px; font-size: 13px; font-weight: 600; }
+        .score-high { background: #22c55e; }
+        .score-mid { background: #eab308; }
+        .score-low { background: #ef4444; }
+        .province-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; font-size: 11px; color: rgba(255,255,255,0.6); }
+        .stat-item { text-align: center; }
+        .stat-value { color: #fff; font-weight: 500; }
+        .legend { background: white; padding: 12px; border-radius: 8px; color: #333; font-size: 12px; margin-bottom: 16px; }
+        .legend-title { font-weight: 600; margin-bottom: 8px; }
+        @media (max-width: 768px) { .content { flex-direction: column; } .sidebar { width: 100%; height: 300px; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🇨🇳 中国光储投资地图 v4 - 综合评分</h1>
+        <a href="/">← 返回首页</a>
+    </div>
+    <div class="content">
+        <div id="map"></div>
+        <div class="sidebar">
+            <div class="legend">
+                <div class="legend-title">📊 评分说明</div>
+                <div>综合评分 = 电价(40%) + 辐射(30%) + 市场潜力(30%)</div>
+            </div>
+            <h3>🏆 投资潜力排行</h3>
+            <div id="province-list"></div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([35, 105], 4);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OSM' }).addTo(map);
+        
+        // Province coordinates
+        var coords = {
+            '海南': [19.2, 109.7], '北京': [39.9, 116.4], '吉林': [43.9, 125.3], '辽宁': [41.8, 123.4],
+            '黑龙江': [45.8, 126.5], '天津': [39.1, 117.2], '宁夏': [38.5, 106.2], '内蒙古': [40.8, 111.7],
+            '青海': [36.6, 101.8], '云南': [25.0, 102.7], '河北': [38.0, 114.5], '甘肃': [36.1, 103.8],
+            '山西': [37.9, 112.5], '新疆': [41.1, 85.2], '山东': [36.7, 117.0], '江苏': [32.0, 118.8],
+            '河南': [34.7, 113.6], '四川': [30.6, 104.1], '陕西': [34.3, 108.9], '安徽': [31.8, 117.3],
+            '湖北': [30.6, 114.3], '浙江': [30.3, 120.2], '湖南': [28.2, 112.9], '江西': [28.5, 115.9],
+            '贵州': [26.6, 106.9], '福建': [26.1, 118.3], '广东': [23.4, 113.5], '广西': [22.8, 108.4],
+            '重庆': [29.6, 106.5], '上海': [31.2, 121.5]
+        };
+        
+        var data = [
+            {name: '海南', score: 88.4, price: 0.40, radiation: 1688, installed: 9.5, rec: '⭐⭐⭐'},
+            {name: '北京', score: 86.5, price: 0.36, radiation: 1673, installed: 1.9, rec: '⭐⭐⭐'},
+            {name: '吉林', score: 86.4, price: 0.36, radiation: 1774, installed: 7.0, rec: '⭐⭐⭐'},
+            {name: '辽宁', score: 85.9, price: 0.38, radiation: 1774, installed: 15.1, rec: '⭐⭐⭐'},
+            {name: '黑龙江', score: 84.4, price: 0.34, radiation: 1794, installed: 8.6, rec: '⭐⭐⭐'},
+            {name: '天津', score: 84.3, price: 0.36, radiation: 1687, installed: 9.9, rec: '⭐⭐⭐'},
+            {name: '宁夏', score: 71.1, price: 0.26, radiation: 1905, installed: 35.3, rec: '⭐⭐'},
+            {name: '内蒙古', score: 69.6, price: 0.28, radiation: 2022, installed: 50.9, rec: '⭐⭐'},
+            {name: '青海', score: 69.5, price: 0.24, radiation: 1983, installed: 38.7, rec: '⭐⭐'},
+            {name: '云南', score: 69.2, price: 0.33, radiation: 1698, installed: 52.0, rec: '⭐⭐'},
+            {name: '河北', score: 64.0, price: 0.37, radiation: 1687, installed: 81.5, rec: '⭐'},
+            {name: '甘肃', score: 62.7, price: 0.20, radiation: 1751, installed: 36.5, rec: '⭐'},
+            {name: '山西', score: 58.5, price: 0.18, radiation: 1788, installed: 48.4, rec: '⭐'},
+            {name: '新疆', score: 52.9, price: 0.23, radiation: 1736, installed: 80.0, rec: '⭐'},
+            {name: '山东', score: 48.8, price: 0.25, radiation: 1620, installed: 91.7, rec: '⚠️'}
+        ];
+        
+        data.sort(function(a, b) { return b.score - a.score; });
+        
+        // Add markers
+        data.forEach(function(p) {
+            var c = coords[p.name] || [35, 105];
+            var color = p.score >= 80 ? '#22c55e' : p.score >= 65 ? '#eab308' : '#ef4444';
+            L.circleMarker(c, {
+                radius: 8 + p.score/12,
+                fillColor: color,
+                color: '#fff',
+                weight: 2,
+                opacity: 1,
+                fillOpacity: 0.7
+            }).bindPopup('<b>' + p.name + '</b><br>综合评分: ' + p.score + '<br>电价: ¥' + p.price + '/kWh<br>辐射: ' + p.radiation + ' kWh/m²<br>装机: ' + p.installed + ' GW<br>建议: ' + p.rec).addTo(map);
+        });
+        
+        // Sidebar
+        var listHtml = '';
+        data.forEach(function(p, i) {
+            var color = p.score >= 80 ? '#22c55e' : p.score >= 65 ? '#eab308' : '#ef4444';
+            var badgeClass = p.score >= 80 ? 'score-high' : p.score >= 65 ? 'score-mid' : 'score-low';
+            listHtml += '<div class="province-item" style="border-left-color:' + color + '" onclick="map.flyTo(coords[\'' + p.name + '\'] || [35,105], 6)"><div class="province-header"><span class="province-name"><span style="color:' + color + ';margin-right:6px;">' + (i+1) + '</span>' + p.name + '</span><span class="score-badge ' + badgeClass + '">' + p.score + '</span></div><div class="province-stats"><div class="stat-item"><div class="stat-value">¥' + p.price + '</div><div>电价</div></div><div class="stat-item"><div class="stat-value">' + p.radiation + '</div><div>辐射</div></div><div class="stat-item"><div class="stat-value">' + p.installed + 'GW</div><div>装机</div></div></div></div>';
+        });
+        document.getElementById('province-list').innerHTML = listHtml;
+    </script>
+</body>
+</html>
